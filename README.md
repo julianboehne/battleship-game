@@ -1,8 +1,13 @@
-## sbt project compiled with Scala 3
+# Battleship Game
 
-### Usage
+![alt text](https://images.pexels.com/photos/5578203/pexels-photo-5578203.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)
 
-This is a normal sbt project. You can compile code with `sbt compile`, run it with `sbt run`, and `sbt console` will start a Scala 3 REPL.
+![RepoSize](https://img.shields.io/github/repo-size/julianboehne/battleship-game)
+![Forks](https://img.shields.io/github/forks/julianboehne/battleship-game?color=green&style=social)
+![Watcher](https://img.shields.io/github/watchers/julianboehne/battleship-game?style=social)
 
-For more information on the sbt-dotty plugin, see the
-[scala3-example-project](https://github.com/scala/scala3-example-project/blob/main/README.md).
+---
+
+## Contributors
+[Julian Böhne](https://github.com/julianboehne) | [Fabian Meyer](https://github.com/Nerbry72)
+
