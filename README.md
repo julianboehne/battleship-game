@@ -9,5 +9,5 @@
 ---
 
 ## Contributors
-[Julian Böhne](https://github.com/julianboehne) | [Fabian Meyer](https://github.com/Nerbry72)
 
+[Julian Böhne](https://github.com/julianboehne) | [Fabian Meyer](https://github.com/Nerbry72)
