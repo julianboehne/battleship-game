@@ -1,5 +1,5 @@
 package de.htwg.se.battleship
-
+/*
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 
@@ -29,3 +29,4 @@ class TicTacToeSpec extends AnyWordSpec {
     }
   }
 }
+*/
