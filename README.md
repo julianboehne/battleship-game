@@ -1,6 +1,6 @@
 # Battleship Game
 
-![alt text](https://images.pexels.com/photos/5578203/pexels-photo-5578203.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)
+![alt text](https://imgr1.flugrevue.de/Flugzeugtraeger-USS-Enterprise-CVN-80--react169Big-204d48e-1421814.jpg)
 
 ![RepoSize](https://img.shields.io/github/repo-size/julianboehne/battleship-game)
 ![Forks](https://img.shields.io/github/forks/julianboehne/battleship-game?color=green&style=social)
