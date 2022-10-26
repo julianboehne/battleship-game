@@ -1,9 +1,11 @@
 package de.htwg.se.battleship.model
 
-class Field(var width: Int, var count: Int):
+case class Field():
+
+  val nextline: String = sys.props("line.separator")
 
 
-  def fieldPrint(): Int = {
+  def fieldPrint(width: Int, count: Int): Int = {
     println(Console.RED + "Enemy")
     println(field(width = 4, count = 10))
     print(nextline)
@@ -17,7 +19,7 @@ class Field(var width: Int, var count: Int):
 
   
 
-  val nextline: String = sys.props("line.separator")
+
 
   def horizontal(width: Int, count: Int): String =
     ("+" + "-" * width) * count + "+" + nextline
