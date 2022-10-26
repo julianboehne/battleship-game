@@ -1,10 +1,10 @@
-package de.htwg.se.battleship
-/*
-import org.scalatest.wordspec.AnyWordSpec
-import org.scalatest.matchers.should.Matchers._
+package de.htwg.se.battleship.model
 
-class TicTacToeSpec extends AnyWordSpec {
-  "TicTacToe" should {
+import org.scalatest.matchers.should.Matchers._
+import org.scalatest.wordspec.AnyWordSpec
+
+class FieldSpec extends WordSpec with Matchers {
+  "Battleship" should {
     "have a horizontal as String of form '+---+---+---+'" in {
       horizontal() should be("+---+---+---+" + nextLine)
     }
@@ -29,4 +29,3 @@ class TicTacToeSpec extends AnyWordSpec {
     }
   }
 }
-*/
