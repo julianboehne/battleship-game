@@ -6,18 +6,10 @@ case class Field():
 
 
   def fieldPrint(width: Int, count: Int): Int = {
-    println(Console.RED + "Enemy")
-    println(field(width = 4, count = 10))
-    print(nextline)
-    println(Console.BLUE + "You")
-    println(field(width = 4, count = 10))
-    print(Console.RESET)
-
-    return 0
+    println(field(width = width, count = count))
+    0
 
   }
-
-  
 
 
 

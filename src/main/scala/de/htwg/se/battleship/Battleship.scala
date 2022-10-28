@@ -1,12 +1,13 @@
 package de.htwg.se.battleship
 
-import model.Field
+import model.{Field, Game}
 
 object Battleship {
 
   def main(args: Array[String]): Unit = {
-    val field = new Field()
-    field.fieldPrint(4, 10)
+
+    val game = Game()
+    game.startSetup()
 
   }
 
