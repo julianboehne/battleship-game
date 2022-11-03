@@ -6,11 +6,13 @@ class TUI {
 
   }
 
-  def getX(input: String): Char = {
+  def getX(input: String): Int = {
 
     val char = "([a-j]|[A-J])".r.findAllIn(input).mkString
 
-    return char.charAt(0)
+    char.charAt(0)-'a'+1
+
+
   }
 
 
@@ -18,6 +20,6 @@ class TUI {
 
     val num = "(10)|([1-9])".r.findAllIn(input).mkString.toInt
 
-    return num
+    num
   }
 }
