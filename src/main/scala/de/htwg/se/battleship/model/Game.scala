@@ -12,4 +12,13 @@ case class Game() {
     print(Console.RESET)
     0
   }
+  def setShot(x: Char, y: Int): Int = {
+
+    printf("x-Wert: %s \ny-Wert: %d \n", x, y)
+
+
+
+
+    0
+  }
 }
