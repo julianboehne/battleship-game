@@ -1,31 +1,30 @@
 package de.htwg.se.battleship.model
 
-import org.scalatest.matchers.should.Matchers._
 import org.scalatest.wordspec.AnyWordSpec
+import org.scalatest.matchers.should.Matchers._
 
-class FieldSpec extends WordSpec with Matchers {
+
+class FieldSpec extends AnyWordSpec {
   "Battleship" should {
-    "have a horizontal as String of form '+---+---+---+'" in {
-      horizontal() should be("+---+---+---+" + nextLine)
-    }
+    val f = Field()
     "have a scalable bar" in {
-      horizontal(1, 1) should be("+-+" + nextLine)
-      horizontal(1, 2) should be("+-+-+" + nextLine)
-      horizontal(2, 1) should be("+--+" + nextLine)
-    }
-    "have vertical as String of form '|   |   |   |'" in {
-      vertical() should be("|   |   |   |" + nextLine)
+      f.horizontal(1, 1) should be("+-+" + f.nextline)
+      f.horizontal(1, 2) should be("+-+-+" + f.nextline)
+      f.horizontal(2, 1) should be("+--+" + f.nextline)
     }
     "have scalable cell" in {
-      vertical(1, 1) should be("| |" + nextLine)
-      vertical(1, 2) should be("| | |" + nextLine)
-      vertical(2, 1) should be("|  |" + nextLine)
+      f.vertical(1, 1) should be("| |" + f.nextline)
+      f.vertical(1, 2) should be("| | |" + f.nextline)
+      f.vertical(2, 1) should be("|  |" + f.nextline)
     }
     "have a field in the form " +
       "+-+  " +
       "| |" +
       "+-+" in {
-      field(1, 1) should be("+-+" + nextLine + "| |" + nextLine + "+-+" + nextLine)
+      f.field(1, 1) should be("+-+" + f.nextline + "| |" + f.nextline + "+-+" + f.nextline)
+    }
+    "have a print method" in {
+      f.fieldPrint(0, 0) should be (0)
     }
   }
 }
