@@ -9,6 +9,9 @@ class GameSpec extends AnyWordSpec {
     "have a startSetup method" in {
       test.startSetup() should be (0)
     }
+    "have a setShot method" in {
+      test.setShot(1, 2) should be (0)
+    }
 
   }
 

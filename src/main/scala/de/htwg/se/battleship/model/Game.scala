@@ -16,9 +16,6 @@ case class Game() {
 
     printf("x-Wert: %s \ny-Wert: %d \n", x, y)
 
-
-
-
     0
   }
 }

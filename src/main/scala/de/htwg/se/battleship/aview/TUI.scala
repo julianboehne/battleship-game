@@ -10,7 +10,12 @@ class TUI {
 
     val char = "([a-j]|[A-J])".r.findAllIn(input).mkString
 
-    char.charAt(0)-'a'+1
+    if (char.matches("[a-j]")) {
+      return char.charAt(0)-'a'+1
+    }
+    return char.charAt(0)-'A'+1
+
+
 
 
   }
