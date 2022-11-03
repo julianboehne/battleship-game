@@ -4,14 +4,10 @@ case class Field():
 
   val nextline: String = sys.props("line.separator")
 
-
   def fieldPrint(width: Int, count: Int): Int = {
     println(field(width = width, count = count))
     0
-
   }
-
-
 
   def horizontal(width: Int, count: Int): String =
     ("+" + "-" * width) * count + "+" + nextline
