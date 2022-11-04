@@ -14,7 +14,14 @@ case class Game() {
   }
   def setShot(x: Int, y: Int): Int = {
 
-    printf("x-Wert: %s \ny-Wert: %d \n", x, y)
+    println(s"x-Wert: $x \ny-Wert: $y")
+
+    val field = Field()
+    println(Console.GREEN + "Shot Test")
+    field.updateFieldPrint(4, 10, x, y)
+    print(field.nextline)
+    print(Console.RESET)
+
 
     0
   }

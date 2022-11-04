@@ -13,7 +13,7 @@ class TUI {
     if (char.matches("[a-j]")) {
       return char.charAt(0)-'a'+1
     }
-    return char.charAt(0)-'A'+1
+    char.charAt(0)-'A'+1
 
 
 

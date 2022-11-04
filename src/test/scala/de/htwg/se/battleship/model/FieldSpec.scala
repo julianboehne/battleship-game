@@ -26,5 +26,14 @@ class FieldSpec extends AnyWordSpec {
     "have a print method" in {
       f.fieldPrint(0, 0) should be (0)
     }
+    "have a vertical shot method" in {
+      f.vertical(4,1, 1) should be ("|  X |" + f.nextline)
+    }
+    "have a updateFieldPrint method" in {
+      f.updateFieldPrint(4,10,5,7) should be (0)
+    }
+    "have a updateField method" in {
+      f.updateField(4,2,1,1) should be ("+----+----+" + f.nextline +"|  X |    |" + f.nextline + "+----+----+" + f.nextline + "|    |    |" + f.nextline + "+----+----+" + f.nextline)
+    }
   }
 }
