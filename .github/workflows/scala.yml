@@ -47,6 +47,8 @@ jobs:
       - name: Run tests
         run:
           sbt clean test coverage
+      - name: Jacoco
+        run:
           sbt jacoco
       - name: Upload report to Codecov
         run: |
