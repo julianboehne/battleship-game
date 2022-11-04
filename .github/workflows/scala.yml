@@ -47,6 +47,7 @@ jobs:
       - name: Run tests
         run:
           sbt clean test coverage
+          sbt jacoco
       - name: Upload report to Codecov
         run: |
           curl -Os https://uploader.codecov.io/latest/linux/codecov
