@@ -6,7 +6,7 @@ import aview.*
 
 
 object Battleship {
-  val game: Game = Game()
+  val game: FieldView = FieldView()
   val input: TUI = TUI()
 
   def main(args: Array[String]): Unit = {

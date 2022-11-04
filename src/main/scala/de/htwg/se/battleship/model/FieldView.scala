@@ -1,6 +1,6 @@
 package de.htwg.se.battleship.model
 
-case class Game() {
+case class FieldView() {
   def startSetup(): Int = {
     val field = Field()
     println(Console.RED + "Enemy")
