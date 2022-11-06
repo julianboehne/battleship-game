@@ -25,3 +25,12 @@ jacocoReportSettings := JacocoReportSettings(
     "utf-8")
 
 coverageEnabled := true
+
+
+
+
+jacocoExcludes := Seq(
+    "de.htwg.se.battleship.Battleship*"
+)
+
+
