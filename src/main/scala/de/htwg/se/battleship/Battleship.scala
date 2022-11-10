@@ -3,15 +3,16 @@ package de.htwg.se.battleship
 import scala.io.StdIn.readLine
 import model.*
 import aview.*
+import controller.*
 
 
 object Battleship {
-  val game: FieldView = FieldView()
+  val controller: Controller = Controller(FieldView())
   val input: TUI = TUI()
 
   def main(args: Array[String]): Unit = {
 
-    game.startSetup()
+    controller.gameSetup()
 
     while (true) {
       print(s"Shot(ex. H5): ${Console.CYAN}")
@@ -28,7 +29,7 @@ object Battleship {
 
       } else {
         print(s"${Console.RESET}")
-        game.setShot(input.getX(line), input.getY(line))
+        controller.addShot(input.getX(line), input.getY(line))
 
       }
 
