@@ -5,30 +5,25 @@ case class FieldView(widthX: Int, countX: Int) {
   val width: Int = widthX
   val count: Int = countX
   
-  def startSetup(): Int = {
+  def startSetup(): String = {
     val field = Field()
-    println(Console.RED + "Enemy")
-    field.fieldPrint(width, count)
-    print(field.nextline)
+    val str0 = s"${Console.RED} Enemy ${field.nextline}"
+    val str1 = str0 + field.fieldPrint(width, count) + field.nextline
 
-    println(Console.BLUE + "You")
-    field.fieldPrint(width, count)
-    print(Console.RESET)
-    0
+    val str2 = str1 + s"${Console.BLUE} Enemy ${field.nextline}"
+    val str3 = str2 + field.fieldPrint(width, count) + field.nextline + Console.RESET
+    str3
   }
 
 
-  def setShot(x: Int, y: Int): Int = {
-
-    println(s"x-Wert: $x \ny-Wert: $y")
+  def setShot(x: Int, y: Int): String = {
 
     val field = Field()
-    println(Console.GREEN + "Shot Test")
-    field.updateFieldPrint(width, count, x, y)
-    print(field.nextline)
-    print(Console.RESET)
 
+    val str0 = s"x-Wert: $x \ny-Wert: $y" + field.nextline
+    val str1 = str0 + "Shot Test" + field.nextline
+    val str2 = str1 + field.updateFieldPrint(width, count, x, y) + field.nextline
+    str2
 
-    0
   }
 }

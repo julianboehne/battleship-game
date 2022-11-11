@@ -2,28 +2,23 @@ package de.htwg.se.battleship.controller
 
 import de.htwg.se.battleship.util.Observable
 import de.htwg.se.battleship.model.*
-import org.scalactic.Prettifier.default
 
 
-class Controller(var field: FieldView) extends Observable {
-  val game: FieldView = field
+class Controller(var fld: FieldView) extends Observable {
+  val field: FieldView = fld
+  val shots: Shot = new Shot
 
 
-
-  def gameSetup(): Int = {
-    game.startSetup()
-    notifyObservers
-    0
-
+  def gameSetup(): String = {
+    field.startSetup()
   }
 
   def addShot(x: Int, y: Int): Int = {
-    game.setShot(x, y)
-    notifyObservers
+    shots.addShot(x, y)
     0
   }
 
-
+  override def toString: String = field.setShot(shots.getX(shots.size), shots.getY(shots.size))
 
 
 }

@@ -2,42 +2,36 @@ package de.htwg.se.battleship
 package aview
 
 import controller.*
-import util.Observer
-
-import scala.io.StdIn.readLine
+import util.*
 
 
 class TUI(controller: Controller) extends Observer {
 
   controller.add(this)
 
-  def run(): Int = {
-    controller.gameSetup()
-    this.loop()
+  def setup(): Int = {
+    print(controller.gameSetup())
     0
   }
 
-  def loop(): Int = {
-    print(s"Shot(ex. H5): ${Console.CYAN}")
-    val line = readLine()
+  def run(line: String): Int = {
     println()
-
-    if (line == "exit") {
-      return 0
-    }
-
     if (!this.isValid(line)) {
       println(s"${Console.RESET}Wrong input:${Console.RED} $line")
       println(s"${Console.YELLOW}Format example: <h6>\n ${Console.RESET}")
+      return 1
 
     } else {
       print(s"${Console.RESET}")
       controller.addShot(this.getX(line), this.getY(line))
+      print(s"${Console.GREEN}")
       update
+      print(s"${Console.RESET}")
 
     }
-    this.loop()
-    1
+    return 0
+
+
   }
   
   def isValid(input: String): Boolean = {
@@ -67,5 +61,5 @@ class TUI(controller: Controller) extends Observer {
     num
   }
 
-  override def update: Unit = println("Huso")
+  override def update: Unit = println(controller.toString)
 }
