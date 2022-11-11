@@ -4,7 +4,7 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 
 class FieldViewSpec extends AnyWordSpec {
-  val test: FieldView = FieldView()
+  val test: FieldView = FieldView(4, 10)
   "Game" should {
     "have a startSetup method" in {
       test.startSetup() should be (0)
