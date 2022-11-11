@@ -1,6 +1,39 @@
-package de.htwg.se.battleship.aview
+package de.htwg.se.battleship
+package aview
 
-class TUI {
+import controller.*
+import util.*
+
+
+class TUI(controller: Controller) extends Observer {
+
+  controller.add(this)
+
+  def setup(): Int = {
+    print(controller.gameSetup())
+    0
+  }
+
+  def run(line: String): Int = {
+    println()
+    if (!this.isValid(line)) {
+      println(s"${Console.RESET}Wrong input:${Console.RED} $line")
+      println(s"${Console.YELLOW}Format example: <h6>\n ${Console.RESET}")
+      return 1
+
+    } else {
+      print(s"${Console.RESET}")
+      controller.addShot(this.getX(line), this.getY(line))
+      print(s"${Console.GREEN}")
+      update
+      print(s"${Console.RESET}")
+
+    }
+    return 0
+
+
+  }
+  
   def isValid(input: String): Boolean = {
     input.matches("^(([a-j]|[A-J])((10)|([1-9])))$")
 
@@ -27,4 +60,6 @@ class TUI {
 
     num
   }
+
+  override def update: Unit = println(controller.toString)
 }

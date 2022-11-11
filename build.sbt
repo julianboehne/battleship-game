@@ -30,7 +30,8 @@ coverageEnabled := true
 
 
 jacocoExcludes := Seq(
-    "de.htwg.se.battleship.Battleship*"
+    "de.htwg.se.battleship.Battleship*",
+    "de.htwg.se.battleship.util.Observable*"
 )
 
 

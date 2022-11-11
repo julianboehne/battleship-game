@@ -1,28 +1,29 @@
 package de.htwg.se.battleship.model
 
-case class FieldView() {
-  def startSetup(): Int = {
+case class FieldView(widthX: Int, countX: Int) {
+  
+  val width: Int = widthX
+  val count: Int = countX
+  
+  def startSetup(): String = {
     val field = Field()
-    println(Console.RED + "Enemy")
-    field.fieldPrint(4, 10)
-    print(field.nextline)
+    val str0 = s"${Console.RED} Enemy ${field.nextline}"
+    val str1 = str0 + field.fieldPrint(width, count) + field.nextline
 
-    println(Console.BLUE + "You")
-    field.fieldPrint(4, 10)
-    print(Console.RESET)
-    0
+    val str2 = str1 + s"${Console.BLUE} Enemy ${field.nextline}"
+    val str3 = str2 + field.fieldPrint(width, count) + field.nextline + Console.RESET
+    str3
   }
-  def setShot(x: Int, y: Int): Int = {
 
-    println(s"x-Wert: $x \ny-Wert: $y")
+
+  def setShot(x: Int, y: Int): String = {
 
     val field = Field()
-    println(Console.GREEN + "Shot Test")
-    field.updateFieldPrint(4, 10, x, y)
-    print(field.nextline)
-    print(Console.RESET)
 
+    val str0 = s"x-Wert: $x \ny-Wert: $y" + field.nextline
+    val str1 = str0 + "Shot Test" + field.nextline
+    val str2 = str1 + field.updateFieldPrint(width, count, x, y) + field.nextline
+    str2
 
-    0
   }
 }
