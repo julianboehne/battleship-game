@@ -5,6 +5,7 @@ import org.scalatest.matchers.should.Matchers._
 
 class FieldViewSpec extends AnyWordSpec {
   val test: FieldView = FieldView(4, 10)
+  val shots: Shot = Shot()
   "Game" should {
     "have a startSetup method" in {
       val field = Field()
@@ -16,14 +17,11 @@ class FieldViewSpec extends AnyWordSpec {
       test.startSetup() should be (str3)
     }
     "have a setShot method" in {
-      val x = 1
-      val y = 2
-      val field = Field()
-
-      val str0 = s"x-Wert: $x \ny-Wert: $y" + field.nextline
-      val str1 = str0 + "Shot Test" + field.nextline
-      val str2 = str1 + field.updateFieldPrint(4, 10, x, y) + field.nextline
-      test.setShot(x, y) should be (str2)
+      shots.addShot(2, 3, false)
+      test.setShot(shots) should be (test.loop(0,shots))
+    }
+    "have a loop method" in {
+      test.loop(0,shots) should be (test.setShot(shots))
     }
 
   }

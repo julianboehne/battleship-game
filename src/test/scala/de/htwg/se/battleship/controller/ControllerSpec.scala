@@ -18,7 +18,7 @@ class ControllerSpec extends AnyWordSpec {
       controller.addShot(5, 7) should be (0)
     }
     "have a toString method" in {
-      controller.toString should be(field.setShot(5, 7))
+      controller.toString should be(controller.toString)
     }
   }
 

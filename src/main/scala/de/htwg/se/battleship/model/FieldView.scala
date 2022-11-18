@@ -19,26 +19,26 @@ case class FieldView(widthX: Int, countX: Int) {
   def setShot(shots: Shot): String = {
     //val str0 = s"x-Wert: $x \ny-Wert: $y" + field.nextline
     //val str1 = str0 + "Shot" + field.nextline
-
-    def loop(i: Int, shots: Shot): String = {
-      if (i == shots.size - 1 || shots.size == 1) {
-        val str = field.updateFieldPrint(width, count, shots.getX(i), shots.getY(i))
-        if (shots.getHit(i)) return str
-        val strHit = str.replace('X', 'O')
-        return strHit
-      }
-      val str0 = field.updateFieldPrint(width, count, shots.getX(i), shots.getY(i))
-      val index = str0.indexOf('X')
-
-      if (shots.getHit(i)) {
-        val str1 = loop(i + 1, shots).substring(0, index) + "X" + loop(i + 1, shots).substring(index + 1)
-        return str1
-      }
-      val str1 = loop(i + 1, shots).substring(0, index) + "O" + loop(i + 1, shots).substring(index + 1)
-      str1
-    }
-
     loop(0, shots)
 
   }
+
+  def loop(i: Int, shots: Shot): String = {
+    if (i == shots.size - 1 || shots.size == 1) {
+      val str = field.updateFieldPrint(width, count, shots.getX(i), shots.getY(i))
+      if (shots.getHit(i)) return str
+      val strHit = str.replace('X', 'O')
+      return strHit
+    }
+    val str0 = field.updateFieldPrint(width, count, shots.getX(i), shots.getY(i))
+    val index = str0.indexOf('X')
+
+    if (shots.getHit(i)) {
+      val str1 = loop(i + 1, shots).substring(0, index) + "X" + loop(i + 1, shots).substring(index + 1)
+      return str1
+    }
+    val str1 = loop(i + 1, shots).substring(0, index) + "O" + loop(i + 1, shots).substring(index + 1)
+    str1
+  }
+
 }
