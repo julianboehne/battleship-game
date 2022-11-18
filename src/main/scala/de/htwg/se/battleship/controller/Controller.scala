@@ -14,12 +14,15 @@ class Controller(var fld: FieldView) extends Observable {
   }
 
   def addShot(x: Int, y: Int): Int = {
-    shots.addShot(x, y)
+    //isHIT
+    shots.addShot(x, y, false)
     notifyObservers
     0
   }
 
-  override def toString: String = field.setShot(shots.getX(shots.size), shots.getY(shots.size))
+  override def toString: String = field.setShot(shots)
+
+
 
 
 }
