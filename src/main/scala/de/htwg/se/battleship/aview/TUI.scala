@@ -22,14 +22,12 @@ class TUI(controller: Controller) extends Observer {
       return 1
 
     } else {
-      print(s"${Console.RESET}")
-      controller.addShot(this.getX(line), this.getY(line))
       print(s"${Console.GREEN}")
-      update
+      controller.addShot(this.getX(line), this.getY(line))
       print(s"${Console.RESET}")
 
     }
-    return 0
+    0
 
 
   }

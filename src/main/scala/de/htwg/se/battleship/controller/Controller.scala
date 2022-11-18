@@ -15,6 +15,7 @@ class Controller(var fld: FieldView) extends Observable {
 
   def addShot(x: Int, y: Int): Int = {
     shots.addShot(x, y)
+    notifyObservers
     0
   }
 
