@@ -16,14 +16,15 @@ class ControllerSpec extends AnyWordSpec {
       controller.gameSetup() should be(field.startSetup())
     }
     "have a method addShot" in {
-      controller.addShot(5, 7) should be (0)
+      controller.addShot(5, 7) should be(0)
     }
     "have a toString method" in {
-      /*val source = Source.fromFile("/review/toString.txt")
+      val source = Source.fromFile("src/test/scala/de/htwg/se/battleship/controller/review/toString.txt")
       val str = source.mkString
-      source.close*/
-      controller.toString should be(controller.toString)
+      source.close
+      controller.toString should be(str)
     }
   }
 
 }
+ 

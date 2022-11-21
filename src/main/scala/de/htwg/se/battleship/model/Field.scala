@@ -3,6 +3,7 @@ package de.htwg.se.battleship.model
 case class Field():
 
   val nextline: String = sys.props("line.separator")
+  //val nextline: String = "\n"
 
   def fieldPrint(width: Int, count: Int): String = {
     field(width = width, count = count)
