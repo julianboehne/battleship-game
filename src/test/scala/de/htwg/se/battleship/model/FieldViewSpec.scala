@@ -2,19 +2,20 @@ package de.htwg.se.battleship.model
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
+import scala.io.Source
+
 
 class FieldViewSpec extends AnyWordSpec {
   val test: FieldView = FieldView(4, 10)
   val shots: Shot = Shot()
   "Game" should {
     "have a startSetup method" in {
-      val field = Field()
-      val str0 = s"${Console.RED} Enemy ${field.nextline}"
-      val str1 = str0 + field.fieldPrint(4, 10) + field.nextline
+      val source = Source.fromFile("D:\\YARD\\GitHub\\battleship-game\\src\\test\\scala\\de\\htwg\\se\\battleship\\model\\review\\FieldViewSpec.txt")
+      val str = source.mkString
+      //println(str)
+      source.close
 
-      val str2 = str1 + s"${Console.BLUE} Enemy ${field.nextline}"
-      val str3 = str2 + field.fieldPrint(4, 10) + field.nextline + Console.RESET
-      test.startSetup() should be (str3)
+      test.startSetup() should be(str)
     }
     "have a setShot method" in {
       shots.addShot(2, 3, false)

@@ -3,6 +3,7 @@ package de.htwg.se.battleship.controller
 import de.htwg.se.battleship.model.*
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
+import scala.io.Source
 
 class ControllerSpec extends AnyWordSpec {
 
@@ -18,6 +19,9 @@ class ControllerSpec extends AnyWordSpec {
       controller.addShot(5, 7) should be (0)
     }
     "have a toString method" in {
+      /*val source = Source.fromFile("/review/toString.txt")
+      val str = source.mkString
+      source.close*/
       controller.toString should be(controller.toString)
     }
   }

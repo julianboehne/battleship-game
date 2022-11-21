@@ -8,10 +8,7 @@ class Controller(var fld: FieldView) extends Observable {
   val field: FieldView = fld
   val shots: Shot = new Shot
 
-
-  def gameSetup(): String = {
-    field.startSetup()
-  }
+  def gameSetup(): String = field.startSetup()
 
   def addShot(x: Int, y: Int): Int = {
     //isHIT
@@ -21,8 +18,6 @@ class Controller(var fld: FieldView) extends Observable {
   }
 
   override def toString: String = field.setShot(shots)
-
-
 
 
 }

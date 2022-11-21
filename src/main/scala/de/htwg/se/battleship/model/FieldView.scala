@@ -7,10 +7,10 @@ case class FieldView(widthX: Int, countX: Int) {
   val field: Field = Field()
 
   def startSetup(): String = {
-    val str0 = s"${Console.RED} Enemy ${field.nextline}"
+    val str0 = s"${Console.RED}Player1 ${field.nextline}"
     val str1 = str0 + field.fieldPrint(width, count) + field.nextline
 
-    val str2 = str1 + s"${Console.BLUE} Enemy ${field.nextline}"
+    val str2 = str1 + s"${Console.BLUE}Player2 ${field.nextline}"
     val str3 = str2 + field.fieldPrint(width, count) + field.nextline + Console.RESET
     str3
   }
