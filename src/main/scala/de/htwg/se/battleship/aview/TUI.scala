@@ -2,6 +2,7 @@ package de.htwg.se.battleship
 package aview
 
 import controller.*
+import de.htwg.se.battleship.model.FieldView
 import util.*
 
 
@@ -18,13 +19,14 @@ class TUI(controller: Controller) extends Observer {
     println()
     if (!this.isValid(line)) {
       println(s"${Console.RESET}Wrong input:${Console.RED} $line")
-      println(s"${Console.YELLOW}Format example: <h6>\n ${Console.RESET}")
+      println(s"${Console.GREEN}Format example: <h6>\n ${Console.RESET}")
       return 1
 
     } else {
-      print(s"${Console.GREEN}")
-      controller.addShot(this.getX(line), this.getY(line))
+      print(s"${Console.WHITE}")
+      controller.addShot(this.getX(line), this.getY(line), controller.getField())
       print(s"${Console.RESET}")
+      controller.setField()
 
     }
     0

@@ -4,8 +4,8 @@ trait Ship() {
 
   def size: Int
   def isHIt(x: Int, y: Int): Boolean
-  var x: Array[Int] = Array(0)
-  var y: Array[Int] = Array(0)
+  var x: Array[Int] = Array()
+  var y: Array[Int] = Array()
 
 }
 

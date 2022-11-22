@@ -7,13 +7,14 @@ import controller.*
 
 
 object Battleship {
-  val field: FieldView = FieldView(4, 10)
-  val controller: Controller = Controller(field)
+  val field1: FieldView = FieldView(4, 10)
+  val field2: FieldView = FieldView(4, 10)
+  val controller: Controller = Controller(field1, field2)
   val input: TUI = TUI(controller)
 
 
   def main(args: Array[String]): Unit = {
-    println("Welcome to Battleship-Game")
+    print("Welcome to Battleship-Game")
 
     input.setup()
     while (true) {

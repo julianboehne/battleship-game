@@ -4,20 +4,38 @@ import de.htwg.se.battleship.util.Observable
 import de.htwg.se.battleship.model.*
 
 
-class Controller(var fld: FieldView) extends Observable {
-  val field: FieldView = fld
-  val shots: Shot = new Shot
+class Controller(val fld1: FieldView, val fld2: FieldView) extends Observable {
+  val field1: FieldView = fld1
+  val field2: FieldView = fld2
+  var state: Int = 0
 
-  def gameSetup(): String = field.startSetup()
+  def gameSetup(): String = {
+    val str0 = s"${Console.MAGENTA}${field1.field.nextline}"
+    val str1 = str0 + field1.emptyField() + field2.emptyField()
+    s"$str1${Console.RESET}"
 
-  def addShot(x: Int, y: Int): Int = {
+  }
+
+
+  def addShot(x: Int, y: Int, fld: FieldView): Int = {
     //isHIT
-    shots.addShot(x, y, false)
+    fld.shots.addShot(x, y, true)
     notifyObservers
     0
   }
 
-  override def toString: String = field.setShot(shots)
+  def getField(): FieldView = {
+    if (state == 0) return field1
+    field2
+  }
+
+  def setField(): Int = {
+    if (state == 0) state = 1
+    else state = 0
+    state
+  }
+
+  override def toString: String = field1.setShot() + field2.setShot()
 
 
 }
