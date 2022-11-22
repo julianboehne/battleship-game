@@ -20,7 +20,7 @@ object Battleship {
     val player1 = readLine()
     controller.field1.player = Player(player1)
 
-    print(s"${Console.CYAN}Player 2:${Console.RESET} Name eingeben: ${Console.BOLD}")
+    print(s"${Console.RESET}${Console.CYAN}Player 2:${Console.RESET} Name eingeben: ${Console.BOLD}")
     val player2 = readLine()
     controller.field2.player = Player(player2)
 
