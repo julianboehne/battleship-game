@@ -13,11 +13,11 @@ case class FieldView(widthX: Int, countX: Int) {
   def setShot(): String = {
     if (shots.size == 0) return field.nextline + emptyField()
 
-    field.nextline + loop(0, shots)
+    field.nextline + loop(0)
 
   }
 
-  def loop(i: Int, shots: Shot): String = {
+  def loop(i: Int): String = {
     if (i == shots.size - 1 || shots.size == 1) {
       val str = field.updateFieldPrint(width, count, shots.getX(i), shots.getY(i))
       if (shots.getHit(i)) return str
@@ -28,10 +28,10 @@ case class FieldView(widthX: Int, countX: Int) {
     val index = str0.indexOf('X')
 
     if (shots.getHit(i)) {
-      val str1 = loop(i + 1, shots).substring(0, index) + "X" + loop(i + 1, shots).substring(index + 1)
+      val str1 = loop(i + 1).substring(0, index) + "X" + loop(i + 1).substring(index + 1)
       return str1
     }
-    val str1 = loop(i + 1, shots).substring(0, index) + "O" + loop(i + 1, shots).substring(index + 1)
+    val str1 = loop(i + 1).substring(0, index) + "O" + loop(i + 1).substring(index + 1)
     str1
   }
 

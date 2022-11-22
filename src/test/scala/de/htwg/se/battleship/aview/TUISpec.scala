@@ -7,7 +7,7 @@ import org.scalatest.matchers.should.Matchers.*
 
 
 class TUISpec extends AnyWordSpec {
-  val controller: Controller = Controller(FieldView(4, 10))
+  val controller: Controller = Controller(FieldView(4, 10),FieldView(4,10))
   val test: TUI = TUI(controller)
   "TUI" should {
     "have a setup method" in {
