@@ -1,12 +1,12 @@
 import de.htwg.se.battleship.controller.Controller
-import de.htwg.se.battleship.model.{Field, FieldView, Shot}
+import de.htwg.se.battleship.model.{FieldStruture, Field, Shot}
 
 
 import java.io.PrintWriter
 import java.io.File
 
-val field1: FieldView = FieldView(4, 10)
-val field2: FieldView = FieldView(4, 10)
+val field1: Field = Field(4, 10)
+val field2: Field = Field(4, 10)
 
 val controller: Controller = Controller(field1, field2)
 controller.addShot(5, 7, field1)

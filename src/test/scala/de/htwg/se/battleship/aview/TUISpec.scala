@@ -1,13 +1,13 @@
 package de.htwg.se.battleship.aview
 
 import de.htwg.se.battleship.controller.Controller
-import de.htwg.se.battleship.model.FieldView
+import de.htwg.se.battleship.model.Field
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
 
 
 class TUISpec extends AnyWordSpec {
-  val controller: Controller = Controller(FieldView(4, 10),FieldView(4,10))
+  val controller: Controller = Controller(Field(4, 10),Field(4,10))
   val test: TUI = TUI(controller)
   "TUI" should {
     "have a setup method" in {

@@ -7,8 +7,8 @@ import scala.io.Source
 
 class ControllerSpec extends AnyWordSpec {
 
-  val field1: FieldView = FieldView(4, 10)
-  val field2: FieldView = FieldView(4, 10)
+  val field1: Field = Field(4, 10)
+  val field2: Field = Field(4, 10)
 
   val shots: Shot = new Shot
   val controller: Controller = Controller(field1, field2)
@@ -32,6 +32,7 @@ class ControllerSpec extends AnyWordSpec {
     }
     "have a method addShot" in {
       controller.addShot(5, 7, field1) should be(0)
+      controller.addShot(5, 7, field1) should be(1)
     }
 
     "have a toString method" in {

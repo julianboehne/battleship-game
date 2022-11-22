@@ -2,7 +2,7 @@ package de.htwg.se.battleship
 package aview
 
 import controller.*
-import de.htwg.se.battleship.model.FieldView
+import de.htwg.se.battleship.model.Field
 import util.*
 
 
@@ -24,13 +24,13 @@ class TUI(controller: Controller) extends Observer {
 
     } else {
       print(s"${Console.WHITE}")
-      controller.addShot(this.getX(line), this.getY(line), controller.getField())
+      val success = controller.addShot(this.getX(line), this.getY(line), controller.getField())
       print(s"${Console.RESET}")
-      controller.setField()
-
+      if (success == 1) {
+        println(s"${Console.RED}You already fired there!${Console.RESET}")
+      } else controller.setField()
     }
     0
-
 
   }
   

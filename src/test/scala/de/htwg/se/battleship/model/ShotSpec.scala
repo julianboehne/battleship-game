@@ -9,6 +9,7 @@ class ShotSpec extends AnyWordSpec {
     "have a addShot method" in {
       shot.addShot(1, 3, true) should be(0)
       shot.addShot(5, 7, false) should be(0)
+      shot.addShot(1,3,false) should be(1)
     }
     "have a getX method" in {
       shot.getX(0) should be(1)

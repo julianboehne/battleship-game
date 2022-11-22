@@ -4,9 +4,9 @@ import de.htwg.se.battleship.util.Observable
 import de.htwg.se.battleship.model.*
 
 
-class Controller(val fld1: FieldView, val fld2: FieldView) extends Observable {
-  val field1: FieldView = fld1
-  val field2: FieldView = fld2
+class Controller(val fld1: Field, val fld2: Field) extends Observable {
+  val field1: Field = fld1
+  val field2: Field = fld2
   var state: Int = 0
 
   def gameSetup(): String = {
@@ -17,14 +17,15 @@ class Controller(val fld1: FieldView, val fld2: FieldView) extends Observable {
   }
 
 
-  def addShot(x: Int, y: Int, fld: FieldView): Int = {
+  def addShot(x: Int, y: Int, fld: Field): Int = {
     //isHIT
-    fld.shots.addShot(x, y, true)
+    val success = fld.shots.addShot(x, y, true)
+    if (success == 1) return success
     notifyObservers
-    0
+    success
   }
 
-  def getField(): FieldView = {
+  def getField(): Field = {
     if (state == 0) return field1
     field2
   }

@@ -7,6 +7,10 @@ case class Shot() {
   var size: Int = 0
 
   def addShot(x: Int, y: Int, hit: Boolean): Int = {
+    for(b <- 0 until size){
+      if (X(b) == x && Y(b) == y) return 1
+    }
+
     X(size) = x
     Y(size) = y
     Hit(size) = hit
