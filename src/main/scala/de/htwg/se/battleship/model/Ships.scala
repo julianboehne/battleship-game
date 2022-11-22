@@ -1,7 +1,7 @@
 package de.htwg.se.battleship.model
 
 trait Ship() {
-
+  def count: Int = 0
   def size: Int
   def isHIt(x: Int, y: Int): Boolean
   var x: Array[Int] = Array()

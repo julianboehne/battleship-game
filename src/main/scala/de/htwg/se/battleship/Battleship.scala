@@ -27,14 +27,14 @@ object Battleship {
 
     print(s"${Console.CYAN}Player X:${Console.RESET} You have to add X battleships\n")
     print(s"${Console.BLUE}Ships:${Console.RESET} \n")
-    print(s"Ship 2: X, Ship 3: X, Ship 4: X, Ship 5: X  \n")
+    print(s"Ship 2: X, Ship 3: X, Ship 4: X, Ship 5: X \n")
 
 
 
 
 
     while (true) {
-      print(s"${Console.CYAN}Player ${controller.getField().player.toString}:${Console.RESET} Shot(ex. H5): ${Console.BOLD}")
+      print(s"${Console.CYAN}Player ${controller.getField().player}:${Console.RESET} Shot(ex. H5): ${Console.BOLD}")
       //Eingabe
       val line = readLine()
       //Exit
