@@ -3,6 +3,7 @@ package aview
 
 import controller.*
 import de.htwg.se.battleship.model.Field
+import de.htwg.se.battleship.model.Player
 import util.*
 
 
@@ -48,9 +49,6 @@ class TUI(controller: Controller) extends Observer {
     }
     char.charAt(0)-'A'+1
 
-
-
-
   }
 
 
@@ -60,6 +58,30 @@ class TUI(controller: Controller) extends Observer {
 
     num
   }
+
+  def shipCountPrint(): Int = {
+    print(s"${Console.CYAN}Player ${controller.getField().player}:${Console.RESET} You have to add following battleships\n")
+    print(s"${Console.BLUE}Ships:${Console.RESET} \n")
+
+    print(s"Ship 2: ${controller.getField().ships.shipTwoCount}, ")
+    print(s"Ship 3: ${controller.getField().ships.shipThreeCount}, ")
+    print(s"Ship 4: ${controller.getField().ships.shipFourCount}, ")
+    print(s"Ship 5: ${controller.getField().ships.shipFiveCount}\n")
+    0
+  }
+  def addShip(startpunkt: String, endpunkt: String): Int ={
+    if (!isValid(startpunkt) || !isValid(endpunkt)) {
+      println("not valid1")
+      return 1
+    }
+    val valid = controller.getField().addNewShip(getX(startpunkt), getY(startpunkt), getX(endpunkt), getY(endpunkt))
+    if (valid == 1) {
+      println("not valid2")
+      return 1
+    }
+    0
+  }
+
 
   override def update: Unit = println(controller.toString)
 }

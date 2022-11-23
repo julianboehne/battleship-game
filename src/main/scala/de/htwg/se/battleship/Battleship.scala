@@ -16,23 +16,33 @@ object Battleship {
   def main(args: Array[String]): Unit = {
     print("Welcome to Battleship-Game")
     input.setup()
-    print(s"${Console.CYAN}Player 1:${Console.RESET} Name eingeben: ${Console.BOLD}")
-    val player1 = readLine()
+    val player1 = readLine(s"${Console.CYAN}Player 1:${Console.RESET} Name eingeben: ${Console.BOLD}")
     controller.field1.player = Player(player1)
 
-    print(s"${Console.RESET}${Console.CYAN}Player 2:${Console.RESET} Name eingeben: ${Console.BOLD}")
-    val player2 = readLine()
+    val player2 = readLine(s"${Console.RESET}${Console.CYAN}Player 2:${Console.RESET} Name eingeben: ${Console.BOLD}")
     controller.field2.player = Player(player2)
 
 
-    print(s"${Console.CYAN}Player X:${Console.RESET} You have to add X battleships\n")
-    print(s"${Console.BLUE}Ships:${Console.RESET} \n")
-    print(s"Ship 2: X, Ship 3: X, Ship 4: X, Ship 5: X \n")
+
+
+
+    while(!controller.field1.allShipsImplemented()) {
+      input.shipCountPrint()
+
+      val schiffStartpunkt = readLine("Schiffstartpunkt: ")
+      val schiffsEndpunkt = readLine("Schiffendwert: ")
+
+      input.addShip(schiffStartpunkt, schiffsEndpunkt)
+
+
+    }
+    println("Alle implementiert")
+    controller.setField()
 
 
 
 
-
+    controller.setField()
     while (true) {
       print(s"${Console.CYAN}Player ${controller.getField().player}:${Console.RESET} Shot(ex. H5): ${Console.BOLD}")
       //Eingabe
