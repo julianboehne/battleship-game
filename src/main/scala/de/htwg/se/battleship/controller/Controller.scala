@@ -36,7 +36,7 @@ class Controller(val fld1: Field, val fld2: Field) extends Observable {
     state
   }
 
-  override def toString: String = field1.setShot() + field2.setShot()
+  override def toString: String = getField.setShot()
 
 
 }

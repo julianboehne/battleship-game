@@ -25,8 +25,9 @@ object Battleship {
 
 
 
-
-    while(!controller.field1.allShipsImplemented()) {
+    print(s"${Console.CYAN}Player ${controller.getField.player}:${Console.RESET} You have to add following battleships\n")
+    while(!controller.getField.allShipsImplemented()) {
+      print("\n")
       input.shipCountPrint()
 
       val schiffStartpunkt = readLine("Schiffstartpunkt: ")
@@ -36,9 +37,9 @@ object Battleship {
 
 
     }
-    println("Alle implementiert")
+    println("Alle implementiert\n")
     controller.setField()
-
+    //Player2 Ships
 
 
 
