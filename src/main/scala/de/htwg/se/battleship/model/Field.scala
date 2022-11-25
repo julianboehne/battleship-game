@@ -36,7 +36,7 @@ case class Field(widthX: Int, countX: Int) {
     str1
   }
 
-  def allShipsImplemented(): Boolean = ships.isDone()
+  def allShipsImplemented(): Boolean = ships.isDone
 
   def addNewShip(x1: Int, y1: Int, x2: Int, y2: Int): Int = {
     if (x1 == x2 && y1 != y2) {

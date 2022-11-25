@@ -25,7 +25,7 @@ class Controller(val fld1: Field, val fld2: Field) extends Observable {
     success
   }
 
-  def getField(): Field = {
+  def getField: Field = {
     if (state == 0) return field1
     field2
   }

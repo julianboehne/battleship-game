@@ -16,11 +16,11 @@ class ControllerSpec extends AnyWordSpec {
 
   "Controller" should {
     "have a state:" in {
-      controller.getField() should be(field1)
+      controller.getField should be(field1)
       controller.setField() should be(1)
-      controller.getField() should be(field2)
+      controller.getField should be(field2)
       controller.setField() should be(0)
-      controller.getField() should be(field1)
+      controller.getField should be(field1)
 
 
     }

@@ -44,7 +44,7 @@ object Battleship {
 
     controller.setField()
     while (true) {
-      print(s"${Console.CYAN}Player ${controller.getField().player}:${Console.RESET} Shot(ex. H5): ${Console.BOLD}")
+      print(s"${Console.CYAN}Player ${controller.getField.player}:${Console.RESET} Shot(ex. H5): ${Console.BOLD}")
       //Eingabe
       val line = readLine()
       //Exit

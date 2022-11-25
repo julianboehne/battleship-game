@@ -1,5 +1,7 @@
 package de.htwg.se.battleship.model
 
+import scala.util.control.NonLocalReturns.{returning, throwReturn}
+
 class ShipContainer() {
 
   var shipTwoCount: Int = 3
@@ -29,7 +31,7 @@ class ShipContainer() {
     0
   }
 
-  def isDone(): Boolean = {
+  def isDone: Boolean = {
     if (count == limit) return true
     false
   }
@@ -50,8 +52,11 @@ private class ShipSizeTwo(x: Array[Int], y: Array[Int]) extends Ship {
 
   override def size: Int = 2
 
-  override def isHIt(x: Int, y: Int): Boolean = {
-    true
+  override def isHIt(X: Int, Y: Int): Boolean = returning {
+    for (a <- 0 until this.size) {
+      if (x(a) == X && y(a) == Y) then throwReturn(true)
+    }
+    false
   }
 }
 
@@ -60,7 +65,10 @@ private class ShipSizeThree(x: Array[Int], y: Array[Int]) extends Ship {
 
   override def size: Int = 3
 
-  override def isHIt(x: Int, y: Int): Boolean = {
+  override def isHIt(X: Int, Y: Int): Boolean = returning {
+    for (a <- 0 until this.size) {
+      if (x(a) == X && y(a) == Y) then throwReturn(true)
+    }
     false
   }
 }
@@ -69,8 +77,10 @@ private class ShipSizeFour(x: Array[Int], y: Array[Int]) extends Ship {
 
   override def size: Int = 4
 
-  override def isHIt(x: Int, y: Int): Boolean = {
-    val a = true
+  override def isHIt(X: Int, Y: Int): Boolean = returning {
+    for (a <- 0 until this.size) {
+      if (x(a) == X && y(a) == Y) then throwReturn(true)
+    }
     false
   }
 }
@@ -79,8 +89,10 @@ private class ShipSizeFive(x: Array[Int], y: Array[Int]) extends Ship {
 
   override def size: Int = 5
 
-  override def isHIt(x: Int, y: Int): Boolean = {
-    val a = false
+  override def isHIt(X: Int, Y: Int): Boolean = returning {
+    for (a <- 0 until this.size) {
+      if (x(a) == X && y(a) == Y) then throwReturn(true)
+    }
     false
   }
 }
