@@ -60,7 +60,7 @@ class TUI(controller: Controller) extends Observer {
   }
 
   def shipCountPrint(): Int = {
-    
+
     print(s"${Console.BLUE}Ships:${Console.RESET} \n")
 
     print(s"Ship 2: ${controller.getField.ships.shipTwoCount}, ")

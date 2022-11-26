@@ -2,12 +2,18 @@ package de.htwg.se.battleship.model
 
 import scala.util.control.NonLocalReturns.{returning, throwReturn}
 
-class ShipContainer() {
+case class ShipContainer(
+                          shipTwoCount: Int,
+                          shipThreeCount: Int,
+                          shipFourCount: Int,
+                          shipFiveCount: Int
+                        ) {
 
-  var shipTwoCount: Int = 3
-  var shipThreeCount: Int = 2
-  var shipFourCount: Int = 2
-  var shipFiveCount: Int = 1
+  def copy(shipTwoCount: Int = this.shipTwoCount,
+           shipThreeCount: Int = this.shipThreeCount,
+           shipFourCount: Int = this.shipFourCount,
+           shipFiveCount: Int = this.shipFiveCount
+          ) = new ShipContainer(shipTwoCount, shipThreeCount, shipFourCount, shipFiveCount)
 
   var count: Int = 0
   val limit: Int = shipTwoCount + shipThreeCount + shipFourCount + shipFiveCount
@@ -15,11 +21,12 @@ class ShipContainer() {
   val ships: Array[Ship] = new Array[Ship](limit)
 
   def allowed(size: Int): Boolean = {
+    val container:ShipContainer = new ShipContainer(shipTwoCount, shipThreeCount, shipFourCount, shipFiveCount)
     size match {
-      case 2 => if (shipTwoCount == 0) return false else shipTwoCount -= 1
-      case 3 => if (shipThreeCount == 0) return false else shipThreeCount -= 1
-      case 4 => if (shipFourCount == 0) return false else shipFourCount -= 1
-      case 5 => if (shipFiveCount == 0) return false else shipFiveCount -= 1
+      case 2 => if (shipTwoCount == 0) return false else container.copy(shipTwoCount = shipTwoCount - 1)
+      case 3 => if (shipThreeCount == 0) return false else container.copy(shipThreeCount = shipThreeCount - 1)
+      case 4 => if (shipFourCount == 0) return false else container.copy(shipFourCount = shipFourCount - 1)
+      case 5 => if (shipFiveCount == 0) return false else container.copy(shipFiveCount = shipFiveCount - 1)
     }
     true
   }
@@ -46,6 +53,8 @@ trait Ship() {
 
   def isHIt(x: Int, y: Int): Boolean
 
+  def getSymbol: String = "O"
+
 }
 
 private class ShipSizeTwo(x: Array[Int], y: Array[Int]) extends Ship {
@@ -54,10 +63,16 @@ private class ShipSizeTwo(x: Array[Int], y: Array[Int]) extends Ship {
 
   override def isHIt(X: Int, Y: Int): Boolean = returning {
     for (a <- 0 until this.size) {
-      if (x(a) == X && y(a) == Y) then throwReturn(true)
+      if (x(a) == X && y(a) == Y) {
+        println("Du hast das 2er Schiff getroffen")
+        throwReturn(true)
+      }
     }
     false
   }
+
+  override def getSymbol: String = "§"
+
 }
 
 private class ShipSizeThree(x: Array[Int], y: Array[Int]) extends Ship {
@@ -67,7 +82,10 @@ private class ShipSizeThree(x: Array[Int], y: Array[Int]) extends Ship {
 
   override def isHIt(X: Int, Y: Int): Boolean = returning {
     for (a <- 0 until this.size) {
-      if (x(a) == X && y(a) == Y) then throwReturn(true)
+      if (x(a) == X && y(a) == Y) {
+        println("Du hast das 3er Schiff getroffen")
+        throwReturn(true)
+      }
     }
     false
   }
@@ -79,7 +97,10 @@ private class ShipSizeFour(x: Array[Int], y: Array[Int]) extends Ship {
 
   override def isHIt(X: Int, Y: Int): Boolean = returning {
     for (a <- 0 until this.size) {
-      if (x(a) == X && y(a) == Y) then throwReturn(true)
+      if (x(a) == X && y(a) == Y) {
+        println("Du hast das 4er Schiff getroffen")
+        throwReturn(true)
+      }
     }
     false
   }
@@ -91,10 +112,16 @@ private class ShipSizeFive(x: Array[Int], y: Array[Int]) extends Ship {
 
   override def isHIt(X: Int, Y: Int): Boolean = returning {
     for (a <- 0 until this.size) {
-      if (x(a) == X && y(a) == Y) then throwReturn(true)
+      if (x(a) == X && y(a) == Y) {
+        println("Du hast das 5er Schiff getroffen")
+        throwReturn(true)
+      }
     }
     false
   }
+
+  override def getSymbol: String = "§"
+
 }
 
 object Ship {

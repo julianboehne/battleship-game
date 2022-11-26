@@ -8,7 +8,7 @@ case class Field(widthX: Int, countX: Int) {
   var player: Player = Player("Name")
   val field: FieldStruture = FieldStruture()
   val shots: Shot = Shot()
-  val ships: ShipContainer = ShipContainer()
+  val ships: ShipContainer = new ShipContainer(1,1,1,1)
 
 
   def setShot(): String = {
@@ -46,7 +46,7 @@ case class Field(widthX: Int, countX: Int) {
       val y: Array[Int] = new Array[Int](size)
 
       var i = 0
-      for(a <- y1 to y2){
+      for (a <- y1 to y2) {
         x(i) = x1
         y(i) = a
         i += 1
