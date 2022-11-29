@@ -4,9 +4,9 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 
 
-class FieldSpec extends AnyWordSpec {
+class GridSpec extends AnyWordSpec {
   "Battleship" should {
-    val f = Field()
+    val f = Grid()
     "have a scalable bar" in {
       f.horizontal(1, 1) should be("+-+" + f.nextline)
       f.horizontal(1, 2) should be("+-+-+" + f.nextline)
