@@ -1,18 +1,10 @@
-val nextline: String = sys.props("line.separator")
 
-def horizontal(width: Int, count: Int):
-String = ("+" + "-" * width) * count + "+" + nextline
 
-def vertical(width: Int, count: Int):
-String = ("|" + " " * width) * count + "|" + nextline
+def addShot(x: Int, y: Int, vectorX: Vector[Int], vectorY: Vector[Int]): (Vector[Int], Vector[Int]) = {
+  assert(vectorX.size == vectorY.size)
+  val vectorXnew = Vector(x)
+  val vectorYnew = Vector(y)
+  (vectorX ++ vectorXnew, vectorY ++ vectorYnew)
 
-def field(width: Int, count: Int):
-String = ( horizontal(width, count) + vertical(width, count) ) * count + horizontal(width, count)
-
-println("Battleship Game")
-
-println("Enemy")
-println(field(width = 4, count = 10))
-print(nextline)
-println("You")
-println(field(width = 4, count = 10))
+}
+addShot(2,5,Vector(3),Vector(7))
