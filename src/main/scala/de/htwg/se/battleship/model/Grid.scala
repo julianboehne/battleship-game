@@ -1,17 +1,17 @@
 package de.htwg.se.battleship.model
 
-case class Grid(size: Int):
+import de.htwg.se.battleship.model.*
 
-  val nextline: String = sys.props("line.separator")
+case class Grid(size: Int, shots: Shots) {
 
-  def horizontal(width: Int, count: Int): String =
-    ("+" + "-" * width) * count + "+" + nextline
+  def getGrid: String = {
+    if (shots.X.isEmpty && shots.Y.isEmpty) return new EmptyGrid(size).toString
+
+    new GridPerShot(size, shots).toString
+  }
+  
+}
 
 
-  def vertical(width: Int, count: Int): String =
-    ("|" + " " * width) * count + "|" + nextline
 
-  def field(width: Int, count: Int): String =
-    ( horizontal(width, count) + vertical(width, count) ) * count + horizontal(width, count)
 
-  override def toString: String = field(4, size)
