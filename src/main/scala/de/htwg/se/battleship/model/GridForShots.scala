@@ -2,7 +2,7 @@ package de.htwg.se.battleship.model
 
 import de.htwg.se.battleship.model.*
 
-case class GridPerShot(size: Int, shots: Shots) {
+case class GridForShots(size: Int, shots: Shots) {
 
   val width = 4
 
@@ -26,12 +26,12 @@ case class GridPerShot(size: Int, shots: Shots) {
 
 
   def loop(i: Int): String = {
-    /*if (i == shots.size - 1 || shots.size == 1) {
+    if (i == shots.X.size - 1 || shots.X.size == 1) {
       val str = field(width, size, shots.getX(i), shots.getY(i))
       if (shots.getHit(i)) return str
       val strHit = str.replace('X', 'O')
       return strHit
-    }*/
+    }
     val str0 = field(width, size, shots.getX(i), shots.getY(i))
     val index = str0.indexOf('X')
 
@@ -41,6 +41,7 @@ case class GridPerShot(size: Int, shots: Shots) {
     }
     val str1 = loop(i + 1).substring(0, index) + "O" + loop(i + 1).substring(index + 1)
     str1
+
   }
 
 

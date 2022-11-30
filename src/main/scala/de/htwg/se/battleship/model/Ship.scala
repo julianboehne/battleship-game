@@ -2,15 +2,19 @@ package de.htwg.se.battleship.model
 
 import scala.util.control.NonLocalReturns.*
 
-trait Ships() {
+trait Ship() {
 
   def size: Int
 
   def isHIt(x: Int, y: Int): Boolean
 
+  def getX(index: Int): Int
+
+  def getY(index: Int): Int
+
 
 }
-private class ShipSizeTwo(x: Vector[Int], y: Vector[Int]) extends Ships {
+private class ShipSizeTwo(x: Vector[Int], y: Vector[Int]) extends Ship {
 
   override def size: Int = 2
 
@@ -24,10 +28,14 @@ private class ShipSizeTwo(x: Vector[Int], y: Vector[Int]) extends Ships {
     false
   }
 
+  override def getX(index: Int): Int = x(index)
+
+  override def getY(index: Int): Int = y(index)
+
 
 }
 
-private class ShipSizeThree(x: Vector[Int], y: Vector[Int]) extends Ships {
+private class ShipSizeThree(x: Vector[Int], y: Vector[Int]) extends Ship {
 
 
   override def size: Int = 3
@@ -41,9 +49,14 @@ private class ShipSizeThree(x: Vector[Int], y: Vector[Int]) extends Ships {
     }
     false
   }
+
+  override def getX(index: Int): Int = x(index)
+
+  override def getY(index: Int): Int = y(index)
+
 }
 
-private class ShipSizeFour(x: Vector[Int], y: Vector[Int]) extends Ships {
+private class ShipSizeFour(x: Vector[Int], y: Vector[Int]) extends Ship {
 
   override def size: Int = 4
 
@@ -56,9 +69,14 @@ private class ShipSizeFour(x: Vector[Int], y: Vector[Int]) extends Ships {
     }
     false
   }
+
+  override def getX(index: Int): Int = x(index)
+
+  override def getY(index: Int): Int = y(index)
+
 }
 
-private class ShipSizeFive(x: Vector[Int], y: Vector[Int]) extends Ships {
+private class ShipSizeFive(x: Vector[Int], y: Vector[Int]) extends Ship {
 
   override def size: Int = 5
 
@@ -72,12 +90,15 @@ private class ShipSizeFive(x: Vector[Int], y: Vector[Int]) extends Ships {
     false
   }
 
+  override def getX(index: Int): Int = x(index)
+
+  override def getY(index: Int): Int = y(index)
 
 }
 
 object Ship {
 
-  def apply(x: Vector[Int], y: Vector[Int], size: Int): Ships = {
+  def apply(x: Vector[Int], y: Vector[Int], size: Int): Ship = {
     size match {
       case 2 => new ShipSizeTwo(x, y)
       case 3 => new ShipSizeThree(x, y)
@@ -85,5 +106,7 @@ object Ship {
       case 5 => new ShipSizeFive(x, y)
     }
   }
+
+
 
 }

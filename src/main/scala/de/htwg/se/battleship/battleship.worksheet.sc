@@ -1,10 +1,12 @@
+def getShip(x1: Int, y1: Int, x2: Int, y2: Int): Unit = {
+  if (x1 == x2 && y1 != y2) {
+    val size = Math.abs(y2 - y1) + 1
+    val x: Vector[Int] = ((1 to size).map(x => x1)).toVector
+    val y: Vector[Int] = (y1 to y2).toVector
+    println(x)
 
 
-def addShot(x: Int, y: Int, vectorX: Vector[Int], vectorY: Vector[Int]): (Vector[Int], Vector[Int]) = {
-  assert(vectorX.size == vectorY.size)
-  val vectorXnew = Vector(x)
-  val vectorYnew = Vector(y)
-  (vectorX ++ vectorXnew, vectorY ++ vectorYnew)
 
+  }
 }
-addShot(2,5,Vector(3),Vector(7))
+getShip(1,2,1,5)

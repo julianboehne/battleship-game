@@ -4,12 +4,32 @@ import de.htwg.se.battleship.controller.Controller
 import de.htwg.se.battleship.model.*
 import de.htwg.se.battleship.aview.TUI
 
+import scala.io.StdIn.readLine
+
 object Battleship {
+  val grid: Grid = Grid(10, Shots(Vector[Int](), Vector[Int]()),ShipContainer(Vector[Ship]()))
+  val controller: Controller = Controller(grid)
+  val tui: TUI = TUI(controller)
 
   def main(args: Array[String]): Unit = {
-    val grid: Grid = Grid(10, Shots(Vector[Int](),Vector[Int]()))
-    val controller: Controller = Controller(grid)
-    val tui: TUI = TUI(controller)
+    print("Welcome to Battleship-Game\n")
+
+    tui.addShipInput("a1", "a5")
+    tui.addShipInput("b1", "b4")
+
+
+
+   /* while (true) {
+      print("Shot(ex. H5): ")
+      //Eingabe
+      val line = readLine()
+      //Exit
+      if (line == "exit" || line == "1") {
+        return
+      }
+      tui.addShotInput(line)
+
+    }*/
 
 
 
