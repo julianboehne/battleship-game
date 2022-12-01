@@ -1,16 +1,17 @@
 package de.htwg.se.battleship.controller
 
 import de.htwg.se.battleship.model.*
-import de.htwg.se.battleship.util.Observable
+import de.htwg.se.battleship.util.{Observable, UndoManager}
 
 class Controller(var grid: Grid) extends Observable {
+
+  private val undoManager = new UndoManager
   val gridSize = 10
 
   def createEmptyGrid(): Unit = {
-    grid = new Grid(gridSize, Shots(Vector[Int](), Vector[Int]()),ShipContainer(Vector[Ship]()))
+    grid = new Grid(gridSize, Shots(Vector[Int](), Vector[Int]()), ShipContainer(Vector[Ship]()))
     notifyObservers
   }
-
 
 
   def addShot(x: Int, y: Int): Unit = {
@@ -19,13 +20,12 @@ class Controller(var grid: Grid) extends Observable {
   }
 
 
-
   def checkShip(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = grid.ships.isValid(x1, y1, x2, y2)
 
   def addShip(x1: Int, y1: Int, x2: Int, y2: Int): Unit = {
     //prüfen
     val ship: Ship = grid.ships.getShip(x1: Int, y1: Int, x2: Int, y2: Int)
-    grid = Grid(gridSize, grid.shots ,grid.ships.addShip(ship))
+    grid = Grid(gridSize, grid.shots, grid.ships.addShip(ship))
     notifyObservers
 
   }
@@ -33,6 +33,21 @@ class Controller(var grid: Grid) extends Observable {
   def GridShipToString: String = grid.getGridShips
 
   override def toString: String = grid.getGridShips
+
+  def solve: Unit = {
+
+    notifyObservers
+  }
+
+  def undo: Unit = {
+    undoManager.undoStep
+    notifyObservers
+  }
+
+  def redo: Unit = {
+    undoManager.redoStep
+    notifyObservers
+  }
 
 
 }
