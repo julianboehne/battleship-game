@@ -5,8 +5,8 @@ import de.htwg.se.battleship.model.*
 case class GridForShips(size: Int, ships: ShipContainer) extends GridTemplate {
 
 
-
-  def vertical(width: Int, count: Int, x: Int): String =
+  // Strategy
+  override def vertical(width: Int, count: Int, x: Int): String =
     ("|" + " " * width) * (x - 1) + ("|" + "  # ") + ("|" + " " * width) * (count - x) + "|" + nextline
 
 
