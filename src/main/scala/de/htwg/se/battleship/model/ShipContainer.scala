@@ -7,7 +7,6 @@ case class ShipContainer(shipsVector: Vector[Ship]) {
   //def getShip(index:Int) : Ship = shipsVector(index)
 
   def isValid(x1: Int, y1: Int, x2: Int, y2: Int): Boolean ={
-    println(s"x1: $x1, y1: $y1, x2: $x2, y2: $y2")
     if((x1 == x2 && y1 != y2) || (x1 != x2 && y1 == y2)) return true
     false
   }

@@ -4,7 +4,7 @@ import scala.util.control.NonLocalReturns.*
 
 trait Ship() {
 
-  def size: Int
+  val size: Int
 
   def isHIt(x: Int, y: Int): Boolean
 
@@ -14,9 +14,9 @@ trait Ship() {
 
 
 }
-private class ShipSizeTwo(x: Vector[Int], y: Vector[Int]) extends Ship {
+private class ShipSizeTwo(x: Vector[Int], y: Vector[Int]) extends Ship() {
 
-  override def size: Int = 2
+  val size: Int = 2
 
   override def isHIt(X: Int, Y: Int): Boolean = returning {
     for (a <- 0 until this.size) {
@@ -35,10 +35,10 @@ private class ShipSizeTwo(x: Vector[Int], y: Vector[Int]) extends Ship {
 
 }
 
-private class ShipSizeThree(x: Vector[Int], y: Vector[Int]) extends Ship {
+private class ShipSizeThree(x: Vector[Int], y: Vector[Int]) extends Ship() {
 
 
-  override def size: Int = 3
+  val size: Int = 3
 
   override def isHIt(X: Int, Y: Int): Boolean = returning {
     for (a <- 0 until this.size) {
@@ -56,9 +56,9 @@ private class ShipSizeThree(x: Vector[Int], y: Vector[Int]) extends Ship {
 
 }
 
-private class ShipSizeFour(x: Vector[Int], y: Vector[Int]) extends Ship {
+private class ShipSizeFour(x: Vector[Int], y: Vector[Int]) extends Ship() {
 
-  override def size: Int = 4
+  val size: Int = 4
 
   override def isHIt(X: Int, Y: Int): Boolean = returning {
     for (a <- 0 until this.size) {
@@ -76,9 +76,9 @@ private class ShipSizeFour(x: Vector[Int], y: Vector[Int]) extends Ship {
 
 }
 
-private class ShipSizeFive(x: Vector[Int], y: Vector[Int]) extends Ship {
+private class ShipSizeFive(x: Vector[Int], y: Vector[Int]) extends Ship() {
 
-  override def size: Int = 5
+  val size: Int = 5
 
   override def isHIt(X: Int, Y: Int): Boolean = returning {
     for (a <- 0 until this.size) {

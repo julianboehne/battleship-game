@@ -33,6 +33,7 @@ class TUI(controller: Controller) extends Observer {
   }
 
   def addShipInput(start: String, ende: String): Unit = {
+
     if (!this.isValid(start) || !this.isValid(ende)) {
       println("Wrong input")
       //println("Format example: <h6>\n")

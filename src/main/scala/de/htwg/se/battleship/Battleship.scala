@@ -19,7 +19,7 @@ object Battleship {
 
 
 
-   /* while (true) {
+    /*while (true) {
       print("Shot(ex. H5): ")
       //Eingabe
       val line = readLine()

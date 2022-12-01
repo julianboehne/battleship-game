@@ -2,26 +2,15 @@ package de.htwg.se.battleship.model
 
 import de.htwg.se.battleship.model.*
 
-case class GridForShips(size: Int, ships: ShipContainer) {
+case class GridForShips(size: Int, ships: ShipContainer) extends GridTemplate {
 
-  val width = 4
 
-  val nextline: String = sys.props("line.separator")
-
-  def horizontal(width: Int, count: Int): String =
-    ("+" + "-" * width) * count + "+" + nextline
-
-  def vertical(width: Int, count: Int): String =
-    ("|" + " " * width) * count + "|" + nextline
 
   def vertical(width: Int, count: Int, x: Int): String =
     ("|" + " " * width) * (x - 1) + ("|" + "  # ") + ("|" + " " * width) * (count - x) + "|" + nextline
 
 
-  def field(width: Int, count: Int, x: Int, y: Int): String =
-    (horizontal(width, count) + vertical(width, count)) * (y - 1) + (horizontal(width, count) + vertical(width, count, x)) + (horizontal(width, count) + vertical(width, count)) * (count - y) + horizontal(width, count)
-
-
+ 
   def fullField: String = loop(0)
 
   def loop(i: Int): String = {
@@ -31,10 +20,31 @@ case class GridForShips(size: Int, ships: ShipContainer) {
 
     val str0 = loopPerShip(0, i)
     //return str0
-    val index = str0.indexOf("#") // Index von mehreren bekommen ???
+
+
+    val index = str0.indexOf("#") // first #
+    val index2 = str0.indexOf('#', index + 1) // second #
+    val index3 = str0.indexOf('#', index2 + 1) // third #
+    val index4 = str0.indexOf('#', index3 + 1) // forth #
+    val index5 = str0.indexOf('#', index4 + 1) // fifth #
+
 
     val str1 = loopPerShip(0, i + 1).substring(0, index) + "#" + loopPerShip(0, i + 1).substring(index + 1)
-    str1
+    val str2 = str1.substring(0, index2) + '#' + str1.substring(index2 + 1) // size 2 ship
+
+
+    ships.shipsVector(i).size match
+      case 2 => return str2
+      case 3 => return str2.substring(0, index3) + '#' + str2.substring(index3 + 1) // size 3 ship
+      case 4 =>
+        val str3 = str2.substring(0, index3) + '#' + str2.substring(index3 + 1)
+        return str3.substring(0, index4) + '#' + str3.substring(index4 + 1) // size 4 ship
+
+      case 5 =>
+        val str3 = str2.substring(0, index3) + '#' + str2.substring(index3 + 1)
+        val str4 = str3.substring(0, index4) + '#' + str3.substring(index4 + 1)
+        return str4.substring(0, index5) + '#' + str4.substring(index5 + 1) // size 5 ship
+
   }
 
 
@@ -51,9 +61,6 @@ case class GridForShips(size: Int, ships: ShipContainer) {
 
 
   }
-
-
-
 
   override def toString: String = fullField
 
