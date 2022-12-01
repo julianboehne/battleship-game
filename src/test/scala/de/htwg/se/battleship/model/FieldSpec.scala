@@ -2,38 +2,41 @@ package de.htwg.se.battleship.model
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
+import scala.io.Source
 
 
 class FieldSpec extends AnyWordSpec {
-  "Field" should {
-    val f = Field()
-    "have a scalable bar" in {
-      f.horizontal(1, 1) should be("+-+" + f.nextline)
-      f.horizontal(1, 2) should be("+-+-+" + f.nextline)
-      f.horizontal(2, 1) should be("+--+" + f.nextline)
+  val test: Field = Field(4,10)
+  "Game" should {
+    "have empty field method" in {
+      val source = Source.fromFile("src/test/scala/de/htwg/se/battleship/model/review/emptyField.txt")
+      val str = source.mkString
+      source.close
+      test.emptyField() should be(str)
     }
-    "have scalable cell" in {
-      f.vertical(1, 1) should be("| |" + f.nextline)
-      f.vertical(1, 2) should be("| | |" + f.nextline)
-      f.vertical(2, 1) should be("|  |" + f.nextline)
+    "have a setShot method" in {
+      test.shots.addShot(2,3,false)
+      test.setShot() should be(test.field.nextline + test.loop(0))
     }
-    "have a field in the form " +
-      "+-+  " +
-      "| |" +
-      "+-+" in {
-      f.field(1, 1) should be("+-+" + f.nextline + "| |" + f.nextline + "+-+" + f.nextline)
+    "have a loop method" in {
+      val source1 = Source.fromFile("src/test/scala/de/htwg/se/battleship/model/review/loop1.txt")
+      val str1 = source1.mkString
+      source1.close
+      test.loop(0) should be(str1)
+
+      val source2 = Source.fromFile("src/test/scala/de/htwg/se/battleship/model/review/loop2.txt")
+      val str2 = source2.mkString
+      source2.close
+      test.shots.addShot(5, 8, true)
+      test.loop(0) should be(str2)
+
+      val source3 = Source.fromFile("src/test/scala/de/htwg/se/battleship/model/review/loop3.txt")
+      val str3 = source3.mkString
+      source3.close
+      test.shots.addShot(10, 10, false)
+      test.loop(0) should be(str3)
     }
-    "have a print method" in {
-      f.fieldPrint(0, 0) should be (f.fieldPrint(0, 0))
-    }
-    "have a vertical shot method" in {
-      f.vertical(4,1, 1) should be ("|  X |" + f.nextline)
-    }
-    "have a updateFieldPrint method" in {
-      f.updateFieldPrint(0,0,0,0) should be (f.updateFieldPrint(0,0,0,0))
-    }
-    "have a updateField method" in {
-      f.updateField(4,2,1,1) should be ("+----+----+" + f.nextline +"|  X |    |" + f.nextline + "+----+----+" + f.nextline + "|    |    |" + f.nextline + "+----+----+" + f.nextline)
-    }
+
   }
+
 }

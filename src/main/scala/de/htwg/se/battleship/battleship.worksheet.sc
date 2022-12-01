@@ -1,18 +1,22 @@
-val nextline: String = sys.props("line.separator")
+import de.htwg.se.battleship.controller.Controller
+import de.htwg.se.battleship.model.{FieldStruture, Field, Shot}
 
-def horizontal(width: Int, count: Int):
-String = ("+" + "-" * width) * count + "+" + nextline
 
-def vertical(width: Int, count: Int):
-String = ("|" + " " * width) * count + "|" + nextline
+import java.io.PrintWriter
+import java.io.File
 
-def field(width: Int, count: Int):
-String = ( horizontal(width, count) + vertical(width, count) ) * count + horizontal(width, count)
+val field1: Field = Field(4, 10)
+val field2: Field = Field(4, 10)
 
-println("Battleship Game")
+val controller: Controller = Controller(field1, field2)
+controller.addShot(5, 7, field1)
 
-println("Enemy")
-println(field(width = 4, count = 10))
-print(nextline)
-println("You")
-println(field(width = 4, count = 10))
+
+
+
+val pw = new PrintWriter(new File("A:\\Dokumente\\GitHub\\battleship-game\\src\\test\\scala\\de\\htwg\\se\\battleship\\controller\\review\\toString.txt" ))
+pw.write(field1.setShot()+field2.setShot())
+pw.close
+//print(test.startSetup())
+
+//scala.io.Source.fromFile("A:\\Dokumente\\GitHub\\battleship-game\\src\\main\\scala\\de\\htwg\\se\\battleship\\FieldViewSpec.txt").mkString ==  test.startSetup()
