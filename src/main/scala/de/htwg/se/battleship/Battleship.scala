@@ -15,7 +15,9 @@ object Battleship {
     print("Welcome to Battleship-Game\n")
 
     tui.addShipInput("a1", "a5")
-    tui.addShipInput("b1", "b4")
+    tui.addShipInput("c1", "c3")
+    tui.addShipInput("g10", "j10")
+    tui.addShipInput("f3", "f4")
 
 
 
