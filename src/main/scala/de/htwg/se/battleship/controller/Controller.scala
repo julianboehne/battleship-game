@@ -40,12 +40,12 @@ class Controller(var grid: Grid) extends Observable {
     notifyObservers
   }
 
-  def undo(x: Int, y: Int): Unit = {
+  def undo(): Unit = {
     undoManager.undoStep
     notifyObservers
   }
 
-  def redo(x: Int, y: Int): Unit = {
+  def redo(): Unit = {
     undoManager.redoStep
     notifyObservers
   }

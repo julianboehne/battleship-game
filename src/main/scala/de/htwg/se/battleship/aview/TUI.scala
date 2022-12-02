@@ -40,6 +40,10 @@ class TUI(controller: Controller) extends Observer {
     controller.set(this.getX(input), this.getY(input))
 
   }
+  def removeShot(): Unit = controller.undo()
+
+  def redoShot(): Unit = controller.redo()
+
 
   def addShipInput(start: String, ende: String): Unit = {
 
