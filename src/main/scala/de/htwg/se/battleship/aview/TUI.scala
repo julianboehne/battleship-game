@@ -28,7 +28,16 @@ class TUI(controller: Controller) extends Observer {
       println("Wrong input: " + input)
       println("Format example: <h6>\n")
     }
-    controller.addShot(this.getX(input), this.getY(input))
+
+//    (0 to controller.grid.shots.X.size-1).map(i =>
+//      if(controller.grid.shots.X(i) == this.getX(input) && controller.grid.shots.Y(i) == this.getX(input)) {
+//        //controller.undo(this.getX(input),this.getY(input))
+//        println("You already fired there!")
+//        return
+//      }
+//    )
+
+    controller.set(this.getX(input), this.getY(input))
 
   }
 

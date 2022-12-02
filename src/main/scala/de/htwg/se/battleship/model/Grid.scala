@@ -4,7 +4,7 @@ import de.htwg.se.battleship.model.*
 
 case class Grid(size: Int, shots: Shots, ships: ShipContainer) {
 
-  def getGrid: String = {
+  def getGridShots: String = {
     if (shots.X.isEmpty && shots.Y.isEmpty) return EmptyGrid(size).toString
 
     GridForShots(size, shots).toString

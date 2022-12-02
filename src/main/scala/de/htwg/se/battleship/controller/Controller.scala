@@ -8,16 +8,17 @@ class Controller(var grid: Grid) extends Observable {
   private val undoManager = new UndoManager
   val gridSize = 10
 
-  def createEmptyGrid(): Unit = {
-    grid = new Grid(gridSize, Shots(Vector[Int](), Vector[Int]()), ShipContainer(Vector[Ship]()))
-    notifyObservers
-  }
+//  def createEmptyGrid(): Unit = {
+//    grid = new Grid(gridSize, Shots(Vector[Int](), Vector[Int]()), ShipContainer(Vector[Ship]()))
+//    notifyObservers
+//  }
 
 
-  def addShot(x: Int, y: Int): Unit = {
-    grid = Grid(gridSize, grid.shots.addShot(x, y), ShipContainer(Vector[Ship]()))
-    notifyObservers
-  }
+//  def addShot(x: Int, y: Int): Unit = {
+//    grid = Grid(gridSize, grid.shots.addShot(x, y), grid.ships)
+//
+//    notifyObservers
+//  }
 
 
   def checkShip(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = grid.ships.isValid(x1, y1, x2, y2)
@@ -30,24 +31,26 @@ class Controller(var grid: Grid) extends Observable {
 
   }
 
-  def GridShipToString: String = grid.getGridShips
+//  def GridShipToString: String = grid.getGridShips
 
-  override def toString: String = grid.getGridShips
 
-  def solve: Unit = {
 
+  def set(x: Int, y: Int): Unit = {
+    undoManager.doStep(new SetCommand(x,y,this))
     notifyObservers
   }
 
-  def undo: Unit = {
+  def undo(x: Int, y: Int): Unit = {
     undoManager.undoStep
     notifyObservers
   }
 
-  def redo: Unit = {
+  def redo(x: Int, y: Int): Unit = {
     undoManager.redoStep
     notifyObservers
   }
+
+  override def toString: String = grid.getGridShots
 
 
 }

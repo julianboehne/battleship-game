@@ -13,15 +13,15 @@ object Battleship {
 
   def main(args: Array[String]): Unit = {
     print("Welcome to Battleship-Game\n")
+//
+//    tui.addShipInput("a1", "a5")
+//    tui.addShipInput("c1", "c3")
+//    tui.addShipInput("g10", "j10")
+//    tui.addShipInput("f3", "f4")
 
-    tui.addShipInput("a1", "a5")
-    tui.addShipInput("c1", "c3")
-    tui.addShipInput("g10", "j10")
-    tui.addShipInput("f3", "f4")
 
 
-
-    /*while (true) {
+    while (true) {
       print("Shot(ex. H5): ")
       //Eingabe
       val line = readLine()
@@ -31,7 +31,7 @@ object Battleship {
       }
       tui.addShotInput(line)
 
-    }*/
+    }
 
 
 

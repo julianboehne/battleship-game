@@ -12,6 +12,7 @@ case class Shots(
     Shots(X :+ x, Y :+ y)
 
   }
+  def removeShot(): Shots = Shots(X.dropRight(1),Y.dropRight(1))
 
   def getX(index: Int): Int = X(index)
 
