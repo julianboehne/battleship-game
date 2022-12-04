@@ -5,6 +5,7 @@ import scala.util.control.NonLocalReturns.*
 import controller.*
 import util.*
 
+//noinspection ScalaWeakerAccess
 class TUI(controller: Controller) extends Observer {
   controller.add(this)
 
@@ -43,6 +44,7 @@ class TUI(controller: Controller) extends Observer {
 
   def removeShip(): Unit = controller.undo()
 
+  //noinspection ScalaWeakerAccess
   def redoShip(): Unit = controller.redo()
 
 
@@ -84,7 +86,7 @@ class TUI(controller: Controller) extends Observer {
       addShipInput("j1", "i1")
 
       addShipInput("a7", "a9")
-      addShipInput("b5", "b3") //b5, b3 geht nicht
+      addShipInput("b5", "b3")
 
       addShipInput("d6", "g6")
       addShipInput("j3", "j6")
