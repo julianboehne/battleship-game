@@ -53,9 +53,8 @@ class TUI(controller: Controller) extends Observer {
       //println("Format example: <h6>\n")
     } else if (!controller.checkShip(this.getX(start), this.getY(start), this.getX(ende), this.getY(ende))) {
       println("Wrong Input2")
-    } else {
-      controller.set(this.getX(start), this.getY(start), this.getX(ende), this.getY(ende))
-    }
+    } else controller.set(this.getX(start), this.getY(start), this.getX(ende), this.getY(ende))
+
 
     if (!controller.grid.ships.shipPosition()) {
       controller.undo()
@@ -72,7 +71,7 @@ class TUI(controller: Controller) extends Observer {
 
   def shipStartInput(line1: String): Unit = {
 
-    if (line1 == "rm") {
+    if (line1 == "undo") {
       removeShip()
       println("Last Ship removed!")
     } else if (line1 == "redo") {
@@ -82,10 +81,10 @@ class TUI(controller: Controller) extends Observer {
     } else if (line1 == "auto") { //später weg
       addShipInput("a1", "a2")
       addShipInput("c1", "c2")
-      addShipInput("i1", "j1")
+      addShipInput("j1", "i1")
 
       addShipInput("a7", "a9")
-      addShipInput("b3", "b5") //b5, b3 geht nicht
+      addShipInput("b5", "b3") //b5, b3 geht nicht
 
       addShipInput("d6", "g6")
       addShipInput("j3", "j6")

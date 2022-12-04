@@ -48,6 +48,8 @@ class Controller(var grid: Grid) extends Observable {
 
   def redo(): Unit = {
     undoManager.redoStep
+    println(GridShipToString)
+
     //notifyObservers
   }
 

@@ -17,19 +17,30 @@ case class ShipContainer(shipsVector: Vector[Ship]) {
   def getShip(x1: Int, y1: Int, x2: Int, y2: Int): Ship = {
     if (x1 == x2 && y1 != y2) {
       val size = Math.abs(y2 - y1) + 1
-
       val x: Vector[Int] = ((1 to size).map(x => x1)).toVector
-      val y: Vector[Int] = (y1 to y2).toVector
 
-      Ship(x, y, size)
+      if (y1 > y2) {
+        val y: Vector[Int] = (y1 to y2 by -1).toVector
+        Ship(x, y, size)
+
+      } else {
+        val y: Vector[Int] = (y1 to y2).toVector
+        Ship(x, y, size)
+      }
+
 
     } else {
       val size = Math.abs(x2 - x1) + 1
-
-      val x: Vector[Int] = (x1 to x2).toVector
       val y: Vector[Int] = ((1 to size).map(y => y1)).toVector
+      if (x1 > x2) {
+        val x: Vector[Int] = (x1 to x2 by -1).toVector
+        Ship(x, y, size)
 
-      Ship(x, y, size)
+      } else {
+        val x: Vector[Int] = (x1 to x2).toVector
+        Ship(x, y, size)
+
+      }
 
 
     }
@@ -69,7 +80,7 @@ case class ShipContainer(shipsVector: Vector[Ship]) {
   def isHit(x: Int, y: Int): Boolean = {
 
     (0 until shipsVector.size).map(i =>
-      if (shipsVector(i).isHIt(x, y) == true) return true
+      if (shipsVector(i).isHIt(x, y)) return true
     )
     false
   }
@@ -81,9 +92,9 @@ case class ShipContainer(shipsVector: Vector[Ship]) {
           (0 until (shipsVector(y).size)).map(h =>
             if (shipsVector(x).getX(k) == shipsVector(y).getX(h) && shipsVector(x).getY(k) == shipsVector(y).getY(h) && x != y) return false
           )
-        } )
+        })
       })
-      })
+    })
     true
 
   }

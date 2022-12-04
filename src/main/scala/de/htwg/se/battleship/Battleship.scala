@@ -16,19 +16,18 @@ object Battleship {
     print("Welcome to Battleship-Game\n")
 
     while (controller.grid.ships.shipCountValid()) {
-      print("Startwert (oder rm/redo/exit): ")
+      print("Startwert (oder undo/redo/exit): ")
 
       val line1 = readLine()
       if (line1 == "exit" || line1 == "1") return
       else tui.shipStartInput(line1)
-      
-      if (controller.grid.ships.shipCountValid()) {
+
+      if (controller.grid.ships.shipCountValid() && line1 != "redo" && line1 != "undo") {
         val line2 = readLine()
         if (line2 == "exit" || line2 == "1") return
         else tui.addShipInput(line1, line2)
       }
 
-      
 
     }
 
