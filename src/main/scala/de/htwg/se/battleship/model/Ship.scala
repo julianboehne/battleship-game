@@ -21,7 +21,6 @@ private class ShipSizeTwo(x: Vector[Int], y: Vector[Int]) extends Ship() {
   override def isHIt(X: Int, Y: Int): Boolean = returning {
     for (a <- 0 until this.size) {
       if (x(a) == X && y(a) == Y) {
-        println("Du hast das 2er Schiff getroffen")
         throwReturn(true)
       }
     }
@@ -43,7 +42,6 @@ private class ShipSizeThree(x: Vector[Int], y: Vector[Int]) extends Ship() {
   override def isHIt(X: Int, Y: Int): Boolean = returning {
     for (a <- 0 until this.size) {
       if (x(a) == X && y(a) == Y) {
-        println("Du hast das 3er Schiff getroffen")
         throwReturn(true)
       }
     }
@@ -63,7 +61,6 @@ private class ShipSizeFour(x: Vector[Int], y: Vector[Int]) extends Ship() {
   override def isHIt(X: Int, Y: Int): Boolean = returning {
     for (a <- 0 until this.size) {
       if (x(a) == X && y(a) == Y) {
-        println("Du hast das 4er Schiff getroffen")
         throwReturn(true)
       }
     }
@@ -83,7 +80,6 @@ private class ShipSizeFive(x: Vector[Int], y: Vector[Int]) extends Ship() {
   override def isHIt(X: Int, Y: Int): Boolean = returning {
     for (a <- 0 until this.size) {
       if (x(a) == X && y(a) == Y) {
-        println("Du hast das 5er Schiff getroffen")
         throwReturn(true)
       }
     }

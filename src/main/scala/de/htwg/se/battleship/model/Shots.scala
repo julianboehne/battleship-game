@@ -18,10 +18,7 @@ case class Shots(
 
 
   def getY(index: Int): Int = Y(index)
-
-  def getHit(i: Int): Boolean = {
-    true
-  }
+  
 
 
 }
