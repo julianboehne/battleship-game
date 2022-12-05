@@ -4,7 +4,7 @@
 
 ![RepoSize](https://img.shields.io/github/repo-size/julianboehne/battleship-game)
 ![Forks](https://img.shields.io/github/forks/julianboehne/battleship-game?color=green&style=social)
-[![codecov](https://codecov.io/gh/julianboehne/battleship-game/branch/master/graph/badge.svg?token=P26ZUHIDD4)](https://codecov.io/gh/julianboehne/battleship-game)
+[![codecov](https://codecov.io/gh/julianboehne/battleship-game/branch/main/graph/badge.svg?token=P26ZUHIDD4)](https://codecov.io/gh/julianboehne/battleship-game)
 ![Scala CI](https://github.com/julianboehne/battleship-game/actions/workflows/scala.yml/badge.svg)
 ---
 
