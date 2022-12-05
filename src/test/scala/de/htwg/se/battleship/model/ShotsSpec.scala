@@ -6,7 +6,7 @@ import org.scalatest.matchers.should.Matchers.*
 
 class ShotsSpec extends AnyWordSpec {
 
-  val shot = Shots(Vector[Int](),Vector[Int]())
+  val shot: Shots = Shots(Vector[Int](),Vector[Int]())
   "Shots" should {
     "have a addShot function" in {
 
@@ -16,7 +16,6 @@ class ShotsSpec extends AnyWordSpec {
       val test = shot.addShot(1,2)
       test.getX(0) should be(1)
       test.getY(0) should be(2)
-      test.getHit(1) should be(true)
 
     }
     "should have two vectors for x and y-values" in {
