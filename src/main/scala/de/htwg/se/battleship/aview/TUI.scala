@@ -1,9 +1,11 @@
 package de.htwg.se.battleship
 package aview
 
+import scala.util.control.NonLocalReturns.*
 import controller.*
 import util.*
 
+//noinspection ScalaWeakerAccess
 class TUI(controller: Controller) extends Observer {
   controller.add(this)
 
@@ -27,33 +29,72 @@ class TUI(controller: Controller) extends Observer {
     if (!this.isValid(input)) {
       println("Wrong input: " + input)
       println("Format example: <h6>\n")
+    } else {
+
+      controller.grid.shots.X.indices.map(i =>
+        if (controller.grid.shots.X(i) == this.getX(input) && controller.grid.shots.Y(i) == this.getY(input))
+          println("You already fired there!")
+          return
+      )
+
+      controller.addShot(this.getX(input), this.getY(input))
     }
 
-//    (0 to controller.grid.shots.X.size-1).map(i =>
-//      if(controller.grid.shots.X(i) == this.getX(input) && controller.grid.shots.Y(i) == this.getX(input)) {
-//        //controller.undo(this.getX(input),this.getY(input))
-//        println("You already fired there!")
-//        return
-//      }
-//    )
-
-    controller.set(this.getX(input), this.getY(input))
-
   }
+
+  def removeShip(): Unit = controller.undo()
+
+  //noinspection ScalaWeakerAccess
+  def redoShip(): Unit = controller.redo()
+
 
   def addShipInput(start: String, ende: String): Unit = {
 
     if (!this.isValid(start) || !this.isValid(ende)) {
-      println("Wrong input")
+      println("Wrong input1")
       //println("Format example: <h6>\n")
     } else if (!controller.checkShip(this.getX(start), this.getY(start), this.getX(ende), this.getY(ende))) {
-        println("Wrong Input")
-    } else {
-      controller.addShip(this.getX(start), this.getY(start), this.getX(ende), this.getY(ende))
+      println("Wrong Input2")
+    } else controller.set(this.getX(start), this.getY(start), this.getX(ende), this.getY(ende))
+
+
+    if (!controller.grid.ships.shipPosition()) {
+      controller.undo()
+      println("You already place a ship at this position!")
     }
+
+    if (!controller.grid.ships.shipSingleCountValid()) {
+      controller.undo()
+      println("Ship is not valid anymore")
+    }
+
 
   }
 
+  def shipStartInput(line1: String): Unit = {
+
+    line1 match
+      case "undo" =>
+        removeShip ()
+        println ("Last Ship removed!")
+      case "redo" =>
+        redoShip()
+        println("Last Ship redone")
+      case "auto" =>
+        addShipInput("a1", "a2")
+        addShipInput("c1", "c2")
+        addShipInput("j1", "i1")
+
+        addShipInput("a7", "a9")
+        addShipInput("b5", "b3")
+
+        addShipInput("d6", "g6")
+        addShipInput("j3", "j6")
+
+        addShipInput("f1", "f5")
+      case _ => print("Endwert: ")
+
+  }
 
   override def update: Unit = println(controller.toString)
 }

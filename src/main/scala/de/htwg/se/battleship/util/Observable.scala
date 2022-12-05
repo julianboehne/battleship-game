@@ -4,6 +4,7 @@ trait Observer {
   def update: Unit
 }
 
+//noinspection ScalaWeakerAccess
 class Observable {
   var subscribers: Vector[Observer] = Vector()
 

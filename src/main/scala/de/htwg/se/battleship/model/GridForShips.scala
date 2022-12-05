@@ -26,7 +26,7 @@ case class GridForShips(size: Int, ships: ShipContainer) extends GridTemplate {
   }
 
 
-  def loopPerShip(f: Int, i: Int): String = {
+  private def loopPerShip(f: Int, i: Int): String = {
     if (f == ships.shipsVector(i).size - 1) {
       val str = field(width, size, ships.shipsVector(i).getX(f), ships.shipsVector(i).getY(f))
       return str
