@@ -73,28 +73,27 @@ class TUI(controller: Controller) extends Observer {
 
   def shipStartInput(line1: String): Unit = {
 
-    if (line1 == "undo") {
-      removeShip()
-      println("Last Ship removed!")
-    } else if (line1 == "redo") {
-      redoShip()
-      println("Last Ship redone")
+    line1 match
+      case "undo" =>
+        removeShip ()
+        println ("Last Ship removed!")
+      case "redo" =>
+        redoShip()
+        println("Last Ship redone")
+      case "auto" =>
+        addShipInput("a1", "a2")
+        addShipInput("c1", "c2")
+        addShipInput("j1", "i1")
 
-    } else if (line1 == "auto") { //später weg
-      addShipInput("a1", "a2")
-      addShipInput("c1", "c2")
-      addShipInput("j1", "i1")
+        addShipInput("a7", "a9")
+        addShipInput("b5", "b3")
 
-      addShipInput("a7", "a9")
-      addShipInput("b5", "b3")
+        addShipInput("d6", "g6")
+        addShipInput("j3", "j6")
 
-      addShipInput("d6", "g6")
-      addShipInput("j3", "j6")
+        addShipInput("f1", "f5")
+      case _ => print("Endwert: ")
 
-      addShipInput("f1", "f5")
-    } else {
-      print("Endwert: ")
-    }
   }
 
   override def update: Unit = println(controller.toString)

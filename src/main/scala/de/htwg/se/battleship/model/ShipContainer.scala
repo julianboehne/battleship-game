@@ -41,8 +41,7 @@ case class ShipContainer(shipsVector: Vector[Ship]) {
         Ship(x, y, size)
 
       }
-
-
+      
     }
 
   }
