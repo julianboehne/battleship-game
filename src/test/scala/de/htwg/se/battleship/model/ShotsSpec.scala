@@ -6,7 +6,7 @@ import org.scalatest.matchers.should.Matchers.*
 
 class ShotsSpec extends AnyWordSpec {
 
-  val shot = Shots(Vector[Int](),Vector[Int]())
+  val shot: Shots = Shots(Vector[Int](),Vector[Int]())
   "Shots" should {
     "have a addShot function" in {
 
