@@ -30,16 +30,24 @@ class TUI(controller: Controller) extends Observer {
       println("Wrong input: " + input)
       println("Format example: <h6>\n")
     } else {
+      val check = checkFired(input)
+      if (check) {
+        println("You already fired there!")
+      } else {
+        controller.addShot(this.getX(input), this.getY(input))
+      }
 
-      controller.grid.shots.X.indices.map(i =>
-        if (controller.grid.shots.X(i) == this.getX(input) && controller.grid.shots.Y(i) == this.getY(input))
-          println("You already fired there!")
-          return
-      )
 
-      controller.addShot(this.getX(input), this.getY(input))
     }
 
+  }
+
+  def checkFired(input: String): Boolean = returning {
+    controller.grid.shots.X.indices.map(i =>
+      if (controller.grid.shots.X(i) == this.getX(input) && controller.grid.shots.Y(i) == this.getY(input))
+        throwReturn(true)
+    )
+    false
   }
 
   def removeShip(): Unit = controller.undo()
