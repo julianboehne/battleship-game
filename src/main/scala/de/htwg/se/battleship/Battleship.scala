@@ -2,7 +2,8 @@ package de.htwg.se.battleship
 
 import de.htwg.se.battleship.controller.Controller
 import de.htwg.se.battleship.model.*
-import de.htwg.se.battleship.aview.TUI
+import de.htwg.se.battleship.aview.*
+import de.htwg.se.battleship.aview.gui.GUI
 import de.htwg.se.battleship.model.state.Player1State
 
 import scala.io.StdIn.readLine
@@ -11,6 +12,8 @@ object Battleship {
   val grid: Grid = Grid(10, Shots(Vector[Int](), Vector[Int]()), ShipContainer(Vector[Ship]()))
   val controller: Controller = Controller(grid)
   val tui: TUI = TUI(controller)
+  val gui = new GUI(controller)
+
 
   def main(args: Array[String]): Unit = {
     println("Welcome to Battleship-Game\n")

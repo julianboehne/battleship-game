@@ -25,7 +25,7 @@ class Controller(val grid1: Grid) extends Observable {
 
   def addShot(x: Int, y: Int): Unit = {
     state.grid = Grid(gridSize, state.grid.shots.addShot(x, y), state.grid.ships)
-    notifyObservers
+    //notifyObservers
   }
 
   def isSunk(index: Int): Boolean = returning {
