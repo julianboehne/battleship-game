@@ -5,7 +5,8 @@ import scala.util.control.NonLocalReturns.*
 import controller.*
 import util.*
 
-//noinspection ScalaWeakerAccess
+import scala.util.Try
+
 class TUI(controller: Controller) extends Observer {
   controller.add(this)
 
@@ -43,7 +44,7 @@ class TUI(controller: Controller) extends Observer {
   }
 
   def checkFired(input: String): Boolean = returning {
-    controller.state.grid.shots.X.indices.map(i =>
+    controller.state.grid.shots.X.indices.foreach(i =>
       if (controller.state.grid.shots.X(i) == this.getX(input) && controller.state.grid.shots.Y(i) == this.getY(input))
         throwReturn(true)
     )
@@ -52,11 +53,11 @@ class TUI(controller: Controller) extends Observer {
 
   def removeShip(): Unit = controller.undo()
 
-  //noinspection ScalaWeakerAccess
   def redoShip(): Unit = controller.redo()
 
 
   def addShipInput(start: String, ende: String): Unit = {
+
 
     if (!this.isValid(start) || !this.isValid(ende)) {
       println("Wrong input1")
@@ -80,6 +81,8 @@ class TUI(controller: Controller) extends Observer {
   }
 
   def shipStartInput(line1: String): Unit = {
+
+    val e = Try(
 
     line1 match
       case "undo" =>
@@ -113,6 +116,10 @@ class TUI(controller: Controller) extends Observer {
 
         addShipInput("f1", "f5")
       case _ => print("Endwert: ")
+
+    )
+    if (e.isFailure) println("Exception")
+
 
   }
 

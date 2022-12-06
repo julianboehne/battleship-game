@@ -3,6 +3,8 @@ package de.htwg.se.battleship.controller
 import de.htwg.se.battleship.model.*
 import de.htwg.se.battleship.model.state.{Player1State, Player2State, PlayerState}
 import de.htwg.se.battleship.util.{Observable, UndoManager}
+import scala.util.control.NonLocalReturns.*
+
 
 class Controller(val grid1: Grid) extends Observable {
 
@@ -23,9 +25,22 @@ class Controller(val grid1: Grid) extends Observable {
 
   def addShot(x: Int, y: Int): Unit = {
     state.grid = Grid(gridSize, state.grid.shots.addShot(x, y), state.grid.ships)
-
     notifyObservers
-    //println("sunk: " + state.grid.ships.sunk(state.grid.ships.shipsVector(0), state.grid.shots))
+  }
+
+  def isSunk(index: Int): Boolean = returning {
+    (0 until state.grid.ships.shipsVector(index).size).foreach(i =>
+      if (!state.grid.shots.wasShot(state.grid.ships.shipsVector(index).getX(i), state.grid.ships.shipsVector(index).getY(i))) throwReturn(false)
+    )
+    true
+
+  }
+
+  def isLost(): Boolean = returning {
+    state.grid.ships.shipsVector.indices.foreach(i =>
+      if (!isSunk(i)) throwReturn(false)
+    )
+    true
   }
 
 

@@ -12,6 +12,11 @@ trait Ship() {
 
   def getY(index: Int): Int
 
+  def getVectorX(): Vector[Int]
+
+  def getVectorY(): Vector[Int]
+
+
 }
 
 private class ShipSizeTwo(x: Vector[Int], y: Vector[Int]) extends Ship() {
@@ -26,6 +31,11 @@ private class ShipSizeTwo(x: Vector[Int], y: Vector[Int]) extends Ship() {
     )
     false
   }
+
+  override def getVectorX(): Vector[Int] = x
+
+  override def getVectorY(): Vector[Int] = y
+
 
   override def getX(index: Int): Int = x(index)
 
@@ -48,6 +58,10 @@ private class ShipSizeThree(x: Vector[Int], y: Vector[Int]) extends Ship() {
     false
   }
 
+  override def getVectorX(): Vector[Int] = x
+
+  override def getVectorY(): Vector[Int] = y
+
   override def getX(index: Int): Int = x(index)
 
   override def getY(index: Int): Int = y(index)
@@ -67,6 +81,10 @@ private class ShipSizeFour(x: Vector[Int], y: Vector[Int]) extends Ship() {
     false
   }
 
+  override def getVectorX(): Vector[Int] = x
+
+  override def getVectorY(): Vector[Int] = y
+
   override def getX(index: Int): Int = x(index)
 
   override def getY(index: Int): Int = y(index)
@@ -85,6 +103,10 @@ private class ShipSizeFive(x: Vector[Int], y: Vector[Int]) extends Ship() {
     )
     false
   }
+
+  override def getVectorX(): Vector[Int] = x
+
+  override def getVectorY(): Vector[Int] = y
 
   override def getX(index: Int): Int = x(index)
 

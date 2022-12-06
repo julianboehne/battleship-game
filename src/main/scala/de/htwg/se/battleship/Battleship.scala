@@ -53,6 +53,11 @@ object Battleship {
       }
 
       tui.addShotInput(line)
+      if (controller.isLost()) {
+        println("The winner is " + controller.state.playerShotName)
+        println("Thanks for playing")
+        return
+      }
       controller.changeState()
 
     }
