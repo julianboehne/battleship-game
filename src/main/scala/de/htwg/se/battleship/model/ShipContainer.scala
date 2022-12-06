@@ -1,5 +1,6 @@
 package de.htwg.se.battleship.model
 
+import scala.util.control.NonLocalReturns.*
 
 case class ShipContainer(shipsVector: Vector[Ship]) {
   def addShip(ship: Ship): ShipContainer = {
@@ -76,20 +77,20 @@ case class ShipContainer(shipsVector: Vector[Ship]) {
 
   }
 
-  def isHit(x: Int, y: Int): Boolean = {
+  def isHit(x: Int, y: Int): Boolean = returning {
 
     (0 until shipsVector.size).map(i =>
-      if (shipsVector(i).isHIt(x, y)) return true
+      if (shipsVector(i).isHIt(x, y)) throwReturn(true)
     )
     false
   }
 
-  def shipPosition(): Boolean = {
+  def shipPosition(): Boolean = returning {
     shipsVector.indices.map(x => {
       shipsVector.indices.map(y => {
         (0 until (shipsVector(x).size)).map(k => {
           (0 until (shipsVector(y).size)).map(h =>
-            if (shipsVector(x).getX(k) == shipsVector(y).getX(h) && shipsVector(x).getY(k) == shipsVector(y).getY(h) && x != y) return false
+            if (shipsVector(x).getX(k) == shipsVector(y).getX(h) && shipsVector(x).getY(k) == shipsVector(y).getY(h) && x != y) throwReturn(false)
           )
         })
       })
@@ -97,6 +98,8 @@ case class ShipContainer(shipsVector: Vector[Ship]) {
     true
 
   }
+
+
 
 
 }

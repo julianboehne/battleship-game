@@ -5,7 +5,8 @@ import scala.util.control.NonLocalReturns.*
 import controller.*
 import util.*
 
-//noinspection ScalaWeakerAccess
+import scala.util.Try
+
 class TUI(controller: Controller) extends Observer {
   controller.add(this)
 
@@ -30,25 +31,33 @@ class TUI(controller: Controller) extends Observer {
       println("Wrong input: " + input)
       println("Format example: <h6>\n")
     } else {
+      val check = checkFired(input)
+      if (check) {
+        println("You already fired there!")
+      } else {
+        controller.addShot(this.getX(input), this.getY(input))
+      }
 
-      controller.grid.shots.X.indices.map(i =>
-        if (controller.grid.shots.X(i) == this.getX(input) && controller.grid.shots.Y(i) == this.getY(input))
-          println("You already fired there!")
-          return
-      )
 
-      controller.addShot(this.getX(input), this.getY(input))
     }
 
   }
 
+  def checkFired(input: String): Boolean = returning {
+    controller.state.grid.shots.X.indices.foreach(i =>
+      if (controller.state.grid.shots.X(i) == this.getX(input) && controller.state.grid.shots.Y(i) == this.getY(input))
+        throwReturn(true)
+    )
+    false
+  }
+
   def removeShip(): Unit = controller.undo()
 
-  //noinspection ScalaWeakerAccess
   def redoShip(): Unit = controller.redo()
 
 
   def addShipInput(start: String, ende: String): Unit = {
+
 
     if (!this.isValid(start) || !this.isValid(ende)) {
       println("Wrong input1")
@@ -58,12 +67,12 @@ class TUI(controller: Controller) extends Observer {
     } else controller.set(this.getX(start), this.getY(start), this.getX(ende), this.getY(ende))
 
 
-    if (!controller.grid.ships.shipPosition()) {
+    if (!controller.state.grid.ships.shipPosition()) {
       controller.undo()
       println("You already place a ship at this position!")
     }
 
-    if (!controller.grid.ships.shipSingleCountValid()) {
+    if (!controller.state.grid.ships.shipSingleCountValid()) {
       controller.undo()
       println("Ship is not valid anymore")
     }
@@ -72,6 +81,8 @@ class TUI(controller: Controller) extends Observer {
   }
 
   def shipStartInput(line1: String): Unit = {
+
+    val e = Try(
 
     line1 match
       case "undo" =>
@@ -92,7 +103,23 @@ class TUI(controller: Controller) extends Observer {
         addShipInput("j3", "j6")
 
         addShipInput("f1", "f5")
+      case "auto2" =>
+        addShipInput("a2", "a3")
+        addShipInput("c1", "c2")
+        addShipInput("j1", "i1")
+
+        addShipInput("a7", "a9")
+        addShipInput("b5", "b3")
+
+        addShipInput("d6", "g6")
+        addShipInput("j3", "j6")
+
+        addShipInput("f1", "f5")
       case _ => print("Endwert: ")
+
+    )
+    if (e.isFailure) println("Exception")
+
 
   }
 
