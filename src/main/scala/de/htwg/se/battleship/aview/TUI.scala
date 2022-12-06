@@ -43,8 +43,8 @@ class TUI(controller: Controller) extends Observer {
   }
 
   def checkFired(input: String): Boolean = returning {
-    controller.grid.shots.X.indices.map(i =>
-      if (controller.grid.shots.X(i) == this.getX(input) && controller.grid.shots.Y(i) == this.getY(input))
+    controller.state.grid.shots.X.indices.map(i =>
+      if (controller.state.grid.shots.X(i) == this.getX(input) && controller.state.grid.shots.Y(i) == this.getY(input))
         throwReturn(true)
     )
     false
@@ -66,12 +66,12 @@ class TUI(controller: Controller) extends Observer {
     } else controller.set(this.getX(start), this.getY(start), this.getX(ende), this.getY(ende))
 
 
-    if (!controller.grid.ships.shipPosition()) {
+    if (!controller.state.grid.ships.shipPosition()) {
       controller.undo()
       println("You already place a ship at this position!")
     }
 
-    if (!controller.grid.ships.shipSingleCountValid()) {
+    if (!controller.state.grid.ships.shipSingleCountValid()) {
       controller.undo()
       println("Ship is not valid anymore")
     }
@@ -90,6 +90,18 @@ class TUI(controller: Controller) extends Observer {
         println("Last Ship redone")
       case "auto" =>
         addShipInput("a1", "a2")
+        addShipInput("c1", "c2")
+        addShipInput("j1", "i1")
+
+        addShipInput("a7", "a9")
+        addShipInput("b5", "b3")
+
+        addShipInput("d6", "g6")
+        addShipInput("j3", "j6")
+
+        addShipInput("f1", "f5")
+      case "auto2" =>
+        addShipInput("a2", "a3")
         addShipInput("c1", "c2")
         addShipInput("j1", "i1")
 

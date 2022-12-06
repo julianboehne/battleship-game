@@ -12,18 +12,18 @@ trait Ship() {
 
   def getY(index: Int): Int
 
-
 }
+
 private class ShipSizeTwo(x: Vector[Int], y: Vector[Int]) extends Ship() {
 
   val size: Int = 2
 
   override def isHIt(X: Int, Y: Int): Boolean = returning {
-    for (a <- 0 until this.size) {
+    (0 until size).foreach(a =>
       if (x(a) == X && y(a) == Y) {
         throwReturn(true)
       }
-    }
+    )
     false
   }
 
@@ -40,11 +40,11 @@ private class ShipSizeThree(x: Vector[Int], y: Vector[Int]) extends Ship() {
   val size: Int = 3
 
   override def isHIt(X: Int, Y: Int): Boolean = returning {
-    for (a <- 0 until this.size) {
+    (0 until size).foreach(a =>
       if (x(a) == X && y(a) == Y) {
         throwReturn(true)
       }
-    }
+    )
     false
   }
 
@@ -59,11 +59,11 @@ private class ShipSizeFour(x: Vector[Int], y: Vector[Int]) extends Ship() {
   val size: Int = 4
 
   override def isHIt(X: Int, Y: Int): Boolean = returning {
-    for (a <- 0 until this.size) {
+    (0 until size).foreach(a =>
       if (x(a) == X && y(a) == Y) {
         throwReturn(true)
       }
-    }
+    )
     false
   }
 
@@ -78,11 +78,11 @@ private class ShipSizeFive(x: Vector[Int], y: Vector[Int]) extends Ship() {
   val size: Int = 5
 
   override def isHIt(X: Int, Y: Int): Boolean = returning {
-    for (a <- 0 until this.size) {
+    (0 until size).foreach(a =>
       if (x(a) == X && y(a) == Y) {
         throwReturn(true)
       }
-    }
+    )
     false
   }
 
@@ -102,7 +102,6 @@ object Ship {
       case 5 => new ShipSizeFive(x, y)
     }
   }
-
 
 
 }
