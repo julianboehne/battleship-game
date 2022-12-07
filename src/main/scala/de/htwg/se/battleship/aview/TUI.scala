@@ -43,13 +43,8 @@ class TUI(controller: Controller) extends Observer {
 
   }
 
-  def checkFired(input: String): Boolean = returning {
-    controller.state.grid.shots.X.indices.foreach(i =>
-      if (controller.state.grid.shots.X(i) == this.getX(input) && controller.state.grid.shots.Y(i) == this.getY(input))
-        throwReturn(true)
-    )
-    false
-  }
+  def checkFired(input: String): Boolean = controller.alreadyFired(this.getX(input),this.getY(input))
+  
 
   def removeShip(): Unit = controller.undo()
 

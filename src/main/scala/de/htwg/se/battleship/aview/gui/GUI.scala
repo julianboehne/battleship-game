@@ -3,25 +3,30 @@ package de.htwg.se.battleship.aview.gui
 import de.htwg.se.battleship.controller.*
 import de.htwg.se.battleship.aview.*
 import de.htwg.se.battleship.util.Observer
+
+import javax.management.Notification
 import scala.swing.event.ButtonClicked
-
-
 import javax.swing.border.EmptyBorder
 import scala.swing.*
 
-class GUI(controller: Controller) extends Frame:
+class GUI(controller: Controller) extends Frame with Observer:
+
+  override def update: Unit = println(controller.toString)
+
 
 
   new Frame {
     title = "Battleship Game"
-    preferredSize = new Dimension(900, 900)
-    resizable = true
+    preferredSize = new Dimension(1250, 750)
+    resizable = false
+    val la = new Label("Ich bin ein Label")
 
     menuBar = new MenuBar {
-
+      contents += la
       contents += new Menu("New") {
         contents += new MenuItem(Action("New") {
           //ddd
+          changeText
         })
       }
 
@@ -41,7 +46,17 @@ class GUI(controller: Controller) extends Frame:
 
     def contentPanel = new BorderPanel {
       add(new Label("Battleship Game"), BorderPanel.Position.North) // Label-Bar
-      add(new CellPanel(), BorderPanel.Position.Center)             // Game Field
+      add(new CellPanel(), BorderPanel.Position.West)             // Game Field
+      add(new Label("test") , BorderPanel.Position.South)
+      add(new CellPanel(), BorderPanel.Position.East)
+    }
+
+    def changeText = {
+      val r = Dialog.showInput(contents.head, "New label text", initial = la.text)
+      r match {
+        case Some(s) => la.text = s
+        case None =>
+      }
     }
 
     def update: Unit =
@@ -61,18 +76,25 @@ class GUI(controller: Controller) extends Frame:
       val invert = new TUI(controller)
       listenTo(mouse.clicks)
       listenTo(keys)
-
       reactions += {
 
         case ButtonClicked(button) =>
-          //tui.addShotInput(pos)
-          button.text = "X"
+          button.text = "0"
           val x = invert.getX(pos)
           val y = invert.getY(pos)
-          controller.addShot(x, y)
-          println("Shots X: " + controller.state.grid.shots.X)
-          println("Shots Y: " + controller.state.grid.shots.Y)
+          if(controller.alreadyFired(x,y)) {
+            println("You already fired there")
+
+          } else {
+            controller.addShot(x, y)
+            if (controller.state.grid.ships.isHit(x, y)) button.text = "X"
+
+            // change state
+          }
+
       }
+
+
 
 
     pack()
