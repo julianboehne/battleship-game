@@ -10,24 +10,9 @@ import scala.util.Try
 class TUI(controller: Controller) extends Observer {
   controller.add(this)
 
-  def isValid(input: String): Boolean = input.matches("^(([a-j]|[A-J])((10)|([1-9])))$")
-
-  def getX(input: String): Int = {
-
-    val char = "([a-j]|[A-J])".r.findAllIn(input).mkString
-
-    if (char.matches("[a-j]")) {
-      return char.charAt(0) - 'a' + 1
-    }
-    char.charAt(0) - 'A' + 1
-
-  }
-
-  def getY(input: String): Int = "(10)|([1-9])".r.findAllIn(input).mkString.toInt
-
 
   def addShotInput(input: String): Unit = {
-    if (!this.isValid(input)) {
+    if (!controller.isValid(input)) {
       println("Wrong input: " + input)
       println("Format example: <h6>\n")
     } else {
@@ -35,7 +20,7 @@ class TUI(controller: Controller) extends Observer {
       if (check) {
         println("You already fired there!")
       } else {
-        controller.addShot(this.getX(input), this.getY(input))
+        controller.addShot(controller.getX(input), controller.getY(input))
       }
 
 
@@ -43,8 +28,8 @@ class TUI(controller: Controller) extends Observer {
 
   }
 
-  def checkFired(input: String): Boolean = controller.alreadyFired(this.getX(input),this.getY(input))
-  
+  def checkFired(input: String): Boolean = controller.alreadyFired(controller.getX(input), controller.getY(input))
+
 
   def removeShip(): Unit = controller.undo()
 
@@ -53,25 +38,27 @@ class TUI(controller: Controller) extends Observer {
 
   def addShipInput(start: String, ende: String): Unit = {
 
+    val e = Try(
 
-    if (!this.isValid(start) || !this.isValid(ende)) {
-      println("Wrong input1")
-      //println("Format example: <h6>\n")
-    } else if (!controller.checkShip(this.getX(start), this.getY(start), this.getX(ende), this.getY(ende))) {
-      println("Wrong Input2")
-    } else controller.set(this.getX(start), this.getY(start), this.getX(ende), this.getY(ende))
+      if (!controller.isValid(start) || !controller.isValid(ende)) {
+        println("Wrong input1")
+        //println("Format example: <h6>\n")
+      } else if (!controller.checkShip(controller.getX(start), controller.getY(start), controller.getX(ende), controller.getY(ende))) {
+        println("Wrong Input2")
+      } else controller.set(controller.getX(start), controller.getY(start), controller.getX(ende), controller.getY(ende))
+    )
+    if (e.isFailure) println("invalid")
+    else {
+      if (!controller.state.grid.ships.shipPosition()) {
+        controller.undo()
+        println("You already place a ship at this position!")
+      }
 
-
-    if (!controller.state.grid.ships.shipPosition()) {
-      controller.undo()
-      println("You already place a ship at this position!")
+      if (!controller.state.grid.ships.shipSingleCountValid()) {
+        controller.undo()
+        println("Ship is not valid anymore")
+      }
     }
-
-    if (!controller.state.grid.ships.shipSingleCountValid()) {
-      controller.undo()
-      println("Ship is not valid anymore")
-    }
-
 
   }
 
@@ -79,38 +66,38 @@ class TUI(controller: Controller) extends Observer {
 
     val e = Try(
 
-    line1 match
-      case "undo" =>
-        removeShip ()
-        println ("Last Ship removed!")
-      case "redo" =>
-        redoShip()
-        println("Last Ship redone")
-      case "auto" =>
-        addShipInput("a1", "a2")
-        addShipInput("c1", "c2")
-        addShipInput("j1", "i1")
+      line1 match
+        case "undo" =>
+          removeShip()
+            println ("Last Ship removed!")
+        case "redo" =>
+          redoShip()
+            println ("Last Ship redone")
+        case "auto" =>
+          addShipInput("a1", "a2")
+            addShipInput("c1", "c2")
+            addShipInput("j1", "i1")
 
-        addShipInput("a7", "a9")
-        addShipInput("b5", "b3")
+            addShipInput("a7", "a9")
+            addShipInput("b5", "b3")
 
-        addShipInput("d6", "g6")
-        addShipInput("j3", "j6")
+            addShipInput("d6", "g6")
+            addShipInput("j3", "j6")
 
-        addShipInput("f1", "f5")
-      case "auto2" =>
-        addShipInput("a2", "a3")
-        addShipInput("c1", "c2")
-        addShipInput("j1", "i1")
+            addShipInput("f1", "f5")
+        case "auto2" =>
+          addShipInput("a2", "a3")
+            addShipInput("c1", "c2")
+            addShipInput("j1", "i1")
 
-        addShipInput("a7", "a9")
-        addShipInput("b5", "b3")
+            addShipInput("a7", "a9")
+            addShipInput("b5", "b3")
 
-        addShipInput("d6", "g6")
-        addShipInput("j3", "j6")
+            addShipInput("d6", "g6")
+            addShipInput("j3", "j6")
 
-        addShipInput("f1", "f5")
-      case _ => print("Endwert: ")
+            addShipInput("f1", "f5")
+        case _ => print("Endwert: ")
 
     )
     if (e.isFailure) println("Exception")

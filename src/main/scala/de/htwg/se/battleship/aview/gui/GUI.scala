@@ -11,22 +11,33 @@ import scala.swing.*
 
 class GUI(controller: Controller) extends Frame with Observer:
 
+  val startPanel = StartPanel(controller, this)
+  val shipPanel = ShipPanel(controller, this)
+  val shotPanel = ShotPanel(controller, this)
+
+  def changeToShipPanel1(): Unit =
+    controller.state = controller.player1
+    frame.contents = shipPanel.contentPanel
+
+  def changeToShipPanel2(): Unit =
+    controller.state = controller.player2
+    frame.contents = shipPanel.contentPanel
+
+  def changeToShotPanel(): Unit =
+    frame.contents = shotPanel.contentPanel
+
   override def update: Unit = println(controller.toString)
 
 
-
-  new Frame {
+  val frame = new Frame {
     title = "Battleship Game"
     preferredSize = new Dimension(1250, 750)
     resizable = false
-    val la = new Label("Ich bin ein Label")
 
     menuBar = new MenuBar {
-      contents += la
       contents += new Menu("New") {
         contents += new MenuItem(Action("New") {
-          //ddd
-          changeText
+          //new Game
         })
       }
 
@@ -39,67 +50,35 @@ class GUI(controller: Controller) extends Frame with Observer:
           controller.redo()
 
         })
+        contents += new MenuItem(Action("Auto Implement Ships") {
+          controller.autoShips()
+          if (controller.state == controller.player1) changeToShipPanel2()
+          else changeToShotPanel()
+
+        })
 
       }
     }
-    contents = contentPanel
 
-    def contentPanel = new BorderPanel {
-      add(new Label("Battleship Game"), BorderPanel.Position.North) // Label-Bar
-      add(new CellPanel(), BorderPanel.Position.West)             // Game Field
-      add(new Label("test") , BorderPanel.Position.South)
-      add(new CellPanel(), BorderPanel.Position.East)
+
+    listenTo(startPanel.startGameButton)
+    reactions += {
+      case ButtonClicked(b) =>
+        if (startPanel.player1.text.trim.isEmpty || startPanel.player2.text.trim.isEmpty) {
+          Dialog.showMessage(contents.head, "Text field must not be empty!")
+        } else {
+          // startPanel.player1.text = Player 1 Name
+          // startPanel.player2.text = Player 2 Name
+          changeToShipPanel1()
+        }
     }
-
-    def changeText = {
-      val r = Dialog.showInput(contents.head, "New label text", initial = la.text)
-      r match {
-        case Some(s) => la.text = s
-        case None =>
-      }
-    }
-
-    def update: Unit =
-      contents = contentPanel
-
-    class CellPanel() extends GridPanel(10, 10):
-      border = EmptyBorder(20, 20, 20, 20)
-      printField
-
-      def printField =
-        controller.state.grid.board.map(x => contents += new CellButton(x))
-
-
-
-
-    class CellButton(pos: String) extends Button(pos):
-      val invert = new TUI(controller)
-      listenTo(mouse.clicks)
-      listenTo(keys)
-      reactions += {
-
-        case ButtonClicked(button) =>
-          button.text = "0"
-          val x = invert.getX(pos)
-          val y = invert.getY(pos)
-          if(controller.alreadyFired(x,y)) {
-            println("You already fired there")
-
-          } else {
-            controller.addShot(x, y)
-            if (controller.state.grid.ships.isHit(x, y)) button.text = "X"
-
-            // change state
-          }
-
-      }
-
-
+    contents = startPanel.contentPanel
 
 
     pack()
     centerOnScreen()
     open()
+
 
   }
 

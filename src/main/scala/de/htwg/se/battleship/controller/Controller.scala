@@ -11,8 +11,8 @@ import scala.util.control.NonLocalReturns.*
     private val undoManager = new UndoManager
     val gridSize = 10
   
-    private val player1: PlayerState = new Player1State(grid1)
-    private val player2: PlayerState = new Player2State(grid1)
+    val player1: PlayerState = new Player1State(grid1)
+    val player2: PlayerState = new Player2State(grid1)
   
     var state: PlayerState = player1
     
@@ -53,7 +53,7 @@ import scala.util.control.NonLocalReturns.*
       false
     }
   
-    private def GridShipToString: String = state.grid.getGridShips
+    def GridShipToString: String = state.grid.getGridShips
   
   
     def set(x1: Int, y1: Int, x2: Int, y2: Int): Unit = {
@@ -73,6 +73,34 @@ import scala.util.control.NonLocalReturns.*
       println(GridShipToString)
       //notifyObservers
     }
+    def autoShips(): Unit = {
+      this.set(1,1,1,2)
+      this.set(3,1,3,2)
+      this.set(10,1,9,1)
+
+      this.set(1,7,1,9)
+      this.set(2,5,2,3)
+
+      this.set(4,6,7,6)
+      this.set(10,3,10,6)
+
+      this.set(6,1,6,5)
+    }
+
+    def isValid(input: String): Boolean = input.matches("^(([a-j]|[A-J])((10)|([1-9])))$")
+
+    def getX(input: String): Int = {
+
+      val char = "([a-j]|[A-J])".r.findAllIn(input).mkString
+
+      if (char.matches("[a-j]")) {
+        return char.charAt(0) - 'a' + 1
+      }
+      char.charAt(0) - 'A' + 1
+
+    }
+
+    def getY(input: String): Int = "(10)|([1-9])".r.findAllIn(input).mkString.toInt
   
     override def toString: String = state.grid.getGridShots
   
