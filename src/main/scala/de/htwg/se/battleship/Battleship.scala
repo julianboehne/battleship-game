@@ -17,8 +17,22 @@ object Battleship {
 
   def main(args: Array[String]): Unit = {
     println("Welcome to Battleship-Game\n")
+    var input = ""
 
-    while (controller.state.grid.ships.shipCountValid()) {
+    do {
+      input = readLine()
+      tui.processInputLine(input)
+    } while (input != "1" || !controller.isLost())
+
+
+
+
+
+
+
+
+
+    /*while (controller.state.grid.ships.shipCountValid()) {
       println(controller.state.playerName)
       print("Startwert (oder undo/redo/exit): ")
 
@@ -63,7 +77,7 @@ object Battleship {
       }
       controller.changeState()
 
-    }
+    }*/
 
   }
 

@@ -10,17 +10,44 @@ import scala.util.Try
 class TUI(controller: Controller) extends Observer {
   controller.add(this)
 
+  var shipStart: String = ""
+  def processInputLine(input: String): Unit = {
+    if (!controller.state.grid.ships.shipSingleCountValid() && controller.state == controller.player1) {
+      controller.changeState()
+    }
 
-  def addShotInput(input: String): Unit = {
+    if (controller.state.grid.ships.shipSingleCountValid()) {
+      if (shipStart.equals("")) {
+        shipStartInput(input)
+      } else {
+        addShipInput(shipStart, input)
+        shipStart = ""
+      }
+
+    } else {
+
+      if (addShotInput(input) == 0) controller.changeState()
+
+
+    }
+
+
+  }
+
+
+  def addShotInput(input: String): Int = {
     if (!controller.isValid(input)) {
       println("Wrong input: " + input)
       println("Format example: <h6>\n")
+      1
     } else {
       val check = checkFired(input)
       if (check) {
         println("You already fired there!")
+        1
       } else {
         controller.addShot(controller.getX(input), controller.getY(input))
+        0
       }
 
 
@@ -73,34 +100,11 @@ class TUI(controller: Controller) extends Observer {
         case "redo" =>
           redoShip()
             println ("Last Ship redone")
-        case "auto" =>
-          addShipInput("a1", "a2")
-            addShipInput("c1", "c2")
-            addShipInput("j1", "i1")
-
-            addShipInput("a7", "a9")
-            addShipInput("b5", "b3")
-
-            addShipInput("d6", "g6")
-            addShipInput("j3", "j6")
-
-            addShipInput("f1", "f5")
-        case "auto2" =>
-          addShipInput("a2", "a3")
-            addShipInput("c1", "c2")
-            addShipInput("j1", "i1")
-
-            addShipInput("a7", "a9")
-            addShipInput("b5", "b3")
-
-            addShipInput("d6", "g6")
-            addShipInput("j3", "j6")
-
-            addShipInput("f1", "f5")
         case _ => print("Endwert: ")
 
     )
     if (e.isFailure) println("Exception")
+    else shipStart = line1
 
 
   }
