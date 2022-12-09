@@ -37,7 +37,7 @@ case class ShipPanel(controller: Controller, gui: GUI) extends Observer:
     printField
 
     def printField =
-      controller.state.grid.board.map(x => contents += new CellButton(x))
+      controller.board.map(x => contents += new CellButton(x))
 
     def test(): Unit = {
 

@@ -33,7 +33,7 @@ case class ShotPanel(controller: Controller, gui: GUI) extends Observer:
     printField
 
     def printField =
-      controller.state.grid.board.map(x => contents += new CellButton(x, controller.state))
+      controller.getBoard().map(x => contents += new CellButton(x, controller.state))
 
   class CellButton(pos: String, player: PlayerState) extends Button(pos):
     player match
@@ -46,9 +46,10 @@ case class ShotPanel(controller: Controller, gui: GUI) extends Observer:
       case ButtonClicked(button) =>
         if (button.text.equals("1") || button.text.equals("2") || button.text.equals("X")) println("You already fired there2")
         else {
-          if (player == controller.player1) button.text = "1"
+          /*if (player == controller.player1) button.text = "1"
           else if(player == controller.player2) button.text = "2"
-          else button.text = "fatal error"
+          else button.text = "fatal error"*/
+          button.text = "0"
 
           val x = controller.getX(pos)
           val y = controller.getY(pos)
