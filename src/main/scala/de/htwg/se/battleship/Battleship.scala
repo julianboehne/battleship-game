@@ -22,9 +22,11 @@ object Battleship {
     var input: String = ""
 
     while (true) {
+      println(controller.state.playerName)
       input = readLine()
       if (input.equals("q")) return
       tui.processInputLine(input)
+      gui.update
     }
 
 /*    while

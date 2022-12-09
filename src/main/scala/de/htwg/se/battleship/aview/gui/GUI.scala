@@ -26,7 +26,14 @@ class GUI(controller: Controller) extends Frame with Observer:
   def changeToShotPanel(): Unit =
     frame.contents = shotPanel.contentPanel
 
-  override def update: Unit = println(controller.toString)
+  override def update: Unit = {
+    //println(controller.toString)
+    if (!controller.player1.grid.ships.shipCountValid() && !controller.player2.grid.ships.shipCountValid()) {
+      changeToShotPanel()
+    } else if (!controller.player1.grid.ships.shipCountValid()) {
+      changeToShipPanel2()
+    }
+  }
 
 
   val frame = new Frame {

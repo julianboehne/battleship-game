@@ -22,14 +22,14 @@ class TUI(controller: Controller) extends Observer {
         shipStart = ""
       }
 
-      if (!controller.state.grid.ships.shipCountValid() && controller.state == controller.player1) {
-        println("change")
-        controller.changeState()
-      }
+
+      println("change")
+      controller.changeState()
+
 
     } else {
-      if (addShotInput(input) == 0) controller.changeState()
 
+      if (addShotInput(input) == 0) controller.changeState()
 
     }
 
@@ -105,12 +105,12 @@ class TUI(controller: Controller) extends Observer {
         case "auto" =>
           controller.autoShips()
             println ("Auto ship placement")
-            println(controller.state.playerName)
-        case _ => print("Endwert: ")
+        case _ =>
+          shipStart = line1
+            println ("Endwert: ")
 
     )
     if (e.isFailure) println("Exception")
-    else shipStart = line1
 
 
   }

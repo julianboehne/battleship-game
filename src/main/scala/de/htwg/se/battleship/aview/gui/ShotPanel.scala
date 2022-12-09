@@ -17,7 +17,7 @@ case class ShotPanel(controller: Controller, gui: GUI) extends Observer:
   override def update: Unit = println(controller.GridShipToString)
 
   def contentPanel = new BorderPanel {
-    controller.state = controller.player1
+    //controller.state = controller.player1
     add(new Label("Battleship Game"), BorderPanel.Position.North) // Label-Bar
     add(new CellPanel(), BorderPanel.Position.West) // Game Field
 
@@ -25,6 +25,7 @@ case class ShotPanel(controller: Controller, gui: GUI) extends Observer:
 
     controller.changeState()
     add(new CellPanel(), BorderPanel.Position.East)
+    controller.changeState()
   }
 
   class CellPanel() extends GridPanel(10, 10):
