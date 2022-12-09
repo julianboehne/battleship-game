@@ -11,12 +11,10 @@ class TUI(controller: Controller) extends Observer {
   controller.add(this)
 
   var shipStart: String = ""
-  def processInputLine(input: String): Unit = {
-    if (!controller.state.grid.ships.shipSingleCountValid() && controller.state == controller.player1) {
-      controller.changeState()
-    }
 
-    if (controller.state.grid.ships.shipSingleCountValid()) {
+  def processInputLine(input: String): Unit = {
+
+    if (controller.state.grid.ships.shipCountValid()) {
       if (shipStart.equals("")) {
         shipStartInput(input)
       } else {
@@ -24,8 +22,12 @@ class TUI(controller: Controller) extends Observer {
         shipStart = ""
       }
 
-    } else {
+      if (!controller.state.grid.ships.shipCountValid() && controller.state == controller.player1) {
+        println("change")
+        controller.changeState()
+      }
 
+    } else {
       if (addShotInput(input) == 0) controller.changeState()
 
 
@@ -100,6 +102,10 @@ class TUI(controller: Controller) extends Observer {
         case "redo" =>
           redoShip()
             println ("Last Ship redone")
+        case "auto" =>
+          controller.autoShips()
+            println ("Auto ship placement")
+            println(controller.state.playerName)
         case _ => print("Endwert: ")
 
     )

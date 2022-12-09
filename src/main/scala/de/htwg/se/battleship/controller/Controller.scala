@@ -25,7 +25,7 @@ import scala.util.control.NonLocalReturns.*
   
     def addShot(x: Int, y: Int): Unit = {
       state.grid = Grid(gridSize, state.grid.shots.addShot(x, y), state.grid.ships)
-      //notifyObservers
+      notifyObservers
     }
   
     def isSunk(index: Int): Boolean = returning {
@@ -59,6 +59,7 @@ import scala.util.control.NonLocalReturns.*
     def set(x1: Int, y1: Int, x2: Int, y2: Int): Unit = {
       undoManager.doStep(new SetCommand(x1, y1, x2, y2, this))
       println(GridShipToString)
+      //gui Schiffausgabe
       //notifyObservers
     }
   

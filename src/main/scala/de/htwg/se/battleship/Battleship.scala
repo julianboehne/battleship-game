@@ -17,20 +17,22 @@ object Battleship {
 
   def main(args: Array[String]): Unit = {
     println("Welcome to Battleship-Game\n")
-//    var input: String = ""
-//
-//    do {
-//      input = readLine()
-//      tui.processInputLine(input)
-//    } while (input != "1" || !controller.isLost())
+
 
     var input: String = ""
-    while
+
+    while (true) {
+      input = readLine()
+      if (input.equals("q")) return
+      tui.processInputLine(input)
+    }
+
+/*    while
       input = readLine()
       tui.processInputLine(input)
       input != "1"
-      !controller.isLost()
-    do ()
+      //!controller.isLost()
+    do ()*/
 
 
 

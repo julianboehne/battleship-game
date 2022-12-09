@@ -34,7 +34,6 @@ case class ShotPanel(controller: Controller, gui: GUI) extends Observer:
     def printField =
       controller.state.grid.board.map(x => contents += new CellButton(x, controller.state))
 
-
   class CellButton(pos: String, player: PlayerState) extends Button(pos):
     player match
       case controller.player1 => this.background = new Color(151, 164, 222)
