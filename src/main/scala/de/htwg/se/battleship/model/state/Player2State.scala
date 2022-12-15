@@ -1,5 +1,6 @@
 package de.htwg.se.battleship.model.state
-import de.htwg.se.battleship.model.Grid
+
+import de.htwg.se.battleship.model.gridImpl.Grid
 
 class Player2State(var grid: Grid) extends PlayerState {
 

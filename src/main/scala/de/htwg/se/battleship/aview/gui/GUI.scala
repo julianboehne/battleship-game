@@ -2,6 +2,7 @@ package de.htwg.se.battleship.aview.gui
 
 import de.htwg.se.battleship.controller.*
 import de.htwg.se.battleship.aview.*
+import de.htwg.se.battleship.controller.controllerImpl.Controller
 import de.htwg.se.battleship.util.Observer
 
 import javax.management.Notification
@@ -9,7 +10,7 @@ import scala.swing.event.ButtonClicked
 import javax.swing.border.EmptyBorder
 import scala.swing.*
 
-class GUI(controller: Controller) extends Frame with Observer:
+class GUI(controller: ControllerInterface) extends Frame with Observer:
 
   val startPanel = StartPanel(controller, this)
   val shipPanel = ShipPanel(controller, this)

@@ -2,6 +2,7 @@ package de.htwg.se.battleship.aview.gui
 
 import de.htwg.se.battleship.controller.*
 import de.htwg.se.battleship.aview.*
+import de.htwg.se.battleship.controller.controllerImpl.Controller
 import de.htwg.se.battleship.model.state.PlayerState
 import de.htwg.se.battleship.util.Observer
 
@@ -11,7 +12,7 @@ import javax.swing.border.EmptyBorder
 import javax.swing.text.AbstractDocument.Content
 import scala.swing.*
 
-case class ShotPanel(controller: Controller, gui: GUI) extends Observer:
+case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer:
 
 
   override def update: Unit = println(controller.GridShipToString)

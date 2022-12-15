@@ -1,4 +1,6 @@
-package de.htwg.se.battleship.model
+package de.htwg.se.battleship.model.gridImpl
+
+import de.htwg.se.battleship.model.gridImpl.GridTemplate
 
 class EmptyGrid(size: Int) extends GridTemplate {
 

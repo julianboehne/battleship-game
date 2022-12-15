@@ -1,18 +1,19 @@
-package de.htwg.se.battleship
-package aview
+package de.htwg.se.battleship.aview.tuiImpl
 
+import de.htwg.se.battleship.controller.controllerImpl.Controller
+import de.htwg.se.battleship.util.Observer
+import de.htwg.se.battleship.aview.tuiInterface
+import de.htwg.se.battleship.controller.ControllerInterface
+
+import scala.util.*
 import scala.util.control.NonLocalReturns.*
-import controller.*
-import util.*
 
-import scala.util.Try
-
-class TUI(controller: Controller) extends Observer {
+class TUI(controller: ControllerInterface) extends tuiInterface with Observer {
   controller.add(this)
 
-  var shipStart: String = ""
+  private var shipStart: String = ""
 
-  def processInputLine(input: String): Unit = {
+  override def processInputLine(input: String): Unit = {
 
     if (controller.state.grid.ships.shipCountValid()) {
       if (shipStart.equals("")) {
@@ -37,7 +38,7 @@ class TUI(controller: Controller) extends Observer {
   }
 
 
-  def addShotInput(input: String): Int = {
+  override def addShotInput(input: String): Int = {
     if (!controller.isValid(input)) {
       println("Wrong input: " + input)
       println("Format example: <h6>\n")
@@ -57,15 +58,15 @@ class TUI(controller: Controller) extends Observer {
 
   }
 
-  def checkFired(input: String): Boolean = controller.alreadyFired(controller.getX(input), controller.getY(input))
+  override def checkFired(input: String): Boolean = controller.alreadyFired(controller.getX(input), controller.getY(input))
 
 
-  def removeShip(): Unit = controller.undo()
+  override def removeShip(): Unit = controller.undo()
 
-  def redoShip(): Unit = controller.redo()
+  override def redoShip(): Unit = controller.redo()
 
 
-  def addShipInput(start: String, ende: String): Unit = {
+  override def addShipInput(start: String, ende: String): Unit = {
 
     val e = Try(
 
@@ -91,7 +92,7 @@ class TUI(controller: Controller) extends Observer {
 
   }
 
-  def shipStartInput(line1: String): Unit = {
+  override def shipStartInput(line1: String): Unit = {
 
     val e = Try(
 

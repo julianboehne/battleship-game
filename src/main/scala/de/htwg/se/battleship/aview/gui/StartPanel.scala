@@ -1,10 +1,9 @@
 package de.htwg.se.battleship.aview.gui
 
-import de.htwg.se.battleship.controller.Controller
-
 import scala.swing.{BorderPanel, Label}
 import de.htwg.se.battleship.controller.*
 import de.htwg.se.battleship.aview.*
+import de.htwg.se.battleship.controller.controllerImpl.Controller
 import de.htwg.se.battleship.util.Observer
 import scala.swing.event.*
 
@@ -17,7 +16,7 @@ import java.awt.FlowLayout
 import javax.swing.JFrame
 import javax.swing.JTextField
 
-case class StartPanel(controller: Controller, gui: GUI) {
+case class StartPanel(controller: ControllerInterface, gui: GUI) {
 
 
   def contentPanel = new BorderPanel {

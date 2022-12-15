@@ -1,8 +1,8 @@
-package de.htwg.se.battleship.model
+package de.htwg.se.battleship.model.gridImpl
 
 import de.htwg.se.battleship.model.*
 
-case class GridForShots(size: Int, grid: Grid) extends GridTemplate {
+case class GridForShots(size: Int, grid: GridInterface) extends GridTemplate {
 
   // Strategy
   override def vertical(width: Int, count: Int, x: Int): String =
@@ -12,13 +12,13 @@ case class GridForShots(size: Int, grid: Grid) extends GridTemplate {
 
 
   def loop(i: Int): String = {
-    if (i == grid.shots.X.size - 1 || grid.shots.X.size == 1) {
-      val str = field(width, size, grid.shots.getX(i), grid.shots.getY(i))
+    if (i == grid.getShots().X.size - 1 || grid.getShots().X.size == 1) {
+      val str = field(width, size, grid.getShots().getX(i), grid.getShots().getY(i))
       if (grid.getHit(i)) return str
       val strHit = str.replace('X', 'O')
       return strHit
     }
-    val str0 = field(width, size, grid.shots.getX(i), grid.shots.getY(i))
+    val str0 = field(width, size, grid.getShots().getX(i), grid.getShots().getY(i))
     val index = str0.indexOf('X')
 
     if (grid.getHit(i)) {

@@ -1,4 +1,4 @@
-package de.htwg.se.battleship.model
+package de.htwg.se.battleship.model.gridImpl
 
 //Template
 abstract class GridTemplate {

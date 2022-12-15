@@ -1,6 +1,7 @@
 package de.htwg.se.battleship.model
 
 
+import de.htwg.se.battleship.model.gridImpl.Ship
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
 
