@@ -1,30 +1,25 @@
 package de.htwg.se.battleship
 
-import de.htwg.se.battleship.model.*
-import de.htwg.se.battleship.aview.*
+import de.htwg.se.battleship.aview.TUI
 import de.htwg.se.battleship.aview.gui.GUI
-import de.htwg.se.battleship.aview.tuiImpl.TUI
+import de.htwg.se.battleship.controller.ControllerInterface
 import de.htwg.se.battleship.controller.controllerImpl.Controller
-import de.htwg.se.battleship.model.gridImpl.{Grid, Ship, ShipContainer, Shots}
-import de.htwg.se.battleship.model.state.Player1State
 
 import scala.io.StdIn.readLine
 
 object Battleship {
   
-  val controller: Controller = Controller()
+  val controller: ControllerInterface = Controller()
   val tui: TUI = TUI(controller)
   val gui = new GUI(controller)
 
 
   def main(args: Array[String]): Unit = {
     println("Welcome to Battleship-Game\n")
-
-
     var input: String = ""
 
     while (true) {
-      println(controller.state.playerName)
+      //println(controller.state.playerName)
       input = readLine()
       if (input.equals("q")) return
       tui.processInputLine(input)

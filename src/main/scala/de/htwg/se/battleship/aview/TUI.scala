@@ -1,19 +1,18 @@
-package de.htwg.se.battleship.aview.tuiImpl
+package de.htwg.se.battleship.aview
 
+import de.htwg.se.battleship.controller.ControllerInterface
 import de.htwg.se.battleship.controller.controllerImpl.Controller
 import de.htwg.se.battleship.util.Observer
-import de.htwg.se.battleship.aview.tuiInterface
-import de.htwg.se.battleship.controller.ControllerInterface
 
 import scala.util.*
 import scala.util.control.NonLocalReturns.*
 
-class TUI(controller: ControllerInterface) extends tuiInterface with Observer {
+class TUI(controller: ControllerInterface) extends Observer {
   controller.add(this)
 
   private var shipStart: String = ""
 
-  override def processInputLine(input: String): Unit = {
+  def processInputLine(input: String): Unit = {
 
     if (controller.state.grid.ships.shipCountValid()) {
       if (shipStart.equals("")) {
@@ -23,22 +22,18 @@ class TUI(controller: ControllerInterface) extends tuiInterface with Observer {
         shipStart = ""
       }
 
-
       println("change")
       controller.changeState()
 
-
     } else {
-
       if (addShotInput(input) == 0) controller.changeState()
-
     }
 
 
   }
 
 
-  override def addShotInput(input: String): Int = {
+  def addShotInput(input: String): Int = {
     if (!controller.isValid(input)) {
       println("Wrong input: " + input)
       println("Format example: <h6>\n")
@@ -58,15 +53,15 @@ class TUI(controller: ControllerInterface) extends tuiInterface with Observer {
 
   }
 
-  override def checkFired(input: String): Boolean = controller.alreadyFired(controller.getX(input), controller.getY(input))
+  def checkFired(input: String): Boolean = controller.alreadyFired(controller.getX(input), controller.getY(input))
 
 
-  override def removeShip(): Unit = controller.undo()
+  def removeShip(): Unit = controller.undo()
 
-  override def redoShip(): Unit = controller.redo()
+  def redoShip(): Unit = controller.redo()
 
 
-  override def addShipInput(start: String, ende: String): Unit = {
+  def addShipInput(start: String, ende: String): Unit = {
 
     val e = Try(
 
@@ -92,7 +87,7 @@ class TUI(controller: ControllerInterface) extends tuiInterface with Observer {
 
   }
 
-  override def shipStartInput(line1: String): Unit = {
+  def shipStartInput(line1: String): Unit = {
 
     val e = Try(
 
