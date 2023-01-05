@@ -2,33 +2,39 @@ package de.htwg.se.battleship.model.gridImpl
 
 import de.htwg.se.battleship.model.*
 
-case class GridForShots(size: Int, grid: GridInterface) extends GridTemplate {
+case class GridForShots(size: Int, grid: Vector[String]) extends GridTemplate {
 
   // Strategy
-  override def vertical(width: Int, count: Int, x: Int): String =
-    ("|" + " " * width) * (x - 1) + ("|" + "  X ") + ("|" + " " * width) * (count - x) + "|" + nextline
+  /*override def vertical(width: Int, count: Int, x: Int): String =
+    ("|" + " " * width) * (x - 1) + ("|" + "  X ") + ("|" + " " * width) * (count - x) + "|" + nextline*/
 
-  def fullField: String = loop(0)
+  override def vertical(width: Int, count: Int, row: Int): String = {
+    val width2 = width - 2
+    val area = row * 10
 
+    val x: Vector[String] = grid.slice(area,area + 10)
+    var str3 = ""
+    x.indices.foreach(f =>
+      if (x(f).length != 2) {
+        str3 = str3 + " " * (width2/2 + 1) + x(f) + " " * (width2/2) + "|"
+      } else {
+        str3 = str3 + " " * (width2/2) + x(f) + " " * (width2/2) + "|"
+      }
+    )
 
-  def loop(i: Int): String = {
-    if (i == grid.getShots().X.size - 1 || grid.getShots().X.size == 1) {
-      val str = field(width, size, grid.getShots().getX(i), grid.getShots().getY(i))
-      if (grid.getHit(i)) return str
-      val strHit = str.replace('X', 'O')
-      return strHit
-    }
-    val str0 = field(width, size, grid.getShots().getX(i), grid.getShots().getY(i))
-    val index = str0.indexOf('X')
-
-    if (grid.getHit(i)) {
-      val str1 = loop(i + 1).substring(0, index) + "X" + loop(i + 1).substring(index + 1)
-      return str1
-    }
-    val str1 = loop(i + 1).substring(0, index) + "O" + loop(i + 1).substring(index + 1)
-    str1
+    val str0 = "|" + str3 + nextline
+    str0
 
   }
+
+  def fullField: String = field(width, size)
+
+  override def field(width: Int, count: Int): String = {
+    (horizontal(width, count) + vertical(width, count, 0)) * count + horizontal(width, count)
+  }
+
+
+
 
   override def toString: String = fullField
 

@@ -100,7 +100,7 @@ class Controller() extends ControllerInterface with Observable {
   override def getY(input: String): Int = "(10)|([1-9])".r.findAllIn(input).mkString.toInt
 
   
-  
+
 
   override def toString: String = state.grid.getGridShots
 

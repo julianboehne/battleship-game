@@ -22,8 +22,17 @@ case class Shots(
   
   def getX(index: Int): Int = X(index)
 
-
   def getY(index: Int): Int = Y(index)
+
+  def getLatestX: Int = {
+    if (X.isEmpty) return -1
+    X(X.size - 1)
+  }
+
+  def getLatestY: Int = {
+    if (Y.isEmpty) return -1
+    Y(Y.size - 1)
+  }
 
 
 }
