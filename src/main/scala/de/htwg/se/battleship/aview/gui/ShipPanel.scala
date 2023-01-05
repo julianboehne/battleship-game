@@ -19,18 +19,18 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
   override def update: Unit = println(controller.GridShipToString)
 
   def contentPanel = new BorderPanel {
-    //controller.state = controller.player1
-    add(new Label("Battleship Game"), BorderPanel.Position.North) // Label-Bar
+    add(gui.headline, BorderPanel.Position.North) // Label-Bar
 
     add(new CellPanel(), BorderPanel.Position.West) // Game Field
-    add(label,BorderPanel.Position.East)
+    add(player, BorderPanel.Position.Center)
 
-
-    //controller.changeState()
-    //add(new CellPanel(), BorderPanel.Position.East)
   }
-  val label = new Label {
+
+
+
+  val player = new Label {
     text = controller.state.playerName
+    font = new Font("Serif", 0, 22)
   }
 
   class CellPanel() extends GridPanel(10, 10):
@@ -38,7 +38,7 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
     printField
 
     def printField =
-      controller.board.map(x => contents += new CellButton(x))
+      controller.state.board.map(x => contents += new CellButton(x))
 
     def test(): Unit = {
 
@@ -60,7 +60,7 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
     reactions += {
 
       case ButtonClicked(button) =>
-        label.foreground = new Color(0, 0, 0)
+        player.foreground = new Color(0, 0, 0)
         if (pos1.equals("") && pos2.equals("")) {
           button.text = "start"
           pos1 = pos
@@ -72,17 +72,21 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
 
             if (!controller.checkShip(controller.getX(pos1), controller.getY(pos1), controller.getX(pos2), controller.getY(pos2))) {
               println("invalid Ship Position")
-              label.text = "invalid Ship Position"
-              label.foreground = new Color(217, 113, 113)
+              player.text = "invalid Ship Position"
+              player.foreground = new Color(217, 113, 113)
 
             } else {
               controller.set(controller.getX(pos1), controller.getY(pos1), controller.getX(pos2), controller.getY(pos2))
               println("Ship implemented")
-              label.text = "Ship implemented"
-              label.foreground = new Color(127, 224, 126)
+              player.text = "Ship implemented"
+              player.foreground = new Color(127, 224, 126)
             }
           )
-          if (e.isFailure) println("invalid")
+          if (e.isFailure) {
+            println("invalid Ship Position")
+            player.text = "invalid Ship Position"
+            player.foreground = new Color(217, 113, 113)
+          }
 
           button.text = pos2
           button1.text = pos1

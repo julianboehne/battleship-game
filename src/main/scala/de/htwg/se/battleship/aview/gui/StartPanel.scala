@@ -18,9 +18,15 @@ import javax.swing.JTextField
 
 case class StartPanel(controller: ControllerInterface, gui: GUI) {
 
+  val headline = new Label {
+    text = "Welcome to Battleship Game"
+    foreground = new Color(0, 0, 0)
+    font = new Font("Serif", 0, 24)
+  }
+
 
   def contentPanel = new BorderPanel {
-    add(new Label("Welcome to Battleship Game"), BorderPanel.Position.North)
+    add(headline, BorderPanel.Position.North)
     add(new startGame, BorderPanel.Position.Center)
 
     //border = EmptyBorder(350, 400, 350, 400)

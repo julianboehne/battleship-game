@@ -6,8 +6,10 @@ trait PlayerState {
 
   val playerName: String
 
-  val playerShotName: String
+  val board: Vector[String]
 
   var grid: Grid
+
+  def getBoard(): Vector[String]
 
 }

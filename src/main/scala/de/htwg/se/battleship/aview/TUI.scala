@@ -22,8 +22,11 @@ class TUI(controller: ControllerInterface) extends Observer {
         shipStart = ""
       }
 
-      println("change")
-      controller.changeState()
+
+      if (!controller.state.grid.ships.shipCountValid()){
+        controller.changeState()
+        println("Player change")
+      }
 
     } else {
       if (addShotInput(input) == 0) controller.changeState()

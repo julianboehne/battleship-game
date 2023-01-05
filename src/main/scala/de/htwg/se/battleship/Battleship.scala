@@ -21,7 +21,7 @@ object Battleship {
     while (true) {
       //println(controller.state.playerName)
       input = readLine()
-      if (input.equals("q")) return
+      if (input.equals("q")) System.exit(0)
       tui.processInputLine(input)
       gui.update
     }

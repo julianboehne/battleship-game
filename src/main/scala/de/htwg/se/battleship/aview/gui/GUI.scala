@@ -27,6 +27,12 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
   def changeToShotPanel(): Unit =
     frame.contents = shotPanel.contentPanel
 
+  val headline = new Label {
+    text = "Battleship Game"
+    foreground = new Color(0, 0, 0)
+    font = new Font("Serif", 0, 24)
+  }
+
   override def update: Unit = {
     //println(controller.toString)
     if (!controller.player1.grid.ships.shipCountValid() && !controller.player2.grid.ships.shipCountValid()) {
@@ -37,31 +43,48 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
   }
 
 
+
   val frame = new Frame {
     title = "Battleship Game"
     preferredSize = new Dimension(1250, 750)
     resizable = false
 
     menuBar = new MenuBar {
-      contents += new Menu("New") {
-        contents += new MenuItem(Action("New") {
+      contents += new Menu("Options") {
+        contents += new MenuItem(Action("New Game") {
           //new Game
+        })
+        contents += new MenuItem(Action("Exit") {
+          System.exit(0)
         })
       }
 
       contents += new Menu("Edit") {
-        contents += new MenuItem(Action("Undo") {
-          controller.undo()
+        contents += new MenuItem(Action("Undo Ship") {
+          if (!controller.state.grid.ships.shipCountValid() || controller.state.grid.ships.getSize == 0) {
+            println("invalid command")
+            Dialog.showMessage(message = new Label("invalid command").peer)
+          } else controller.undo()
 
         })
-        contents += new MenuItem(Action("Redo") {
-          controller.redo()
+        contents += new MenuItem(Action("Redo Ship") {
+          if (!controller.state.grid.ships.shipCountValid()) {
+            println("invalid command")
+            Dialog.showMessage(message = new Label("invalid command").peer)
+          } else controller.redo()
+
 
         })
         contents += new MenuItem(Action("Auto Implement Ships") {
-          controller.autoShips()
-          if (controller.state == controller.player1) changeToShipPanel2()
-          else changeToShotPanel()
+
+          if (controller.state.grid.ships.getSize != 0 || !controller.state.grid.ships.shipCountValid()) {
+            println("invalid command")
+            Dialog.showMessage(message = new Label("invalid command").peer)
+          } else {
+            controller.autoShips()
+            if (controller.state == controller.player1) changeToShipPanel2()
+            else changeToShotPanel()
+          }
 
         })
 

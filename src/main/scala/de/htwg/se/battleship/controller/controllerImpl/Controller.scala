@@ -100,16 +100,7 @@ class Controller() extends ControllerInterface with Observable {
   override def getY(input: String): Int = "(10)|([1-9])".r.findAllIn(input).mkString.toInt
 
   
-  override def getBoard(): Vector[String] =
-    board.indices.map(x => {
-      if (state.grid.shots.wasShot(getX(board(x)), getY(board(x)))) {
-        if (state.grid.ships.isHit(getX(board(x)), getY(board(x)))) {
-          "X"
-        }
-        else "0"
-      } else board(x)
-
-    }).toVector
+  
 
   override def toString: String = state.grid.getGridShots
 
