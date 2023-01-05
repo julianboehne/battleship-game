@@ -15,10 +15,9 @@ import scala.swing.*
 case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer:
 
 
-  override def update: Unit = println(controller.GridShipToString)
+  override def update: Unit = gui.update
 
   def contentPanel = new BorderPanel {
-    //controller.state = controller.player1
     add(gui.headline, BorderPanel.Position.North)     // Label-Bar
     add(new CellPanel1(), BorderPanel.Position.West)  // Player1 Field
     add(new CellPanel2(), BorderPanel.Position.East)  // Player2 Field
@@ -51,23 +50,22 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
     reactions += {
 
       case ButtonClicked(button) =>
-        if (button.text.equals("X")) {
-          println("You already fired there")
-          Dialog.showMessage(message = new Label("You already fired there").peer)
-        } else {
-          button.text = "0"
 
-          val x = controller.getX(pos)
-          val y = controller.getY(pos)
-          if (controller.alreadyFired(x, y)) {
+          if (button.text == "0" || button.text == "X") {
             println("You already fired there")
             Dialog.showMessage(message = new Label("You already fired there").peer)
           } else {
-            controller.state = player
-            controller.addShot(x, y)
-            if (player.grid.ships.isHit(x, y)) button.text = "X"
+            val x = controller.getX(pos)
+            val y = controller.getY(pos)
+            if (controller.state != player) {
+              println(controller.state.playerName + "'s turn'")
+              Dialog.showMessage(message = new Label(controller.state.playerName + "'s turn'").peer)
+            } else {
+              controller.addShot(x, y)
+              controller.changeState()
+            }
 
           }
-        }
+          update
 
     }

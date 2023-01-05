@@ -34,7 +34,6 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
   }
 
   override def update: Unit = {
-    //println(controller.toString)
     if (!controller.player1.grid.ships.shipCountValid() && !controller.player2.grid.ships.shipCountValid()) {
       changeToShotPanel()
     } else if (!controller.player1.grid.ships.shipCountValid()) {
