@@ -14,9 +14,13 @@ case class GridForShots(size: Int, grid: Vector[String]) extends GridTemplate {
 
     val x: Vector[String] = grid.slice(area,area + 10)
     var str3 = ""
+
+
     x.indices.foreach(f =>
-      if (x(f).length != 2) {
-        str3 = str3 + " " * (width2/2 + 1) + x(f) + " " * (width2/2) + "|"
+      if (x(f).length == 1) {
+        str3 = str3 + " " * (width2 / 2 + 1) + x(f) + " " * (width2 / 2) + "|"
+      } else if (x(f).length == 3) {
+        str3 = str3 + " " * (width2 / 2) + x(f) + " " * (width2 / 2 - 1) + "|"
       } else {
         str3 = str3 + " " * (width2/2) + x(f) + " " * (width2/2) + "|"
       }
@@ -30,10 +34,11 @@ case class GridForShots(size: Int, grid: Vector[String]) extends GridTemplate {
   def fullField: String = field(width, size)
 
   override def field(width: Int, count: Int): String = {
-    (horizontal(width, count) + vertical(width, count, 0)) * count + horizontal(width, count)
+    var str1 = ""
+    (0 until count).foreach(i => str1 += horizontal(width, count) + vertical(width, count, i))
+    val str2 = str1 + horizontal(width, count)
+    str2
   }
-
-
 
 
   override def toString: String = fullField
