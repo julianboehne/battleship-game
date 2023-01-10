@@ -4,6 +4,8 @@ import de.htwg.se.battleship.model.gridImpl.*
 
 trait GridInterface {
 
+  val board: Vector[String]
+
   def getGridShots: String
 
   def getHit(i: Int): Boolean
@@ -15,5 +17,7 @@ trait GridInterface {
   def getSize(): Int
 
   def getShips(): ShipContainer
+
+  def getBoard(): Vector[String]
 
 }

@@ -34,9 +34,9 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
   }
 
   override def update: Unit = {
-    if (!controller.player1.grid.ships.shipCountValid() && !controller.player2.grid.ships.shipCountValid()) {
+    if (!controller.player1.grid.getShips().shipCountValid() && !controller.player2.grid.getShips().shipCountValid()) {
       changeToShotPanel()
-    } else if (!controller.player1.grid.ships.shipCountValid()) {
+    } else if (!controller.player1.grid.getShips().shipCountValid()) {
       changeToShipPanel2()
     }
   }
@@ -60,14 +60,14 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
 
       contents += new Menu("Edit") {
         contents += new MenuItem(Action("Undo Ship") {
-          if (!controller.state.grid.ships.shipCountValid() || controller.state.grid.ships.getSize == 0) {
+          if (!controller.state.grid.getShips().shipCountValid() || controller.state.grid.getShips().getSize == 0) {
             println("invalid command")
             Dialog.showMessage(message = new Label("invalid command").peer)
           } else controller.undo()
 
         })
         contents += new MenuItem(Action("Redo Ship") {
-          if (!controller.state.grid.ships.shipCountValid()) {
+          if (!controller.state.grid.getShips().shipCountValid()) {
             println("invalid command")
             Dialog.showMessage(message = new Label("invalid command").peer)
           } else controller.redo()
@@ -76,7 +76,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         })
         contents += new MenuItem(Action("Auto Implement Ships") {
 
-          if (controller.state.grid.ships.getSize != 0 || !controller.state.grid.ships.shipCountValid()) {
+          if (controller.state.grid.getShips().getSize != 0 || !controller.state.grid.getShips().shipCountValid()) {
             println("invalid command")
             Dialog.showMessage(message = new Label("invalid command").peer)
           } else {

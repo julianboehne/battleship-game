@@ -14,7 +14,7 @@ class TUI(controller: ControllerInterface) extends Observer {
 
   def processInputLine(input: String): Unit = {
 
-    if (controller.state.grid.ships.shipCountValid()) {
+    if (controller.state.grid.getShips().shipCountValid()) {
       if (shipStart.equals("")) {
         shipStartInput(input)
       } else {
@@ -23,7 +23,7 @@ class TUI(controller: ControllerInterface) extends Observer {
       }
 
 
-      if (!controller.state.grid.ships.shipCountValid()){
+      if (!controller.state.grid.getShips().shipCountValid()){
         controller.changeState()
         println("Player change")
       }
@@ -77,12 +77,12 @@ class TUI(controller: ControllerInterface) extends Observer {
     )
     if (e.isFailure) println("invalid")
     else {
-      if (!controller.state.grid.ships.shipPosition()) {
+      if (!controller.state.grid.getShips().shipPosition()) {
         controller.undo()
         println("You already place a ship at this position!")
       }
 
-      if (!controller.state.grid.ships.shipSingleCountValid()) {
+      if (!controller.state.grid.getShips().shipSingleCountValid()) {
         controller.undo()
         println("Ship is not valid anymore")
       }

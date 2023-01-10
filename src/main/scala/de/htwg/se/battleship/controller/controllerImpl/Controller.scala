@@ -8,12 +8,12 @@ import de.htwg.se.battleship.model.state.{Player1State, Player2State, PlayerStat
 import de.htwg.se.battleship.util.{Observable, UndoManager}
 
 import scala.util.control.NonLocalReturns.*
+import com.google.inject.{Guice, Inject}
 
 
-class Controller() extends ControllerInterface with Observable {
+class Controller @Inject() (override val grid: GridInterface) extends ControllerInterface with Observable {
 
   private val undoManager = new UndoManager
-  
 
   override def changeState(): Unit = {
     state match
@@ -23,30 +23,30 @@ class Controller() extends ControllerInterface with Observable {
 
 
   override def addShot(x: Int, y: Int): Unit = {
-    state.grid = Grid(gridSize, state.grid.shots.addShot(x, y), state.grid.ships)
+    state.grid = Grid(grid.getSize(), state.grid.getShots().addShot(x, y), state.grid.getShips())
     notifyObservers
   }
 
   override def isSunk(index: Int): Boolean = returning {
-    (0 until state.grid.ships.shipsVector(index).size).foreach(i =>
-      if (!state.grid.shots.wasShot(state.grid.ships.shipsVector(index).getX(i), state.grid.ships.shipsVector(index).getY(i))) throwReturn(false)
+    (0 until state.grid.getShips().shipsVector(index).size).foreach(i =>
+      if (!state.grid.getShots().wasShot(state.grid.getShips().shipsVector(index).getX(i), state.grid.getShips().shipsVector(index).getY(i))) throwReturn(false)
     )
     true
 
   }
 
   override def isLost(): Boolean = returning {
-    state.grid.ships.shipsVector.indices.foreach(i =>
+    state.grid.getShips().shipsVector.indices.foreach(i =>
       if (!isSunk(i)) throwReturn(false)
     )
     true
   }
 
-  override def checkShip(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = state.grid.ships.isValid(x1, y1, x2, y2)
+  override def checkShip(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = state.grid.getShips().isValid(x1, y1, x2, y2)
 
   override def alreadyFired(x: Int, y: Int): Boolean = returning {
-    state.grid.shots.X.indices.foreach(i =>
-      if (state.grid.shots.X(i) == x && state.grid.shots.Y(i) == y)
+    state.grid.getShots().X.indices.foreach(i =>
+      if (state.grid.getShots().X(i) == x && state.grid.getShots().Y(i) == y)
         throwReturn(true)
     )
     false

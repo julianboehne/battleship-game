@@ -1,13 +1,13 @@
 package de.htwg.se.battleship.controller
 
+import de.htwg.se.battleship.model.GridInterface
 import de.htwg.se.battleship.model.gridImpl.{Grid, Ship, ShipContainer, Shots}
 import de.htwg.se.battleship.model.state.{Player1State, Player2State, PlayerState}
 import de.htwg.se.battleship.util.{Observable, UndoManager}
 
 
 trait ControllerInterface extends Observable {
-  val gridSize = 10
-  val grid: Grid = Grid(gridSize, Shots(Vector[Int](), Vector[Int]()), ShipContainer(Vector[Ship]()))
+  val grid: GridInterface
 
   def changeState(): Unit
 

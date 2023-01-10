@@ -1,5 +1,6 @@
 package de.htwg.se.battleship.model.state
 
+import de.htwg.se.battleship.model.GridInterface
 import de.htwg.se.battleship.model.gridImpl.Grid
 
 trait PlayerState {
@@ -8,7 +9,7 @@ trait PlayerState {
 
   val board: Vector[String]
 
-  var grid: Grid
+  var grid: GridInterface
 
   def getBoard(): Vector[String]
 

@@ -93,7 +93,7 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
 
           pos1 = ""
           pos2 = ""
-          if (!controller.state.grid.ships.shipCountValid()) {
+          if (!controller.state.grid.getShips().shipCountValid()) {
             println("All ships done")
             if (controller.state == controller.player1) gui.changeToShipPanel2()
             else gui.changeToShotPanel()
