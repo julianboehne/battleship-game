@@ -1,6 +1,8 @@
 package de.htwg.se.battleship.aview.gui
 
 import de.htwg.se.battleship.controller.*
+import de.htwg.se.battleship.controller.GameState.*
+
 import de.htwg.se.battleship.aview.*
 import de.htwg.se.battleship.controller.controllerImpl.Controller
 import de.htwg.se.battleship.util.Observer
@@ -30,7 +32,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
   val headline = new Label {
     text = "Battleship Game"
     foreground = new Color(0, 0, 0)
-    font = new Font("Serif", 0, 24)
+    font = new Font("Sans Serif", 0, 24)
   }
 
   override def update: Unit = {
@@ -94,13 +96,18 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
     listenTo(startPanel.startGameButton)
     reactions += {
       case ButtonClicked(b) =>
-        if (startPanel.player1.text.trim.isEmpty || startPanel.player2.text.trim.isEmpty) {
-          Dialog.showMessage(contents.head, "Text field must not be empty!")
-        } else {
-          // startPanel.player1.text = Player 1 Name
-          // startPanel.player2.text = Player 2 Name
-          changeToShipPanel1()
-        }
+
+        // startPanel.player1.text = Player 1 Name
+        // startPanel.player2.text = Player 2 Name
+        controller.state = controller.player1
+        controller.setPlayerName(startPanel.player1.text)
+        controller.state = controller.player2
+        controller.setPlayerName(startPanel.player2.text)
+        //controller.state = controller.player1
+
+
+        changeToShipPanel1()
+
     }
     contents = startPanel.contentPanel
 

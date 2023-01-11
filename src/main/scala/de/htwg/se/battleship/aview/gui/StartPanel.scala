@@ -21,29 +21,22 @@ case class StartPanel(controller: ControllerInterface, gui: GUI) {
   val headline = new Label {
     text = "Welcome to Battleship Game"
     foreground = new Color(0, 0, 0)
-    font = new Font("Serif", 0, 24)
+    font = new Font("Sans Serif", 0, 24)
   }
 
 
   def contentPanel = new BorderPanel {
     add(headline, BorderPanel.Position.North)
     add(new startGame, BorderPanel.Position.Center)
-
-    //border = EmptyBorder(350, 400, 350, 400)
-    // Label-Bar#
-    //
-    //add(textField, BorderPanel.Position.South)
-    //add(submitButton, BorderPanel.Position.South)
-
-
+    
   }
 
   val player1 = new TextField {
-    text = "Player1"
+    text = ""
     columns = 19
   }
   val player2 = new TextField {
-    text = "Player2"
+    text = ""
     columns = 10
   }
   val startGameButton = new Button("Start Game")

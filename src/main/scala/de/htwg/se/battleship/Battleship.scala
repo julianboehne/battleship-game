@@ -21,7 +21,7 @@ object Battleship {
 
   def main(args: Array[String]): Unit = {
     println("Welcome to Battleship-Game\n")
-    println(controller.GridShipToString)
+    //println(controller.GridShipToString)
     var input: String = ""
 
     while (true) {

@@ -3,7 +3,7 @@ package de.htwg.se.battleship.aview.gui
 import de.htwg.se.battleship.controller.*
 import de.htwg.se.battleship.aview.*
 import de.htwg.se.battleship.controller.controllerImpl.Controller
-import de.htwg.se.battleship.model.state.PlayerState
+import de.htwg.se.battleship.controller.state.{Player1State, Player2State, PlayerState}
 import de.htwg.se.battleship.util.Observer
 
 import javax.management.Notification
@@ -18,10 +18,23 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
   override def update: Unit = gui.update
 
   def contentPanel = new BorderPanel {
-    add(gui.headline, BorderPanel.Position.North)     // Label-Bar
-    add(new CellPanel1(), BorderPanel.Position.West)  // Player1 Field
-    add(new CellPanel2(), BorderPanel.Position.East)  // Player2 Field
-    add(new Label("Shot Panel"), BorderPanel.Position.South)  // Panel Label
+    add(p, BorderPanel.Position.North)
+    add(test, BorderPanel.Position.Center)
+  }
+
+  def p = new BorderPanel {
+    add(gui.headline, BorderPanel.Position.North) // Label-Bar
+    add(new Label(controller.player1.getPlayerName), BorderPanel.Position.West) // Player1 Field
+    add(new Label(controller.player2.getPlayerName), BorderPanel.Position.East) // Player2 Field
+  }
+
+  def test = new BorderPanel {
+
+    add(new CellPanel1(), BorderPanel.Position.West) // Player1 Field
+    add(new CellPanel2(), BorderPanel.Position.East) // Player2 Field
+    controller.changeState()
+    add(new Label(controller.state.getPlayerName), BorderPanel.Position.South) // Panel Label
+    controller.changeState()
   }
 
   //Player1 Grid
@@ -43,8 +56,8 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
 
   class CellButton(pos: String, player: PlayerState) extends Button(pos):
     player match
-      case controller.player1 => this.background = new Color(151, 164, 222)
-      case controller.player2 => this.background = new Color(151, 222, 178)
+      case _: Player1State => this.background = new Color(151, 164, 222)
+      case _: Player2State => this.background = new Color(151, 222, 178)
     listenTo(mouse.clicks)
     //listenTo(keys)
     reactions += {
@@ -58,8 +71,8 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
             val x = controller.getX(pos)
             val y = controller.getY(pos)
             if (controller.state != player) {
-              println(controller.state.playerName + "'s turn'")
-              Dialog.showMessage(message = new Label(controller.state.playerName + "'s turn'").peer)
+              println(controller.state.getPlayerName + "'s turn'")
+              Dialog.showMessage(message = new Label(controller.state.getPlayerName + "'s turn'").peer)
             } else {
               controller.addShot(x, y)
               controller.changeState()

@@ -3,7 +3,7 @@ package de.htwg.se.battleship.aview.gui
 import de.htwg.se.battleship.controller.*
 import de.htwg.se.battleship.aview.*
 import de.htwg.se.battleship.controller.controllerImpl.Controller
-import de.htwg.se.battleship.model.state.PlayerState
+import de.htwg.se.battleship.controller.state.{Player1State, Player2State, PlayerState}
 import de.htwg.se.battleship.util.Observer
 
 import javax.management.Notification
@@ -22,15 +22,28 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
     add(gui.headline, BorderPanel.Position.North) // Label-Bar
 
     add(new CellPanel(), BorderPanel.Position.West) // Game Field
+    // Player Name
     add(player, BorderPanel.Position.Center)
+    player.foreground = new Color(0, 0, 0)
+    player.text = controller.state.getPlayerName
+
+    add(info, BorderPanel.Position.East)
+    info.foreground = new Color(0, 0, 0)
+    info.text = "Please try to implement your Ships!"
+
 
   }
 
 
 
-  val player = new Label {
-    text = controller.state.playerName
-    font = new Font("Serif", 0, 22)
+  val player: Label = new Label {
+    text = controller.state.getPlayerName
+    font = new Font("Sans Serif", 0, 22)
+  }
+
+  val info: Label = new Label {
+    text = "Please try to implement your Ships!"
+    font = new Font("Sans Serif", 0, 22)
   }
 
   class CellPanel() extends GridPanel(10, 10):
@@ -52,15 +65,15 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
     //this.background = new Color(151, 164, 222)
 
     controller.state match
-      case controller.player1 => this.background = new Color(151, 164, 222)
-      case controller.player2 => this.background = new Color(151, 222, 178)
+      case _: Player1State => this.background = new Color(151, 164, 222)
+      case _: Player2State => this.background = new Color(151, 222, 178)
 
     listenTo(mouse.clicks)
     listenTo(keys)
     reactions += {
 
       case ButtonClicked(button) =>
-        player.foreground = new Color(0, 0, 0)
+        info.foreground = new Color(0, 0, 0)
         if (pos1.equals("") && pos2.equals("")) {
           button.text = "start"
           pos1 = pos
@@ -72,20 +85,20 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
 
             if (!controller.checkShip(controller.getX(pos1), controller.getY(pos1), controller.getX(pos2), controller.getY(pos2))) {
               println("invalid Ship Position")
-              player.text = "invalid Ship Position"
-              player.foreground = new Color(217, 113, 113)
+              info.text = "invalid Ship Position"
+              info.foreground = new Color(217, 113, 113)
 
             } else {
               controller.set(controller.getX(pos1), controller.getY(pos1), controller.getX(pos2), controller.getY(pos2))
               println("Ship implemented")
-              player.text = "Ship implemented"
-              player.foreground = new Color(127, 224, 126)
+              info.text = "Ship implemented"
+              info.foreground = new Color(127, 224, 126)
             }
           )
           if (e.isFailure) {
             println("invalid Ship Position")
-            player.text = "invalid Ship Position"
-            player.foreground = new Color(217, 113, 113)
+            info.text = "invalid Ship Position"
+            info.foreground = new Color(217, 113, 113)
           }
 
           button.text = pos2
@@ -95,7 +108,7 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
           pos2 = ""
           if (!controller.state.grid.getShips().shipCountValid()) {
             println("All ships done")
-            if (controller.state == controller.player1) gui.changeToShipPanel2()
+            if (controller.state == controller.player1)gui.changeToShipPanel2()
             else gui.changeToShotPanel()
           }
 

@@ -1,6 +1,7 @@
 package de.htwg.se.battleship.aview
 
-import de.htwg.se.battleship.controller.ControllerInterface
+import de.htwg.se.battleship.controller.*
+import de.htwg.se.battleship.controller.GameState.*
 import de.htwg.se.battleship.controller.controllerImpl.Controller
 import de.htwg.se.battleship.util.Observer
 

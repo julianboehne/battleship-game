@@ -1,19 +1,25 @@
 package de.htwg.se.battleship.controller.controllerImpl
 
 import de.htwg.se.battleship.controller.controllerImpl.SetCommand
-import de.htwg.se.battleship.controller.ControllerInterface
+import de.htwg.se.battleship.controller.{ControllerInterface, GameState}
 import de.htwg.se.battleship.model.*
 import de.htwg.se.battleship.model.gridImpl.Grid
-import de.htwg.se.battleship.model.state.{Player1State, Player2State, PlayerState}
 import de.htwg.se.battleship.util.{Observable, UndoManager}
 
 import scala.util.control.NonLocalReturns.*
 import com.google.inject.{Guice, Inject}
+import de.htwg.se.battleship.controller.GameState.{GameState, PLAYER_CREATE}
+import de.htwg.se.battleship.controller.state.{Player1State, Player2State, PlayerState}
 
 
 class Controller @Inject() (override val grid: GridInterface) extends ControllerInterface with Observable {
 
-  private val undoManager = new UndoManager
+  val undoManager = new UndoManager
+  var gameState: GameState = PLAYER_CREATE
+  var player1: PlayerState = new Player1State(grid, this, "")
+  var player2: PlayerState = new Player2State(grid, this, "")
+
+  var state: PlayerState = player1
 
   override def changeState(): Unit = {
     state match
@@ -98,6 +104,14 @@ class Controller @Inject() (override val grid: GridInterface) extends Controller
   }
 
   override def getY(input: String): Int = "(10)|([1-9])".r.findAllIn(input).mkString.toInt
+
+  override def setPlayerName(name: String): Unit = {
+    state match
+      case _: Player1State => player1 = new Player1State(player1.grid, this, name)
+      case _: Player2State => player2 = new Player2State(player2.grid, this, name)
+  }
+
+  override def GameStateText:String = GameState.message(gameState)
 
   
 
