@@ -16,9 +16,7 @@ class TUI(controller: ControllerInterface) extends Observer {
   var input: String = ""
 
   def processInputLine(): Unit = {
-    controller.changeState()
-    print(controller.state.getPlayerName + ": ")
-    controller.changeState()
+
     println(controller.GameStateText)
     if (controller.gameState == END) {
       println(controller.state.getPlayerName + " has won the game!")

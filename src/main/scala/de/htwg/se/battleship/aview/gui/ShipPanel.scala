@@ -77,11 +77,11 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
       case ButtonClicked(button) =>
         info.foreground = new Color(0, 0, 0)
         if (pos1.equals("") && pos2.equals("")) {
-          button.text = "start"
+          button.text = "\uD83D\uDEA2"
           pos1 = pos
           button1 = this
         } else if (!pos1.equals("") && pos2.equals("")) {
-          button.text = "end"
+          //button.text = "#"
           pos2 = pos
           val e = Try(
 

@@ -13,6 +13,7 @@ case class GridForShots(size: Int, grid: Vector[String]) extends GridTemplate {
 
 
     x.indices.foreach(f =>
+
       if (x(f).length == 1) {
         str3 = str3 + " " * (width2 / 2 + 1) + x(f) + " " * (width2 / 2) + "|"
       } else if (x(f).length == 3) {

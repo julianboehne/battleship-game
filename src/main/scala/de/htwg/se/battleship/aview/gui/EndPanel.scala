@@ -26,7 +26,6 @@ case class EndPanel(controller: ControllerInterface, gui: GUI) {
 
 
   def contentPanel = new BorderPanel {
-    this.background = new Color(170, 241, 242)
     add(headline, BorderPanel.Position.North)
     add(label, BorderPanel.Position.Center)
     label.text = controller.state.getPlayerName + " has won the game!"

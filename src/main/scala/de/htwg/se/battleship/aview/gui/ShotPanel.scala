@@ -28,8 +28,12 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
     add(gui.headline, BorderPanel.Position.North) // Headline
     add(player1Text, BorderPanel.Position.West) // Player1 Field
     add(player2Text, BorderPanel.Position.East) // Player2 Field
-    player1Text.text = "    " + controller.player1.getPlayerName + ": " + controller.player1.grid.getNumberSunk + " ships sunk"
-    player2Text.text = controller.player2.getPlayerName + ": " + controller.player2.grid.getNumberSunk + " ships sunk" + "    "
+    player1Text.text = "    " + controller.player1.getPlayerName + ": "
+      + (controller.player1.grid.getShips().getSize-controller.player1.grid.getNumberSunk)
+      + "\uD83D\uDEA2 " + controller.player1.grid.getNumberSunk + "\uD83D\uDCA5"
+    player2Text.text = controller.player2.getPlayerName + ": "
+      + (controller.player2.grid.getShips().getSize - controller.player2.grid.getNumberSunk)
+      + "\uD83D\uDEA2 " + controller.player2.grid.getNumberSunk + "\uD83D\uDCA5" + "    "
 
   }
 
@@ -72,7 +76,12 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
     printField1
 
     def printField1 =
-      controller.player1.getBoard().map(x => contents += new CellButton(x, controller.player1))
+      controller.player1.getBoard().map(x =>
+        if (x.equals("X")) contents += new CellButton("❌", controller.player1)
+        else if (x.equals("0")) contents += new CellButton("⭕", controller.player1)
+        else contents += new CellButton(x, controller.player1)
+
+      )
 
   //Player2 Grid
   class CellPanel2() extends GridPanel(10, 10):
@@ -80,7 +89,12 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
     printField2
 
     def printField2 =
-      controller.player2.getBoard().map(x => contents += new CellButton(x, controller.player2))
+      controller.player2.getBoard().map(x =>
+        if (x.equals("X")) contents += new CellButton("❌", controller.player2)
+        else if (x.equals("0")) contents += new CellButton("⭕", controller.player2)
+        else contents += new CellButton(x, controller.player2)
+
+      )
 
 
   class CellButton(pos: String, player: PlayerState) extends Button(pos):
@@ -93,7 +107,7 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
 
       case ButtonClicked(button) =>
 
-          if (button.text == "0" || button.text == "X") {
+          if (button.text == "⭕" || button.text == "❌") {
             println("You already fired there")
             Dialog.showMessage(message = new Label("You already fired there").peer)
           } else {
