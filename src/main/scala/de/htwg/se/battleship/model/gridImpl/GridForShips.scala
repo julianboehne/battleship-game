@@ -19,9 +19,6 @@ case class GridForShips(size: Int, ships: ShipContainer) extends GridTemplate {
     }
     val str0 = loopPerShip(0, i)
 
-    /*val index = str0.indexOf("#") // first #
-    val str1 = loopPerShip(0, i + 1).substring(0, index) + "#" + loopPerShip(0, i + 1).substring(index + 1)*/
-
     str0
   }
 

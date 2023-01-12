@@ -27,9 +27,9 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
     // Player Name
     add(player, BorderPanel.Position.Center)
     player.foreground = new Color(0, 0, 0)
-    player.text = controller.state.getPlayerName
+    player.text = controller.state.getPlayerName + ": " + controller.GameStateText
 
-    add(info, BorderPanel.Position.East)
+    add(info, BorderPanel.Position.South)
     info.foreground = new Color(0, 0, 0)
     info.text = "Please try to implement your Ships!"
 
@@ -39,12 +39,12 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
 
 
   val player: Label = new Label {
-    text = controller.state.getPlayerName
+    //text = controller.state.getPlayerName + ": " + controller.GameStateText
     font = new Font("Sans Serif", 0, 22)
   }
 
   val info: Label = new Label {
-    text = "Please try to implement your Ships!"
+    text = controller.GameStateText
     font = new Font("Sans Serif", 0, 22)
   }
 
@@ -92,9 +92,21 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
 
             } else {
               controller.set(controller.getX(pos1), controller.getY(pos1), controller.getX(pos2), controller.getY(pos2))
-              println("Ship implemented")
-              info.text = "Ship implemented"
-              info.foreground = new Color(127, 224, 126)
+              if (!controller.state.grid.getShips().shipSingleCountValid()) {
+                controller.undo()
+                println("Too many ships with this size")
+                info.text = "Too many ships with this size"
+                info.foreground = new Color(217, 113, 113)
+              } else if (!controller.state.grid.getShips().shipPosition()) {
+                controller.undo()
+                println("You already place a ship at this position!")
+                info.text = "You already place a ship at this position!"
+                info.foreground = new Color(217, 113, 113)
+              } else {
+                println("Ship implemented")
+                info.text = "Ship implemented"
+                info.foreground = new Color(127, 224, 126)
+              }
             }
           )
           if (e.isFailure) {

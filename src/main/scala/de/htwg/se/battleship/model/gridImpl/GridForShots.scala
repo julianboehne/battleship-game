@@ -4,10 +4,6 @@ import de.htwg.se.battleship.model.*
 
 case class GridForShots(size: Int, grid: Vector[String]) extends GridTemplate {
 
-  // Strategy
-  /*override def vertical(width: Int, count: Int, x: Int): String =
-    ("|" + " " * width) * (x - 1) + ("|" + "  X ") + ("|" + " " * width) * (count - x) + "|" + nextline*/
-
   override def vertical(width: Int, count: Int, row: Int): String = {
     val width2 = width - 2
     val area = row * 10

@@ -116,7 +116,7 @@ class TUI(controller: ControllerInterface) extends Observer {
 
       if (!controller.state.grid.getShips().shipSingleCountValid()) {
         controller.undo()
-        println("Ship is not valid anymore")
+        println("Too many ships with this size")
       }
     }
 

@@ -61,9 +61,9 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
 
     menuBar = new MenuBar {
       contents += new Menu("Options") {
-        contents += new MenuItem(Action("New Game") {
+        /*contents += new MenuItem(Action("New Game") {
           //new Game
-        })
+        })*/
         contents += new MenuItem(Action("Exit") {
           System.exit(0)
         })
@@ -71,14 +71,14 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
 
       contents += new Menu("Edit") {
         contents += new MenuItem(Action("Undo Ship") {
-          if (!controller.state.grid.getShips().shipCountValid() || controller.state.grid.getShips().getSize == 0) {
+          if (controller.gameState != SHIP_PLAYER1 && controller.gameState != SHIP_PLAYER2) {
             println("invalid command")
             Dialog.showMessage(message = new Label("invalid command").peer)
           } else controller.undo()
 
         })
         contents += new MenuItem(Action("Redo Ship") {
-          if (!controller.state.grid.getShips().shipCountValid()) {
+          if (controller.gameState != SHIP_PLAYER1 && controller.gameState != SHIP_PLAYER2) {
             println("invalid command")
             Dialog.showMessage(message = new Label("invalid command").peer)
           } else controller.redo()

@@ -21,19 +21,22 @@ case class EndPanel(controller: ControllerInterface, gui: GUI) {
   val headline = new Label {
     text = "Game Finished"
     foreground = new Color(0, 0, 0)
-    font = new Font("Sans Serif", 0, 24)
+    font = new Font("Sans Serif", 0, 36)
   }
 
 
   def contentPanel = new BorderPanel {
     add(headline, BorderPanel.Position.North)
-    add(new startGame, BorderPanel.Position.Center)
+    add(label, BorderPanel.Position.Center)
+    label.text = controller.state.getPlayerName + " has won the game!"
 
   }
 
   val label = new Label {
     controller.changeState()
-    text = controller.state.getPlayerName + " has won the game!"
+    font = new Font("Sans Serif", 0, 30)
+    foreground = new Color(94, 199, 2)
+
 
   }
 

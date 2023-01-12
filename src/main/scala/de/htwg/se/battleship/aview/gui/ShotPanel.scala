@@ -28,17 +28,19 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
     add(gui.headline, BorderPanel.Position.North) // Label-Bar
     add(player1Text, BorderPanel.Position.West) // Player1 Field
     add(player2Text, BorderPanel.Position.East) // Player2 Field
+    player1Text.text = controller.player1.getPlayerName
+    player2Text.text = controller.player2.getPlayerName
   }
 
   val player1Text: Label = new Label {
-    text = controller.player1.getPlayerName
-    font = new Font("Sans Serif", 0, 16)
-    foreground = new Color(100,0,0)
+    //text = controller.player1.getPlayerName
+    font = new Font("Sans Serif", 0, 20)
+    foreground = new Color(5, 88, 242)
   }
   val player2Text: Label = new Label {
-    text = controller.player2.getPlayerName
-    font = new Font("Sans Serif", 0, 16)
-    foreground = new Color(0,0,100)
+    //text = controller.player2.getPlayerName
+    font = new Font("Sans Serif", 0, 20)
+    foreground = new Color(17, 171, 3)
   }
 
   def test = new BorderPanel {
@@ -46,15 +48,16 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
     add(new CellPanel1(), BorderPanel.Position.West) // Player1 Field
     add(new CellPanel2(), BorderPanel.Position.East) // Player2 Field
     controller.changeState()
-    add(new Label(controller.state.getPlayerName), BorderPanel.Position.South) // Panel Label
+    add(currPlayer, BorderPanel.Position.South) // Panel Label
+    currPlayer.text = controller.state.getPlayerName
     controller.changeState()
   }
-/*
-  val currPlayer: Label = new Label {
-    text = controller.state.getPlayerName
-    font = new Font("Sans Serif", 0, 16)
 
-  }*/
+  val currPlayer: Label = new Label {
+    //text = controller.state.getPlayerName
+    font = new Font("Sans Serif", 0, 22)
+
+  }
 
   //Player1 Grid
   class CellPanel1() extends GridPanel(10, 10):
@@ -90,8 +93,10 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
             val x = controller.getX(pos)
             val y = controller.getY(pos)
             if (controller.state != player) {
+              controller.changeState()
               println(controller.state.getPlayerName + "'s turn'")
               Dialog.showMessage(message = new Label(controller.state.getPlayerName + "'s turn'").peer)
+              controller.changeState()
             } else {
               controller.addShot(x, y)
               if (controller.isLost()) {
