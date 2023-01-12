@@ -5,39 +5,70 @@ import de.htwg.se.battleship.controller.GameState.*
 import de.htwg.se.battleship.controller.controllerImpl.Controller
 import de.htwg.se.battleship.util.Observer
 
+import scala.io.StdIn.readLine
 import scala.util.*
 import scala.util.control.NonLocalReturns.*
 
 class TUI(controller: ControllerInterface) extends Observer {
   controller.add(this)
 
-  private var shipStart: String = ""
+  var shipStart: String = ""
+  var input: String = ""
 
-  def processInputLine(input: String): Unit = {
-
-    if (controller.state.grid.getShips().shipCountValid()) {
-      if (shipStart.equals("")) {
-        shipStartInput(input)
-      } else {
-        addShipInput(shipStart, input)
-        shipStart = ""
-      }
-
-
-      if (!controller.state.grid.getShips().shipCountValid()){
-        controller.changeState()
-        println("Player change")
-      }
-
-    } else {
-      if (addShotInput(input) == 0) controller.changeState()
+  def processInputLine(): Unit = {
+    print(controller.state.getPlayerName + ": ")
+    println(controller.GameStateText)
+    if (controller.gameState == END) {
+      println(controller.state.getPlayerName + " has won the game!")
     }
+    //Eingabe
+    input = readLine()
+    if (input.equals("q")) System.exit(0)
+
+    controller.gameState match
+      case PLAYER_CREATE1 => addPlayer(input)
+      case PLAYER_CREATE2 => addPlayer(input)
+      case SHIP_PLAYER1 =>
+        if (shipStart.equals("")) {
+          shipStartInput(input)
+        } else {
+          addShipInput(shipStart, input)
+          shipStart = ""
+        }
+      case SHIP_PLAYER2 =>
+        if (shipStart.equals("")) {
+          shipStartInput(input)
+        } else {
+          addShipInput(shipStart, input)
+          shipStart = ""
+        }
+      case SHOTS =>
+        if (addShotInput(input) == 0) controller.changeState()
+        controller.changeState()
+        if (controller.isLost()) controller.gameState = END
+        controller.changeState()
+      case END => println("end")
 
 
   }
 
+  def addPlayer(input: String): Unit = {
+    controller.gameState match
+      case PLAYER_CREATE1 =>
+        controller.state = controller.player1
+        controller.setPlayerName(input)
+        controller.state = controller.player2
+        controller.gameState = PLAYER_CREATE2
+      case PLAYER_CREATE2 =>
+        controller.state = controller.player2
+        controller.setPlayerName(input)
+        controller.state = controller.player1
+        controller.gameState = SHIP_PLAYER1
+  }
+
 
   def addShotInput(input: String): Int = {
+    println(controller.GameStateText)
     if (!controller.isValid(input)) {
       println("Wrong input: " + input)
       println("Format example: <h6>\n")
@@ -89,6 +120,18 @@ class TUI(controller: ControllerInterface) extends Observer {
       }
     }
 
+    //GameState
+    if (!controller.state.grid.getShips().shipCountValid()) {
+      controller.gameState match
+        case SHIP_PLAYER1 =>
+          controller.changeState()
+          controller.gameState -> SHIP_PLAYER2
+        case SHIP_PLAYER2 =>
+          controller.state = controller.player1
+          controller.gameState -> SHOTS
+
+    }
+
   }
 
   def shipStartInput(line1: String): Unit = {
@@ -98,13 +141,13 @@ class TUI(controller: ControllerInterface) extends Observer {
       line1 match
         case "undo" =>
           removeShip()
-            println ("Last Ship removed!")
+          println ("Last Ship removed!")
         case "redo" =>
           redoShip()
-            println ("Last Ship redone")
+          println ("Last Ship redone")
         case "auto" =>
           controller.autoShips()
-            println ("Auto ship placement")
+          println ("Auto ship placement")
         case _ =>
           shipStart = line1
             println ("Endwert: ")
@@ -112,8 +155,22 @@ class TUI(controller: ControllerInterface) extends Observer {
     )
     if (e.isFailure) println("Exception")
 
+    if (line1.equals("auto")) {
+      controller.gameState match
+        case SHIP_PLAYER1 =>
+          controller.changeState()
+          controller.gameState = SHIP_PLAYER2
+        case SHIP_PLAYER2 =>
+          controller.state = controller.player1
+          controller.gameState = SHOTS
+    }
+
+
 
   }
 
-  override def update: Unit = println(controller.toString)
+  override def update: Unit = {
+    println(controller.toString)
+    //processInputLine()
+  }
 }

@@ -8,14 +8,14 @@ import de.htwg.se.battleship.util.{Observable, UndoManager}
 
 import scala.util.control.NonLocalReturns.*
 import com.google.inject.{Guice, Inject}
-import de.htwg.se.battleship.controller.GameState.{GameState, PLAYER_CREATE}
+import de.htwg.se.battleship.controller.GameState.*
 import de.htwg.se.battleship.controller.state.{Player1State, Player2State, PlayerState}
 
 
 class Controller @Inject() (override val grid: GridInterface) extends ControllerInterface with Observable {
 
   val undoManager = new UndoManager
-  var gameState: GameState = PLAYER_CREATE
+  var gameState: GameState = PLAYER_CREATE1
   var player1: PlayerState = new Player1State(grid, this, "")
   var player2: PlayerState = new Player2State(grid, this, "")
 

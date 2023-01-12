@@ -1,6 +1,8 @@
 package de.htwg.se.battleship.aview.gui
 
 import de.htwg.se.battleship.controller.*
+import de.htwg.se.battleship.controller.GameState.*
+
 import de.htwg.se.battleship.aview.*
 import de.htwg.se.battleship.controller.controllerImpl.Controller
 import de.htwg.se.battleship.controller.state.{Player1State, Player2State, PlayerState}
@@ -16,7 +18,7 @@ import scala.util.Try
 case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer:
 
 
-  override def update: Unit = println(controller.GridShipToString)
+  override def update: Unit = gui.update
 
   def contentPanel = new BorderPanel {
     add(gui.headline, BorderPanel.Position.North) // Label-Bar
@@ -107,12 +109,23 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
           pos1 = ""
           pos2 = ""
           if (!controller.state.grid.getShips().shipCountValid()) {
+            println(controller.GridShipToString)
             println("All ships done")
-            if (controller.state == controller.player1)gui.changeToShipPanel2()
-            else gui.changeToShotPanel()
+
+            controller.gameState match
+              case SHIP_PLAYER1 => controller.gameState = SHIP_PLAYER2
+              case SHIP_PLAYER2 => controller.gameState = SHOTS
+
+            update
+
           }
 
+
+
         } else println("Error")
+
+
+
 
 
 

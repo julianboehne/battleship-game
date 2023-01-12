@@ -6,7 +6,6 @@ import de.htwg.se.battleship.controller.ControllerInterface
 import de.htwg.se.battleship.controller.controllerImpl.Controller
 import de.htwg.se.battleship.model.gridImpl.{Grid, Ship, ShipContainer, Shots}
 
-import scala.io.StdIn.readLine
 import com.google.inject.Guice
 
 object Battleship {
@@ -21,17 +20,11 @@ object Battleship {
 
   def main(args: Array[String]): Unit = {
     println("Welcome to Battleship-Game\n")
-    //println(controller.GridShipToString)
-    var input: String = ""
 
     while (true) {
-      //println(controller.state.playerName)
-      input = readLine()
-      if (input.equals("q")) System.exit(0)
-      tui.processInputLine(input)
+      tui.processInputLine()
       gui.update
     }
-
 
   }
 

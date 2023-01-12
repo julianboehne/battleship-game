@@ -17,6 +17,8 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
   val startPanel = StartPanel(controller, this)
   val shipPanel = ShipPanel(controller, this)
   val shotPanel = ShotPanel(controller, this)
+  val endPanel = EndPanel(controller, this)
+
 
   def changeToShipPanel1(): Unit =
     controller.state = controller.player1
@@ -29,6 +31,9 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
   def changeToShotPanel(): Unit =
     frame.contents = shotPanel.contentPanel
 
+  def changeToEndPanel(): Unit =
+    frame.contents = endPanel.contentPanel
+
   val headline = new Label {
     text = "Battleship Game"
     foreground = new Color(0, 0, 0)
@@ -36,11 +41,15 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
   }
 
   override def update: Unit = {
-    if (!controller.player1.grid.getShips().shipCountValid() && !controller.player2.grid.getShips().shipCountValid()) {
-      changeToShotPanel()
-    } else if (!controller.player1.grid.getShips().shipCountValid()) {
-      changeToShipPanel2()
-    }
+    controller.gameState match
+      case PLAYER_CREATE1 =>
+      case PLAYER_CREATE2 =>
+      case SHIP_PLAYER1 => changeToShipPanel1()
+      case SHIP_PLAYER2 => changeToShipPanel2()
+      case SHOTS => changeToShotPanel()
+      case END => changeToEndPanel()
+
+
   }
 
 
@@ -78,14 +87,30 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         })
         contents += new MenuItem(Action("Auto Implement Ships") {
 
-          if (controller.state.grid.getShips().getSize != 0 || !controller.state.grid.getShips().shipCountValid()) {
-            println("invalid command")
-            Dialog.showMessage(message = new Label("invalid command").peer)
-          } else {
-            controller.autoShips()
-            if (controller.state == controller.player1) changeToShipPanel2()
-            else changeToShotPanel()
-          }
+          controller.gameState match
+            case SHIP_PLAYER1 =>
+              if (controller.player1.grid.getShips().getSize != 0) {
+                println("invalid command")
+                Dialog.showMessage(message = new Label("invalid command").peer)
+              } else {
+                controller.state = controller.player1
+                controller.autoShips()
+                controller.gameState = SHIP_PLAYER2
+              }
+            case SHIP_PLAYER2 =>
+              if (controller.player2.grid.getShips().getSize != 0) {
+                println("invalid command")
+                Dialog.showMessage(message = new Label("invalid command").peer)
+              } else {
+                controller.state = controller.player2
+                controller.autoShips()
+                controller.gameState = SHOTS
+              }
+            case _ =>
+              println("invalid command")
+              Dialog.showMessage(message = new Label("invalid command").peer)
+
+          update
 
         })
 
@@ -97,18 +122,16 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
     reactions += {
       case ButtonClicked(b) =>
 
-        // startPanel.player1.text = Player 1 Name
-        // startPanel.player2.text = Player 2 Name
         controller.state = controller.player1
         controller.setPlayerName(startPanel.player1.text)
         controller.state = controller.player2
         controller.setPlayerName(startPanel.player2.text)
-        //controller.state = controller.player1
+        controller.gameState = SHIP_PLAYER1
+        update
 
-
-        changeToShipPanel1()
 
     }
+
     contents = startPanel.contentPanel
 
 

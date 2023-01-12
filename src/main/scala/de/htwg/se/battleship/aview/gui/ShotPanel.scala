@@ -1,6 +1,8 @@
 package de.htwg.se.battleship.aview.gui
 
 import de.htwg.se.battleship.controller.*
+import de.htwg.se.battleship.controller.GameState.*
+
 import de.htwg.se.battleship.aview.*
 import de.htwg.se.battleship.controller.controllerImpl.Controller
 import de.htwg.se.battleship.controller.state.{Player1State, Player2State, PlayerState}
@@ -24,8 +26,19 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
 
   def p = new BorderPanel {
     add(gui.headline, BorderPanel.Position.North) // Label-Bar
-    add(new Label(controller.player1.getPlayerName), BorderPanel.Position.West) // Player1 Field
-    add(new Label(controller.player2.getPlayerName), BorderPanel.Position.East) // Player2 Field
+    add(player1Text, BorderPanel.Position.West) // Player1 Field
+    add(player2Text, BorderPanel.Position.East) // Player2 Field
+  }
+
+  val player1Text: Label = new Label {
+    text = controller.player1.getPlayerName
+    font = new Font("Sans Serif", 0, 16)
+    foreground = new Color(100,0,0)
+  }
+  val player2Text: Label = new Label {
+    text = controller.player2.getPlayerName
+    font = new Font("Sans Serif", 0, 16)
+    foreground = new Color(0,0,100)
   }
 
   def test = new BorderPanel {
@@ -36,6 +49,12 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
     add(new Label(controller.state.getPlayerName), BorderPanel.Position.South) // Panel Label
     controller.changeState()
   }
+/*
+  val currPlayer: Label = new Label {
+    text = controller.state.getPlayerName
+    font = new Font("Sans Serif", 0, 16)
+
+  }*/
 
   //Player1 Grid
   class CellPanel1() extends GridPanel(10, 10):
@@ -75,7 +94,11 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
               Dialog.showMessage(message = new Label(controller.state.getPlayerName + "'s turn'").peer)
             } else {
               controller.addShot(x, y)
+              if (controller.isLost()) {
+                controller.gameState = END
+              }
               controller.changeState()
+
             }
 
           }
