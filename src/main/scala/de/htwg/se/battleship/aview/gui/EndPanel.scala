@@ -26,16 +26,17 @@ case class EndPanel(controller: ControllerInterface, gui: GUI) {
 
 
   def contentPanel = new BorderPanel {
+    background = new Color(195, 247, 230)
     add(headline, BorderPanel.Position.North)
     add(label, BorderPanel.Position.Center)
-    label.text = controller.state.getPlayerName + " has won the game!"
+    label.text = controller.state.getPlayerName + " has won the game! \uD83C\uDF89"
     add(new ExitGame, BorderPanel.Position.South)
 
   }
 
   val label = new Label {
     controller.changeState()
-    font = new Font("Sans Serif", 0, 30)
+    font = new Font("Sans Serif", 0, 26)
     foreground = new Color(94, 199, 2)
 
 
@@ -43,11 +44,14 @@ case class EndPanel(controller: ControllerInterface, gui: GUI) {
 
 
   class ExitGame extends GridPanel(10, 10):
-    border = EmptyBorder(100, 200, 100, 200)
-
+    border = EmptyBorder(50, 150, 50, 150)
+    background = new Color(195, 247, 230)
     contents += new ExitButton
 
-  class ExitButton extends Button("Exit Game"):
+  class ExitButton extends Button("Exit Game⛔"):
+    font = new Font("Sans Serif", 0, 22)
+    foreground = new Color(194, 0, 0)
+    background = new Color(255, 158, 158)
 
     listenTo(mouse.clicks)
     listenTo(keys)

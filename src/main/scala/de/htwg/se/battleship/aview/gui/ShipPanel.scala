@@ -88,7 +88,7 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
             if (!controller.checkShip(controller.getX(pos1), controller.getY(pos1), controller.getX(pos2), controller.getY(pos2))) {
               println("invalid Ship Position")
               info.text = "invalid Ship Position"
-              info.foreground = new Color(217, 113, 113)
+              info.foreground = new Color(194, 0, 0)
 
             } else {
               controller.set(controller.getX(pos1), controller.getY(pos1), controller.getX(pos2), controller.getY(pos2))
@@ -96,23 +96,23 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
                 controller.undo()
                 println("Too many ships with this size")
                 info.text = "Too many ships with this size"
-                info.foreground = new Color(217, 113, 113)
+                info.foreground = new Color(194, 0, 0)
               } else if (!controller.state.grid.getShips().shipPosition()) {
                 controller.undo()
                 println("You already place a ship at this position!")
                 info.text = "You already place a ship at this position!"
-                info.foreground = new Color(217, 113, 113)
+                info.foreground = new Color(194, 0, 0)
               } else {
                 println("Ship implemented")
                 info.text = "Ship implemented"
-                info.foreground = new Color(127, 224, 126)
+                info.foreground = new Color(2, 171, 16)
               }
             }
           )
           if (e.isFailure) {
             println("invalid Ship Position")
             info.text = "invalid Ship Position"
-            info.foreground = new Color(217, 113, 113)
+            info.foreground = new Color(194, 0, 0)
           }
 
           button.text = pos2
