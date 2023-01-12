@@ -20,16 +20,17 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
   override def update: Unit = gui.update
 
   def contentPanel = new BorderPanel {
-    add(p, BorderPanel.Position.North)
-    add(test, BorderPanel.Position.Center)
+    add(headPanel, BorderPanel.Position.North)
+    add(BoardPanel, BorderPanel.Position.Center)
   }
 
-  def p = new BorderPanel {
-    add(gui.headline, BorderPanel.Position.North) // Label-Bar
+  def headPanel = new BorderPanel {
+    add(gui.headline, BorderPanel.Position.North) // Headline
     add(player1Text, BorderPanel.Position.West) // Player1 Field
     add(player2Text, BorderPanel.Position.East) // Player2 Field
-    player1Text.text = controller.player1.getPlayerName
-    player2Text.text = controller.player2.getPlayerName
+    player1Text.text = "    " + controller.player1.getPlayerName + ": " + controller.player1.grid.getNumberSunk + " ships sunk"
+    player2Text.text = controller.player2.getPlayerName + ": " + controller.player2.grid.getNumberSunk + " ships sunk" + "    "
+
   }
 
   val player1Text: Label = new Label {
@@ -37,13 +38,19 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
     font = new Font("Sans Serif", 0, 20)
     foreground = new Color(5, 88, 242)
   }
+
   val player2Text: Label = new Label {
     //text = controller.player2.getPlayerName
     font = new Font("Sans Serif", 0, 20)
     foreground = new Color(17, 171, 3)
   }
 
-  def test = new BorderPanel {
+
+
+
+
+
+  def BoardPanel = new BorderPanel {
 
     add(new CellPanel1(), BorderPanel.Position.West) // Player1 Field
     add(new CellPanel2(), BorderPanel.Position.East) // Player2 Field

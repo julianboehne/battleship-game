@@ -2,6 +2,9 @@ package de.htwg.se.battleship.model.gridImpl
 
 import de.htwg.se.battleship.model.*
 
+import scala.util.control.NonLocalReturns.{returning, throwReturn}
+
+
 
 case class Grid(size: Int, shots: Shots, ships: ShipContainer) extends GridInterface {
   //Grid for Shots
@@ -51,6 +54,25 @@ case class Grid(size: Int, shots: Shots, ships: ShipContainer) extends GridInter
   }
 
   def getY(input: String): Int = "(10)|([1-9])".r.findAllIn(input).mkString.toInt
+
+  override def getNumberSunk: Int = {
+
+    val sunk: Vector[Int] = (0 until getShips().getSize).map(index =>
+      if(isSunk(index)) 1
+      else 0
+    ).toVector
+
+    sunk.sum
+
+  }
+
+  override def isSunk(index: Int): Boolean = returning {
+    (0 until getShips().shipsVector(index).size).foreach(i =>
+      if (!getShots().wasShot(getShips().shipsVector(index).getX(i), getShips().shipsVector(index).getY(i))) throwReturn(false)
+    )
+    true
+
+  }
 
 
 

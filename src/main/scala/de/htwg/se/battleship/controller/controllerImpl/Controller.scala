@@ -33,19 +33,11 @@ class Controller @Inject() (override val grid: GridInterface) extends Controller
     notifyObservers
   }
 
-  override def isSunk(index: Int): Boolean = returning {
-    (0 until state.grid.getShips().shipsVector(index).size).foreach(i =>
-      if (!state.grid.getShots().wasShot(state.grid.getShips().shipsVector(index).getX(i), state.grid.getShips().shipsVector(index).getY(i))) throwReturn(false)
-    )
-    true
 
-  }
 
   override def isLost(): Boolean = returning {
-    state.grid.getShips().shipsVector.indices.foreach(i =>
-      if (!isSunk(i)) throwReturn(false)
-    )
-    true
+    if (state.grid.getNumberSunk == state.grid.getShips().getSize) true
+    else false
   }
 
   override def checkShip(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = state.grid.getShips().isValid(x1, y1, x2, y2)

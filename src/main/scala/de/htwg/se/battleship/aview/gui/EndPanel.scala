@@ -26,9 +26,11 @@ case class EndPanel(controller: ControllerInterface, gui: GUI) {
 
 
   def contentPanel = new BorderPanel {
+    this.background = new Color(170, 241, 242)
     add(headline, BorderPanel.Position.North)
     add(label, BorderPanel.Position.Center)
     label.text = controller.state.getPlayerName + " has won the game!"
+    add(new ExitGame, BorderPanel.Position.South)
 
   }
 
@@ -41,22 +43,21 @@ case class EndPanel(controller: ControllerInterface, gui: GUI) {
   }
 
 
-  class startGame extends GridPanel(10, 10):
-    border = EmptyBorder(100, 300, 20, 300)
+  class ExitGame extends GridPanel(10, 10):
+    border = EmptyBorder(100, 200, 100, 200)
 
-    contents += label
+    contents += new ExitButton
 
+  class ExitButton extends Button("Exit Game"):
 
-
-  /*  class startGameButton extends Button("Start Game"):
-
-      listenTo(mouse.clicks)
-      listenTo(keys)
-      reactions += {
-        case ButtonClicked(button) => gui.changeToShipPanel()
+    listenTo(mouse.clicks)
+    listenTo(keys)
+    reactions += {
+      case ButtonClicked(button) => System.exit(0)
 
 
-      }*/
+    }
+
 
 
 }

@@ -20,4 +20,8 @@ trait GridInterface {
 
   def getBoard(): Vector[String]
 
+  def getNumberSunk: Int
+
+  def isSunk(index: Int): Boolean
+
 }
