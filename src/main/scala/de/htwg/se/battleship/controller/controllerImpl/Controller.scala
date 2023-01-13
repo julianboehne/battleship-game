@@ -16,8 +16,8 @@ class Controller @Inject() (override val grid: GridInterface) extends Controller
 
   val undoManager = new UndoManager
   var gameState: GameState = PLAYER_CREATE1
-  var player1: PlayerState = new Player1State(grid, this, "")
-  var player2: PlayerState = new Player2State(grid, this, "")
+  var player1: PlayerState = new Player1State(grid,  "")
+  var player2: PlayerState = new Player2State(grid,  "")
 
   var state: PlayerState = player1
 
@@ -99,8 +99,8 @@ class Controller @Inject() (override val grid: GridInterface) extends Controller
 
   override def setPlayerName(name: String): Unit = {
     state match
-      case _: Player1State => player1 = new Player1State(player1.grid, this, name)
-      case _: Player2State => player2 = new Player2State(player2.grid, this, name)
+      case _: Player1State => player1 = new Player1State(player1.grid,  name)
+      case _: Player2State => player2 = new Player2State(player2.grid,  name)
   }
 
   override def GameStateText:String = GameState.message(gameState)

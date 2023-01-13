@@ -8,9 +8,8 @@ import org.scalatest.matchers.should.Matchers.*
 class Player2StateSpec extends AnyWordSpec {
 
   val grid = Grid(10, Shots(Vector[Int](), Vector[Int]()), ShipContainer(Vector[Ship]()))
-  val controller = injector.getInstance(classOf[ControllerInterface])
-  val player2State1 = new Player2State(grid, controller, "Test")
-  val player2State2 = new Player2State(grid, controller, "")
+  val player2State1 = new Player2State(grid, "Test")
+  val player2State2 = new Player2State(grid, "")
 
   "A Player2State" should {
 
