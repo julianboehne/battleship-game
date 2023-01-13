@@ -1,4 +1,4 @@
-package de.htwg.se.battleship.model
+package de.htwg.se.battleship.model.gridImpl
 
 import de.htwg.se.battleship.model.*
 
@@ -18,9 +18,6 @@ case class GridForShips(size: Int, ships: ShipContainer) extends GridTemplate {
       return loopPerShip(0, i)
     }
     val str0 = loopPerShip(0, i)
-
-    /*val index = str0.indexOf("#") // first #
-    val str1 = loopPerShip(0, i + 1).substring(0, index) + "#" + loopPerShip(0, i + 1).substring(index + 1)*/
 
     str0
   }

@@ -1,4 +1,3 @@
-
 import com.github.sbt.jacoco.JacocoPlugin.autoImport.jacocoExcludes
 import sbt.Keys.libraryDependencies
 
@@ -10,26 +9,32 @@ ThisBuild / scalaVersion := "3.2.0"
 
 lazy val root = (project in file("."))
   .settings(
-      name := "battleship-game",
+    name := "battleship-game",
 
-      libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.14",
-      libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.14" % "test",
+    libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.14",
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.14" % "test",
+    libraryDependencies += "org.scala-lang.modules" %% "scala-swing" % "3.0.0",
+    libraryDependencies += "com.google.inject" % "guice" % "5.1.0",
+    libraryDependencies += ("net.codingwell" %% "scala-guice" % "5.0.2").cross(CrossVersion.for3Use2_13),
+
+
+
   )
 
 
 jacocoReportSettings := JacocoReportSettings(
-    "Jacoco Coverage Report",
-    None,
-    JacocoThresholds(),
-    Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML), // note XML formatter
-    "utf-8")
+  "Jacoco Coverage Report",
+  None,
+  JacocoThresholds(),
+  Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML), // note XML formatter
+  "utf-8")
 
 coverageEnabled := true
 
 
-
-
 jacocoExcludes := Seq(
-    "de.htwg.se.battleship.Battleship*",
-    "de.htwg.se.battleship.util.Observable*"
+  "de.htwg.se.battleship.Battleship*",
+  "de.htwg.se.battleship.util.Observable*",
+  "de.htwg.se.battleship.controller.controllerImpl.SetCommand*",
+  "de.htwg.se.battleship.aview.gui*"
 )

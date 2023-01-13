@@ -1,30 +1,55 @@
 package de.htwg.se.battleship.model
 
 
+import de.htwg.se.battleship.model.gridImpl.Shots
+import org.scalatest.wordspec.AnyWordSpec
+import org.scalatest.matchers.should.Matchers.*
+
+import de.htwg.se.battleship.model.gridImpl.Shots
+
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
 
 class ShotsSpec extends AnyWordSpec {
 
-  val shot: Shots = Shots(Vector[Int](),Vector[Int]())
-  "Shots" should {
-    "have a addShot function" in {
+  "A Shots" should {
 
-      shot.addShot(1,1) should be(Shots(Vector[Int](1),Vector[Int](1)))
-    }
-    "have a gets function" in {
-      val test = shot.addShot(1,2)
-      test.getX(0) should be(1)
-      test.getY(0) should be(2)
+    "add a shot to the X and Y vectors" in {
+      val shots = Shots(Vector(), Vector())
 
-    }
-    "should have two vectors for x and y-values" in {
-      val test2 = shot.addShot(1,2)
-      test2.X should be (Vector[Int](1))
-      test2.Y should be (Vector[Int](2))
+      shots.addShot(1, 1).X should be(Vector(1))
+      shots.addShot(1, 1).Y should be(Vector(1))
     }
 
+    "check if a location was shot" in {
+      val shots = Shots(Vector(1), Vector(1))
+
+      shots.wasShot(1, 1) should be(true)
+    }
+
+    "get the x-coordinate of a shot" in {
+      val shots = Shots(Vector(1), Vector(1))
+
+      shots.getX(0) should be(1)
+    }
+
+    "get the y-coordinate of a shot" in {
+      val shots = Shots(Vector(1), Vector(1))
+
+      shots.getY(0) should be(1)
+    }
+
+    "get the latest x-coordinate of a shot" in {
+      val shots = Shots(Vector(1), Vector(1))
+
+      shots.getLatestX should be(1)
+    }
+
+    "get the latest y-coordinate of a shot" in {
+      val shots = Shots(Vector(1), Vector(1))
+
+      shots.getLatestY should be(1)
+    }
   }
-
-
 }
+

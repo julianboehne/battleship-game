@@ -1,0 +1,146 @@
+package de.htwg.se.battleship.aview.gui
+
+import de.htwg.se.battleship.controller.*
+import de.htwg.se.battleship.controller.GameState.*
+
+import de.htwg.se.battleship.aview.*
+import de.htwg.se.battleship.controller.controllerImpl.Controller
+import de.htwg.se.battleship.util.Observer
+
+import javax.management.Notification
+import scala.swing.event.ButtonClicked
+import javax.swing.border.EmptyBorder
+import scala.swing.*
+
+class GUI(controller: ControllerInterface) extends Frame with Observer:
+
+  val startPanel = StartPanel(controller, this)
+  val shipPanel = ShipPanel(controller, this)
+  val shotPanel = ShotPanel(controller, this)
+  val endPanel = EndPanel(controller, this)
+
+
+  def changeToShipPanel1(): Unit =
+    controller.state = controller.player1
+    frame.contents = shipPanel.contentPanel
+
+  def changeToShipPanel2(): Unit =
+    controller.state = controller.player2
+    frame.contents = shipPanel.contentPanel
+
+  def changeToShotPanel(): Unit =
+    frame.contents = shotPanel.contentPanel
+
+  def changeToEndPanel(): Unit =
+    frame.contents = endPanel.contentPanel
+
+  val headline = new Label {
+    text = "Battleship Game"
+    foreground = new Color(0, 0, 0)
+    font = new Font("Sans Serif", 0, 24)
+  }
+
+  override def update: Unit = {
+    controller.gameState match
+      case PLAYER_CREATE1 =>
+      case PLAYER_CREATE2 =>
+      case SHIP_PLAYER1 => changeToShipPanel1()
+      case SHIP_PLAYER2 => changeToShipPanel2()
+      case SHOTS => changeToShotPanel()
+      case END => changeToEndPanel()
+
+
+  }
+
+
+
+  val frame = new Frame {
+    title = "Battleship Game"
+    preferredSize = new Dimension(1250, 750)
+    resizable = false
+
+    menuBar = new MenuBar {
+      contents += new Menu("Options") {
+        /*contents += new MenuItem(Action("New Game") {
+          //new Game
+        })*/
+        contents += new MenuItem(Action("Exit") {
+          System.exit(0)
+        })
+      }
+
+      contents += new Menu("Edit") {
+        contents += new MenuItem(Action("Undo Ship") {
+          if (controller.gameState != SHIP_PLAYER1 && controller.gameState != SHIP_PLAYER2) {
+            println("invalid command")
+            Dialog.showMessage(message = new Label("invalid command").peer)
+          } else controller.undo()
+
+        })
+        contents += new MenuItem(Action("Redo Ship") {
+          if (controller.gameState != SHIP_PLAYER1 && controller.gameState != SHIP_PLAYER2) {
+            println("invalid command")
+            Dialog.showMessage(message = new Label("invalid command").peer)
+          } else controller.redo()
+
+
+        })
+        contents += new MenuItem(Action("Auto Implement Ships") {
+
+          controller.gameState match
+            case SHIP_PLAYER1 =>
+              if (controller.player1.grid.getShips().getSize != 0) {
+                println("invalid command")
+                Dialog.showMessage(message = new Label("invalid command").peer)
+              } else {
+                controller.state = controller.player1
+                controller.autoShips()
+                controller.gameState = SHIP_PLAYER2
+              }
+            case SHIP_PLAYER2 =>
+              if (controller.player2.grid.getShips().getSize != 0) {
+                println("invalid command")
+                Dialog.showMessage(message = new Label("invalid command").peer)
+              } else {
+                controller.state = controller.player2
+                controller.autoShips()
+                controller.gameState = SHOTS
+              }
+            case _ =>
+              println("invalid command")
+              Dialog.showMessage(message = new Label("invalid command").peer)
+
+          update
+
+        })
+
+      }
+    }
+
+
+    listenTo(startPanel.startGameButton)
+    reactions += {
+      case ButtonClicked(b) =>
+
+        controller.state = controller.player1
+        controller.setPlayerName(startPanel.player1.text)
+        controller.state = controller.player2
+        controller.setPlayerName(startPanel.player2.text)
+        controller.gameState = SHIP_PLAYER1
+        update
+
+
+    }
+
+    contents = startPanel.contentPanel
+
+
+    pack()
+    centerOnScreen()
+    open()
+
+
+  }
+
+
+

@@ -1,4 +1,4 @@
-package de.htwg.se.battleship.model
+package de.htwg.se.battleship.model.gridImpl
 
 //Template
 abstract class GridTemplate {
@@ -19,6 +19,10 @@ abstract class GridTemplate {
 
   def field(width: Int, count: Int, x: Int, y: Int): String = {
     (horizontal(width, count) + vertical(width, count)) * (y - 1) + (horizontal(width, count) + vertical(width, count, x)) + (horizontal(width, count) + vertical(width, count)) * (count - y) + horizontal(width, count)
+  }
+
+  def field(width: Int, count: Int): String = {
+    (horizontal(width, count) + vertical(width, count) ) * count + horizontal(width, count)
   }
 
   def fullField: String //abstract

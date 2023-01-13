@@ -1,4 +1,6 @@
-package de.htwg.se.battleship.model
+package de.htwg.se.battleship.model.gridImpl
+
+import de.htwg.se.battleship.model.gridImpl.Ship
 
 import scala.util.control.NonLocalReturns.*
 
@@ -7,6 +9,8 @@ case class ShipContainer(shipsVector: Vector[Ship]) {
     ShipContainer(shipsVector :+ ship)
 
   }
+
+  def getSize: Int = shipsVector.size
 
   //def getShip(index:Int) : Ship = shipsVector(index)
 
