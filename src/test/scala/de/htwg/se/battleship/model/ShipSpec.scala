@@ -7,10 +7,10 @@ import org.scalatest.matchers.should.Matchers.*
 
 class ShipSpec extends AnyWordSpec {
 
-  val ship2: Ship = Ship(Vector[Int](1,1), Vector[Int](2,3), 2) // size 2 ship
-  val ship3: Ship = Ship(Vector[Int](1,1,1), Vector[Int](2,3,4), 3) // size 2 ship
-  val ship4: Ship = Ship(Vector[Int](1,1,1,1), Vector[Int](1,2,3,4), 4) // size 2 ship
-  val ship5: Ship = Ship(Vector[Int](1,1,1,1,1), Vector[Int](1,2,3,4,5), 5) // size 2 ship
+  val ship2: Ship = Ship(Vector[Int](1, 1), Vector[Int](2, 3), 2) // size 2 ship
+  val ship3: Ship = Ship(Vector[Int](1, 1, 1), Vector[Int](2, 3, 4), 3) // size 2 ship
+  val ship4: Ship = Ship(Vector[Int](1, 1, 1, 1), Vector[Int](1, 2, 3, 4), 4) // size 2 ship
+  val ship5: Ship = Ship(Vector[Int](1, 1, 1, 1, 1), Vector[Int](1, 2, 3, 4, 5), 5) // size 2 ship
 
   "Shots" should {
     "have a getX and getY function" in {
@@ -37,15 +37,28 @@ class ShipSpec extends AnyWordSpec {
       ship5.size should be(5)
     }
     "have a isHit function" in {
-      ship2.isHIt(1,2) should be(true)
-      ship3.isHIt(1,2) should be(true)
-      ship4.isHIt(1,2) should be(true)
-      ship5.isHIt(1,2) should be(true)
+      ship2.isHIt(1, 2) should be(true)
+      ship3.isHIt(1, 2) should be(true)
+      ship4.isHIt(1, 2) should be(true)
+      ship5.isHIt(1, 2) should be(true)
 
-      ship2.isHIt(8,8) should be(false)
-      ship3.isHIt(8,8) should be(false)
-      ship4.isHIt(8,8) should be(false)
-      ship5.isHIt(8,8) should be(false)
+      ship2.isHIt(8, 8) should be(false)
+      ship3.isHIt(8, 8) should be(false)
+      ship4.isHIt(8, 8) should be(false)
+      ship5.isHIt(8, 8) should be(false)
+    }
+    "have a getVectorX and getVectorY function" in {
+      ship2.getVectorX() should be(Vector(1, 1))
+      ship2.getVectorY() should be(Vector(2, 3))
+
+      ship3.getVectorX() should be(Vector(1, 1, 1))
+      ship3.getVectorY() should be(Vector(2, 3, 4))
+
+      ship4.getVectorX() should be(Vector(1, 1, 1, 1))
+      ship4.getVectorY() should be(Vector(1, 2, 3, 4))
+
+      ship5.getVectorX() should be(Vector(1, 1, 1, 1, 1))
+      ship5.getVectorY() should be(Vector(1, 2, 3, 4, 5))
     }
 
   }
