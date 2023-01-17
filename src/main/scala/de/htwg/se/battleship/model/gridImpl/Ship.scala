@@ -6,6 +6,10 @@ import scala.util.control.NonLocalReturns.*
 
 trait Ship() {
 
+  val x: Vector[Int]
+
+  val y: Vector[Int]
+
   val size: Int
 
   def isHIt(x: Int, y: Int): Boolean
@@ -21,7 +25,7 @@ trait Ship() {
 
 }
 
-private class ShipSizeTwo(x: Vector[Int], y: Vector[Int]) extends Ship() {
+private class ShipSizeTwo(override val x: Vector[Int], override val y: Vector[Int]) extends Ship() {
 
   val size: Int = 2
 
@@ -46,7 +50,7 @@ private class ShipSizeTwo(x: Vector[Int], y: Vector[Int]) extends Ship() {
 
 }
 
-private class ShipSizeThree(x: Vector[Int], y: Vector[Int]) extends Ship() {
+private class ShipSizeThree(override val x: Vector[Int], override val y: Vector[Int]) extends Ship() {
 
 
   val size: Int = 3
@@ -70,7 +74,7 @@ private class ShipSizeThree(x: Vector[Int], y: Vector[Int]) extends Ship() {
 
 }
 
-private class ShipSizeFour(x: Vector[Int], y: Vector[Int]) extends Ship() {
+private class ShipSizeFour(override val x: Vector[Int], override val y: Vector[Int]) extends Ship() {
 
   val size: Int = 4
 
@@ -93,7 +97,7 @@ private class ShipSizeFour(x: Vector[Int], y: Vector[Int]) extends Ship() {
 
 }
 
-private class ShipSizeFive(x: Vector[Int], y: Vector[Int]) extends Ship() {
+private class ShipSizeFive(override val x: Vector[Int], override val y: Vector[Int]) extends Ship() {
 
   val size: Int = 5
 

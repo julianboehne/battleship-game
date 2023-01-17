@@ -67,11 +67,32 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
           //new Game
           controller.resetGame()
           println("New Game:")
-          update
           Dialog.showMessage(message = new Label("New Game").peer)
+          update
 
         })
+
+        contents += new MenuItem(Action("Save Game") {
+          //Save Game
+          controller.saveGame()
+          println("Game saved")
+          Dialog.showMessage(message = new Label("Game saved").peer)
+          //update
+
+        })
+
+        contents += new MenuItem(Action("Load Game") {
+          //Save Game
+          controller.loadGame()
+          println("Load saved")
+          Dialog.showMessage(message = new Label("Game loaded").peer)
+          controller.gameState = SHOTS
+          update
+
+        })
+
         contents += new MenuItem(Action("Exit") {
+          //Exit
           System.exit(0)
         })
       }
