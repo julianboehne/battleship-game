@@ -105,6 +105,13 @@ class Controller @Inject() (override val grid: GridInterface) extends Controller
 
   override def GameStateText:String = GameState.message(gameState)
 
+  override def resetGame(): Unit = {
+    player1 = new Player1State(grid, "")
+    player2 = new Player2State(grid, "")
+    gameState = PLAYER_CREATE1
+    state = player1
+  }
+
   
 
 

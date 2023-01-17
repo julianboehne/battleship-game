@@ -20,6 +20,9 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
   val endPanel = EndPanel(controller, this)
 
 
+  def changeToStartPanel(): Unit =
+    frame.contents = startPanel.contentPanel
+
   def changeToShipPanel1(): Unit =
     controller.state = controller.player1
     frame.contents = shipPanel.contentPanel
@@ -34,6 +37,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
   def changeToEndPanel(): Unit =
     frame.contents = endPanel.contentPanel
 
+
   val headline = new Label {
     text = "Battleship Game"
     foreground = new Color(0, 0, 0)
@@ -42,16 +46,14 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
 
   override def update: Unit = {
     controller.gameState match
-      case PLAYER_CREATE1 =>
+      case PLAYER_CREATE1 => changeToStartPanel()
       case PLAYER_CREATE2 =>
       case SHIP_PLAYER1 => changeToShipPanel1()
       case SHIP_PLAYER2 => changeToShipPanel2()
       case SHOTS => changeToShotPanel()
       case END => changeToEndPanel()
 
-
   }
-
 
 
   val frame = new Frame {
@@ -61,9 +63,14 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
 
     menuBar = new MenuBar {
       contents += new Menu("Options") {
-        /*contents += new MenuItem(Action("New Game") {
+        contents += new MenuItem(Action("New Game") {
           //new Game
-        })*/
+          controller.resetGame()
+          println("New Game:")
+          update
+          Dialog.showMessage(message = new Label("New Game").peer)
+
+        })
         contents += new MenuItem(Action("Exit") {
           System.exit(0)
         })

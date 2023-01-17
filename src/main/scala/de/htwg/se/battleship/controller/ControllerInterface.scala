@@ -29,6 +29,7 @@ trait ControllerInterface extends Observable {
   def getY(input: String): Int
   def setPlayerName(name: String): Unit
   def GameStateText:String
+  def resetGame(): Unit
 
 
 
