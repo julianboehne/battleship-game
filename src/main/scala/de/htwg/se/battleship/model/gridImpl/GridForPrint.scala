@@ -8,7 +8,7 @@ case class GridForPrint(size: Int, grid: Vector[String]) extends GridTemplate {
     val width2 = width - 2
     val area = row * 10
 
-    val x: Vector[String] = grid.slice(area,area + 10)
+    val x: Vector[String] = grid.slice(area,area + count)
     var str3 = ""
 
 
