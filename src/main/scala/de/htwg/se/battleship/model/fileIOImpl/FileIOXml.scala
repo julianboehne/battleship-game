@@ -79,24 +79,6 @@ class FileIOXml extends FileIOInterface {
   //override def load(): Vector[PlayerState] = ???
   override def load(): Vector[PlayerState] = {
     val file = scala.xml.XML.loadFile("gameState.xml")
-    println("name1:" + (file \\ "state" \ "state1" \ "name").text.trim)
-    println("name2:" + (file \\ "state" \ "state2" \ "name").text.trim)
-
-    println("size1:" + (file \\ "state" \ "state1" \ "grid" \ "size").text.trim.toInt)
-    println("size2:" + (file \\ "state" \ "state2" \ "grid" \ "size").text.trim.toInt)
-
-    println("shotx1:" + (file \\ "state" \ "state1" \ "grid" \ "shots" \ "X").text.trim.stripPrefix("Vector(").stripSuffix(")").split(", ").map(_.toInt).toVector)
-    println("shoty1:" + (file \\ "state" \ "state1" \ "grid" \ "shots" \ "Y").text.trim.stripPrefix("Vector(").stripSuffix(")").split(", ").map(_.toInt).toVector)
-
-    println("shotx2:" + (file \\ "state" \ "state2" \ "grid" \ "shots" \ "X").text.trim.stripPrefix("Vector(").stripSuffix(")").split(", ").map(_.toInt).toVector)
-    println("shoty2:" + (file \\ "state" \ "state2" \ "grid" \ "shots" \ "Y").text.trim.stripPrefix("Vector(").stripSuffix(")").split(", ").map(_.toInt).toVector)
-
-    println("shipx1:" + Vector((file \\ "state" \ "state1" \ "grid" \ "ships" \ "shipX").text.trim.stripPrefix("Vector(").stripSuffix(")").split(", ").toList.map(x => x.stripPrefix("Vector(").stripSuffix(")").split(", ").map(_.toInt).toVector): _*))
-    println("shipy1:" + Vector((file \\ "state" \ "state1" \ "grid" \ "ships" \ "shipY").text.trim.stripPrefix("Vector(").stripSuffix(")").split(", ").toList.map(x => x.stripPrefix("Vector(").stripSuffix(")").split(", ").map(_.toInt).toVector): _*))
-
-    println("shipx2:" + Vector((file \\ "state" \ "state2" \ "grid" \ "ships" \ "shipX").text.trim.stripPrefix("Vector(").stripSuffix(")").split(", ").toList.map(x => x.stripPrefix("Vector(").stripSuffix(")").split(", ").map(_.toInt).toVector): _*))
-    println("shipy2:" + Vector((file \\ "state" \ "state2" \ "grid" \ "ships" \ "shipY").text.trim.stripPrefix("Vector(").stripSuffix(")").split(", ").toList.map(x => x.stripPrefix("Vector(").stripSuffix(")").split(", ").map(_.toInt).toVector): _*))
-
 
     val name1 = (file \\ "state" \ "state1" \ "name").text.trim
     val name2 = (file \\ "state" \ "state2" \ "name").text.trim
@@ -110,21 +92,18 @@ class FileIOXml extends FileIOInterface {
     val shotsX2 = (file \\ "state" \ "state2" \ "grid" \ "shots" \ "X").text.trim.stripPrefix("Vector(").stripSuffix(")").split(", ").map(_.toInt).toVector
     val shotsY2 = (file \\ "state" \ "state2" \ "grid" \ "shots" \ "Y").text.trim.stripPrefix("Vector(").stripSuffix(")").split(", ").map(_.toInt).toVector
 
-    val shots1 = new Shots(shotsX1, shotsY1)
-    val shots2 = new Shots(shotsX2, shotsY2)
+    val shots1 = Shots(shotsX1, shotsY1)
+    val shots2 = Shots(shotsX2, shotsY2)
 
-    val shipX1 = Vector((file \\ "state" \ "state1" \ "grid" \ "ships" \ "shipX").text.trim.stripPrefix("Vector(").stripSuffix(")").split(", ").toList.map(x => x.stripPrefix("Vector(").stripSuffix(")").split(", ").map(_.toInt).toVector): _*)
-    val shipY1 = Vector((file \\ "state" \ "state1" \ "grid" \ "ships" \ "shipY").text.trim.stripPrefix("Vector(").stripSuffix(")").split(", ").toList.map(x => x.stripPrefix("Vector(").stripSuffix(")").split(", ").map(_.toInt).toVector): _*)
+    val shipX1 = (file \\ "state" \ "state1" \ "grid" \ "ships" \ "shipX").text.trim.stripPrefix("Vector(").stripSuffix(")").split("\\), Vector\\(").map(_.stripPrefix("Vector(").stripSuffix(")")).map(v => v.split(",").map(_.trim.toInt).toVector).toVector
+    val shipY1 = (file \\ "state" \ "state1" \ "grid" \ "ships" \ "shipY").text.trim.stripPrefix("Vector(").stripSuffix(")").split("\\), Vector\\(").map(_.stripPrefix("Vector(").stripSuffix(")")).map(v => v.split(",").map(_.trim.toInt).toVector).toVector
 
-    val shipX2 = Vector((file \\ "state" \ "state2" \ "grid" \ "ships" \ "shipX").text.trim.stripPrefix("Vector(").stripSuffix(")").split(", ").toList.map(x => x.stripPrefix("Vector(").stripSuffix(")").split(", ").map(_.toInt).toVector): _*)
-    val shipY2 = Vector((file \\ "state" \ "state2" \ "grid" \ "ships" \ "shipY").text.trim.stripPrefix("Vector(").stripSuffix(")").split(", ").toList.map(x => x.stripPrefix("Vector(").stripSuffix(")").split(", ").map(_.toInt).toVector): _*)
+    val shipX2 = (file \\ "state" \ "state2" \ "grid" \ "ships" \ "shipX").text.trim.stripPrefix("Vector(").stripSuffix(")").split("\\), Vector\\(").map(_.stripPrefix("Vector(").stripSuffix(")")).map(v => v.split(",").map(_.trim.toInt).toVector).toVector
+    val shipY2 = (file \\ "state" \ "state2" \ "grid" \ "ships" \ "shipY").text.trim.stripPrefix("Vector(").stripSuffix(")").split("\\), Vector\\(").map(_.stripPrefix("Vector(").stripSuffix(")")).map(v => v.split(",").map(_.trim.toInt).toVector).toVector
 
 
-    val vec1: Vector[Ship] = shipX1.zip(shipY1).map{ case(x,y) => Ship(x,y,x.length)}.toVector
-    val vec2: Vector[Ship] = shipX2.zip(shipY2).map{ case(x,y) => Ship(x,y,x.length)}.toVector
-    println(vec1)
-    val shipContainer1 = ShipContainer(vec1)
-    val shipContainer2 = ShipContainer(vec2)
+    val shipContainer1 = ShipContainer(shipX1.zip(shipY1).map{ case(x,y) => Ship(x,y,x.size)})
+    val shipContainer2 = ShipContainer(shipX2.zip(shipY2).map{ case(x,y) => Ship(x,y,x.size)})
 
     val grid1 = Grid(gridSize1, shots1, shipContainer1)
     val grid2 = Grid(gridSize2, shots2, shipContainer2)

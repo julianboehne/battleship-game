@@ -4,8 +4,8 @@
         <grid>
             <size> 10 </size>
             <shots>
-                <X> Vector(7, 5, 1) </X>
-                <Y> Vector(3, 4, 3) </Y>
+                <X> Vector(10) </X>
+                <Y> Vector(5) </Y>
             </shots>
             <ships>
                 <shipX>
@@ -22,8 +22,8 @@
         <grid>
             <size> 10 </size>
             <shots>
-                <X> Vector(2, 4, 5, 8) </X>
-                <Y> Vector(4, 6, 9, 3) </Y>
+                <X> Vector(2, 2) </X>
+                <Y> Vector(5, 7) </Y>
             </shots>
             <ships>
                 <shipX>
