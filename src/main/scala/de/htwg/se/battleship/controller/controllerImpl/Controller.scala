@@ -116,16 +116,25 @@ class Controller @Inject() (override val grid: GridInterface) extends Controller
   override def saveGame(): Unit = {
     val injector = Guice.createInjector(new BattleshipModule)
     val fileIo = injector.getInstance(classOf[FileIOInterface])
-    fileIo.save(player1, player2)
+    state match
+      case _: Player1State => fileIo.save(player1, player2,1,gameState)
+      case _: Player2State => fileIo.save(player1, player2,2,gameState)
   }
 
   override def loadGame(): Unit = {
     val injector = Guice.createInjector(new BattleshipModule)
     val fileIo = injector.getInstance(classOf[FileIOInterface])
-    player1 = fileIo.load()(0)
-    player2 = fileIo.load()(1)
-    //auch ändern
-    changeState()
+
+    val vec = fileIo.load()
+
+    player1 = new Player1State(vec(0).grid,  vec(0).getPlayerName)
+    player2 = new Player2State(vec(1).grid,  vec(1).getPlayerName)
+
+    vec(2) match
+      case 1 => state = player1
+      case 2 => state = player2
+
+    gameState = vec(3)
   }
 
   

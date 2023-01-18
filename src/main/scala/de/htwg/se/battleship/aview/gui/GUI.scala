@@ -86,7 +86,6 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
           controller.loadGame()
           println("Load saved")
           Dialog.showMessage(message = new Label("Game loaded").peer)
-          controller.gameState = SHOTS
           update
 
         })

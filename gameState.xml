@@ -1,11 +1,15 @@
 <state>
+    <general>
+        <currentState> 1 </currentState>
+        <gameState> SHOTS </gameState>
+    </general>
     <state1>
-        <name> Player1 </name>
+        <name> Hans </name>
         <grid>
             <size> 10 </size>
             <shots>
-                <X> Vector(10) </X>
-                <Y> Vector(5) </Y>
+                <X> Vector(4) </X>
+                <Y> Vector(2) </Y>
             </shots>
             <ships>
                 <shipX>
@@ -18,12 +22,12 @@
         </grid>
     </state1>
     <state2>
-        <name> Player2 </name>
+        <name> Peter </name>
         <grid>
             <size> 10 </size>
             <shots>
-                <X> Vector(2, 2) </X>
-                <Y> Vector(5, 7) </Y>
+                <X> Vector(5, 8) </X>
+                <Y> Vector(4, 9) </Y>
             </shots>
             <ships>
                 <shipX>

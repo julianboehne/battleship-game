@@ -1,9 +1,11 @@
 package de.htwg.se.battleship.model
 
-import de.htwg.se.battleship.controller.state.*
+import de.htwg.se.battleship.controller.GameState.*
+import de.htwg.se.battleship.controller.state.{PlayerState, *}
+
 
 trait FileIOInterface {
-  def save(state1: PlayerState, state2: PlayerState) : Unit
-  def load() : Vector[PlayerState]
+  def save(state1: PlayerState, state2: PlayerState, currentState: Int, gameState: GameState) : Unit
+  def load() : (PlayerState, PlayerState, Int, GameState)
 
 }
