@@ -80,15 +80,21 @@ class FileIOJson extends FileIOInterface {
     val shotsX2: Vector[Int] = (json \ "state2" \ "grid" \ "shots" \ "X").get.toString.stripPrefix("[").stripSuffix("]").split(",").map(_.toInt).toVector
     val shotsY2: Vector[Int] = (json \ "state2" \ "grid" \ "shots" \ "Y").get.toString.stripPrefix("[").stripSuffix("]").split(",").map(_.toInt).toVector
 
-    val shots1 = new Shots(shotsX1, shotsY1)
-    val shots2 = new Shots(shotsX2, shotsY2)
+    val shots1 = Shots(shotsX1, shotsY1)
+    val shots2 = Shots(shotsX2, shotsY2)
     
-    
+    val shipsX1: Vector[Vector[Int]] = Vector((json \ "state1" \ "grid" \ "ships" \ "shipsVector" \ "X").get.toString.split("[\\[\\]]").filterNot(_.isEmpty).map(_.split(",").map(_.toInt).toVector):_*).filter(_.nonEmpty)
+    val shipsY1: Vector[Vector[Int]] = Vector((json \ "state1" \ "grid" \ "ships" \ "shipsVector" \ "Y").get.toString.split("[\\[\\]]").filterNot(_.isEmpty).map(_.split(",").map(_.toInt).toVector):_*).filter(_.nonEmpty)
+    val shipsX2: Vector[Vector[Int]] = Vector((json \ "state2" \ "grid" \ "ships" \ "shipsVector" \ "X").get.toString.split("[\\[\\]]").filterNot(_.isEmpty).map(_.split(",").map(_.toInt).toVector):_*).filter(_.nonEmpty)
+    val shipsY2: Vector[Vector[Int]] = Vector((json \ "state2" \ "grid" \ "ships" \ "shipsVector" \ "Y").get.toString.split("[\\[\\]]").filterNot(_.isEmpty).map(_.split(",").map(_.toInt).toVector):_*).filter(_.nonEmpty)
 
 
+    val shipContainer1 = ShipContainer(shipsX1.zip(shipsY1).map { case (x, y) => Ship(x, y, x.size) })
+    val shipContainer2 = ShipContainer(shipsX2.zip(shipsY2).map { case (x, y) => Ship(x, y, x.size) })
 
-    val grid1 = Grid(gridSize1, shots1, ShipContainer(Vector[Ship]()))
-    val grid2 = Grid(gridSize2, shots2, ShipContainer(Vector[Ship]()))
+
+    val grid1 = Grid(gridSize1, shots1, shipContainer1)
+    val grid2 = Grid(gridSize2, shots2, shipContainer2)
 
     val state1 = new Player1State(grid1, name1)
     val state2 = new Player1State(grid2, name2)
