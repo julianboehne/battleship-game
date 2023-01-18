@@ -101,14 +101,20 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
           if (controller.gameState != SHIP_PLAYER1 && controller.gameState != SHIP_PLAYER2) {
             println("invalid command")
             Dialog.showMessage(message = new Label("invalid command").peer)
-          } else controller.undo()
+          } else {
+            controller.undo()
+            update
+          }
 
         })
         contents += new MenuItem(Action("Redo Ship") {
           if (controller.gameState != SHIP_PLAYER1 && controller.gameState != SHIP_PLAYER2) {
             println("invalid command")
             Dialog.showMessage(message = new Label("invalid command").peer)
-          } else controller.redo()
+          } else {
+            controller.redo()
+            update
+          }
 
 
         })

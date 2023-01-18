@@ -112,7 +112,7 @@ class FileIOXml extends FileIOInterface {
     val shotsY2: Vector[Int] = (file \\ "state" \ "state2" \ "grid" \ "shots" \ "Y").text.trim match
       case s: String if s == "Vector()" => Vector.empty[Int]
       case s: String => s.stripPrefix("Vector(").stripSuffix(")").split(", ").map(_.toInt).toVector
-    
+
 
     val shots1 = Shots(shotsX1, shotsY1)
     val shots2 = Shots(shotsX2, shotsY2)

@@ -123,7 +123,8 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
               if (controller.isLost()) {
                 controller.gameState = END
               }
-              controller.changeState()
+              if(!controller.state.grid.getShips().isHit(controller.state.grid.getShots().getLatestX, controller.state.grid.getShots().getLatestY))
+                controller.changeState()
 
             }
 
