@@ -24,6 +24,18 @@ class TUI(controller: ControllerInterface) extends Observer {
     //Eingabe
     input = readLine()
     if (input.equals("q")) System.exit(0)
+    if (input.equals("save")) {
+      controller.saveGame()
+      return
+    }
+    if (input.equals("load")) {
+      controller.loadGame()
+      return
+    }
+    if (input.equals("new")) {
+      controller.resetGame()
+      return
+    }
 
     controller.gameState match
       case PLAYER_CREATE1 => addPlayer(input)

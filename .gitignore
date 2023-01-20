@@ -34,3 +34,7 @@ metals.sbt
 #class
 *.tasty
 *.class
+
+#json/xml
+*.json
+*.xml
