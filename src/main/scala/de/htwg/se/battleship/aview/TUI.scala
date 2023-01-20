@@ -24,6 +24,18 @@ class TUI(controller: ControllerInterface) extends Observer {
     //Eingabe
     input = readLine()
     if (input.equals("q")) System.exit(0)
+    if (input.equals("save")) {
+      controller.saveGame()
+      return
+    }
+    if (input.equals("load")) {
+      controller.loadGame()
+      return
+    }
+    if (input.equals("new")) {
+      controller.resetGame()
+      return
+    }
 
     controller.gameState match
       case PLAYER_CREATE1 => addPlayer(input)
@@ -43,10 +55,19 @@ class TUI(controller: ControllerInterface) extends Observer {
           shipStart = ""
         }
       case SHOTS =>
-        if (addShotInput(input) == 0) controller.changeState()
-        controller.changeState()
-        if (controller.isLost()) controller.gameState = END
-        controller.changeState()
+
+        if (addShotInput(input) == 0) {
+
+          if (controller.isLost()) {
+            controller.gameState = END
+          }
+          if (!controller.state.grid.getShips().isHit(controller.state.grid.getShots().getLatestX, controller.state.grid.getShots().getLatestY))
+            controller.changeState()
+
+        }
+
+
+
       case END => println("end")
 
 
@@ -68,7 +89,6 @@ class TUI(controller: ControllerInterface) extends Observer {
 
 
   def addShotInput(input: String): Int = {
-    println(controller.GameStateText)
     if (!controller.isValid(input)) {
       println("Wrong input: " + input)
       println("Format example: <h6>\n")

@@ -8,6 +8,7 @@ import de.htwg.se.battleship.util.{Observable, UndoManager}
 
 import scala.util.control.NonLocalReturns.*
 import com.google.inject.{Guice, Inject}
+import de.htwg.se.battleship.BattleshipModule
 import de.htwg.se.battleship.controller.GameState.*
 import de.htwg.se.battleship.controller.state.{Player1State, Player2State, PlayerState}
 
@@ -16,9 +17,9 @@ class Controller @Inject() (override val grid: GridInterface) extends Controller
 
   val undoManager = new UndoManager
   var gameState: GameState = PLAYER_CREATE1
+
   var player1: PlayerState = new Player1State(grid,  "")
   var player2: PlayerState = new Player2State(grid,  "")
-
   var state: PlayerState = player1
 
   override def changeState(): Unit = {
@@ -104,6 +105,37 @@ class Controller @Inject() (override val grid: GridInterface) extends Controller
   }
 
   override def GameStateText:String = GameState.message(gameState)
+
+  override def resetGame(): Unit = {
+    player1 = new Player1State(grid, "")
+    player2 = new Player2State(grid, "")
+    gameState = PLAYER_CREATE1
+    state = player1
+  }
+
+  override def saveGame(): Unit = {
+    val injector = Guice.createInjector(new BattleshipModule)
+    val fileIo = injector.getInstance(classOf[FileIOInterface])
+    state match
+      case _: Player1State => fileIo.save(player1, player2,1,gameState)
+      case _: Player2State => fileIo.save(player1, player2,2,gameState)
+  }
+
+  override def loadGame(): Unit = {
+    val injector = Guice.createInjector(new BattleshipModule)
+    val fileIo = injector.getInstance(classOf[FileIOInterface])
+
+    val vec = fileIo.load()
+
+    player1 = new Player1State(vec(0).grid,  vec(0).getPlayerName)
+    player2 = new Player2State(vec(1).grid,  vec(1).getPlayerName)
+
+    vec(2) match
+      case 1 => state = player1
+      case 2 => state = player2
+
+    gameState = vec(3)
+  }
 
   
 

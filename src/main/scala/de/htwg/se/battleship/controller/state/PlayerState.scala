@@ -15,4 +15,6 @@ trait PlayerState {
 
   def getBoard(): Vector[String]
 
+  def getShipBoard(): Vector[String]
+
 }

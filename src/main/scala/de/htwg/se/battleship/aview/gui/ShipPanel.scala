@@ -30,8 +30,8 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
     player.text = controller.state.getPlayerName + ": " + controller.GameStateText
 
     add(info, BorderPanel.Position.South)
-    info.foreground = new Color(0, 0, 0)
-    info.text = "Please try to implement your Ships!"
+    //info.foreground = new Color(0, 0, 0)
+    //info.text = "Please try to implement your Ships!"
 
 
   }
@@ -53,7 +53,12 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
     printField
 
     def printField =
-      controller.state.board.map(x => contents += new CellButton(x))
+      controller.state.getShipBoard().map(x =>
+        if (x.equals("#")) contents += new CellButton("\uD83D\uDEA2")
+        else contents += new CellButton(x)
+
+      )
+      //controller.state.board.map(x => contents += new CellButton(x))
 
     def test(): Unit = {
 
@@ -81,7 +86,6 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
           pos1 = pos
           button1 = this
         } else if (!pos1.equals("") && pos2.equals("")) {
-          //button.text = "#"
           pos2 = pos
           val e = Try(
 
@@ -128,9 +132,10 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
               case SHIP_PLAYER1 => controller.gameState = SHIP_PLAYER2
               case SHIP_PLAYER2 => controller.gameState = SHOTS
 
-            update
+            //update
 
           }
+          update
 
 
 

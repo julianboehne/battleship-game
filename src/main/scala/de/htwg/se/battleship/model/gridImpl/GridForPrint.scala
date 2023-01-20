@@ -2,13 +2,13 @@ package de.htwg.se.battleship.model.gridImpl
 
 import de.htwg.se.battleship.model.*
 
-case class GridForShots(size: Int, grid: Vector[String]) extends GridTemplate {
+case class GridForPrint(size: Int, grid: Vector[String]) extends GridTemplate {
 
   override def vertical(width: Int, count: Int, row: Int): String = {
     val width2 = width - 2
     val area = row * 10
 
-    val x: Vector[String] = grid.slice(area,area + 10)
+    val x: Vector[String] = grid.slice(area,area + count)
     var str3 = ""
 
 

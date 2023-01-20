@@ -20,6 +20,9 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
   val endPanel = EndPanel(controller, this)
 
 
+  def changeToStartPanel(): Unit =
+    frame.contents = startPanel.contentPanel
+
   def changeToShipPanel1(): Unit =
     controller.state = controller.player1
     frame.contents = shipPanel.contentPanel
@@ -34,6 +37,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
   def changeToEndPanel(): Unit =
     frame.contents = endPanel.contentPanel
 
+
   val headline = new Label {
     text = "Battleship Game"
     foreground = new Color(0, 0, 0)
@@ -42,16 +46,14 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
 
   override def update: Unit = {
     controller.gameState match
-      case PLAYER_CREATE1 =>
+      case PLAYER_CREATE1 => changeToStartPanel()
       case PLAYER_CREATE2 =>
       case SHIP_PLAYER1 => changeToShipPanel1()
       case SHIP_PLAYER2 => changeToShipPanel2()
       case SHOTS => changeToShotPanel()
       case END => changeToEndPanel()
 
-
   }
-
 
 
   val frame = new Frame {
@@ -61,10 +63,35 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
 
     menuBar = new MenuBar {
       contents += new Menu("Options") {
-        /*contents += new MenuItem(Action("New Game") {
+        contents += new MenuItem(Action("New Game") {
           //new Game
-        })*/
+          controller.resetGame()
+          println("New Game:")
+          Dialog.showMessage(message = new Label("New Game").peer)
+          update
+
+        })
+
+        contents += new MenuItem(Action("Save Game") {
+          //Save Game
+          controller.saveGame()
+          println("Game saved")
+          Dialog.showMessage(message = new Label("Game saved").peer)
+          //update
+
+        })
+
+        contents += new MenuItem(Action("Load Game") {
+          //Save Game
+          controller.loadGame()
+          println("Load saved")
+          Dialog.showMessage(message = new Label("Game loaded").peer)
+          update
+
+        })
+
         contents += new MenuItem(Action("Exit") {
+          //Exit
           System.exit(0)
         })
       }
@@ -74,14 +101,20 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
           if (controller.gameState != SHIP_PLAYER1 && controller.gameState != SHIP_PLAYER2) {
             println("invalid command")
             Dialog.showMessage(message = new Label("invalid command").peer)
-          } else controller.undo()
+          } else {
+            controller.undo()
+            update
+          }
 
         })
         contents += new MenuItem(Action("Redo Ship") {
           if (controller.gameState != SHIP_PLAYER1 && controller.gameState != SHIP_PLAYER2) {
             println("invalid command")
             Dialog.showMessage(message = new Label("invalid command").peer)
-          } else controller.redo()
+          } else {
+            controller.redo()
+            update
+          }
 
 
         })

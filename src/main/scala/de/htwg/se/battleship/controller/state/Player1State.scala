@@ -19,9 +19,10 @@ class Player1State(var grid: GridInterface, name: String) extends PlayerState {
       case None => "Player1"
 
   }
-  
 
   override def getBoard(): Vector[String] = grid.getBoard()
+
+  override def getShipBoard(): Vector[String] = grid.getShipBoard()
 
 
 }
