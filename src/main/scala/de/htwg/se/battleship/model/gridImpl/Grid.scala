@@ -7,7 +7,6 @@ import scala.util.control.NonLocalReturns.{returning, throwReturn}
 
 
 case class Grid(size: Int, shots: Shots, ships: ShipContainer) extends GridInterface {
-  //Grid for Shots
 
   override def getGridShots: String = {
     if (shots.X.isEmpty && shots.Y.isEmpty) return EmptyGrid(size).toString
@@ -21,7 +20,6 @@ case class Grid(size: Int, shots: Shots, ships: ShipContainer) extends GridInter
   override def getGridShips: String = {
     if (ships.shipsVector.isEmpty) return EmptyGrid(size).toString
     GridForPrint(size, getShipBoard()).toString
-    // GridForShips(size, ships).toString
   }
 
   override def getShots(): Shots = shots

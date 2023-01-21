@@ -6,7 +6,7 @@ case class GridForPrint(size: Int, grid: Vector[String]) extends GridTemplate {
 
   override def vertical(width: Int, count: Int, row: Int): String = {
     val width2 = width - 2
-    val area = row * 10
+    val area = row * count
 
     val x: Vector[String] = grid.slice(area,area + count)
     var str3 = ""
