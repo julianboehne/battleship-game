@@ -25,6 +25,7 @@ class ShotsSpec extends AnyWordSpec {
       val shots = Shots(Vector(1), Vector(1))
 
       shots.wasShot(1, 1) should be(true)
+      shots.wasShot(1, 2) should be(false)
     }
 
     "get the x-coordinate of a shot" in {
