@@ -40,5 +40,6 @@ jacocoExcludes := Seq(
   "de.htwg.se.battleship.Battleship*",
   "de.htwg.se.battleship.util.Observable*",
   "de.htwg.se.battleship.controller.controllerImpl.SetCommand*",
-  "de.htwg.se.battleship.aview.gui*"
+  "de.htwg.se.battleship.aview.gui*",
+  "de.htwg.se.battleship.model.fileIOImpl*"
 )

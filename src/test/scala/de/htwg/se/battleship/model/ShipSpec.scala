@@ -8,9 +8,9 @@ import org.scalatest.matchers.should.Matchers.*
 class ShipSpec extends AnyWordSpec {
 
   val ship2: Ship = Ship(Vector[Int](1, 1), Vector[Int](2, 3), 2) // size 2 ship
-  val ship3: Ship = Ship(Vector[Int](1, 1, 1), Vector[Int](2, 3, 4), 3) // size 2 ship
-  val ship4: Ship = Ship(Vector[Int](1, 1, 1, 1), Vector[Int](1, 2, 3, 4), 4) // size 2 ship
-  val ship5: Ship = Ship(Vector[Int](1, 1, 1, 1, 1), Vector[Int](1, 2, 3, 4, 5), 5) // size 2 ship
+  val ship3: Ship = Ship(Vector[Int](1, 1, 1), Vector[Int](2, 3, 4), 3) // size 3 ship
+  val ship4: Ship = Ship(Vector[Int](1, 1, 1, 1), Vector[Int](1, 2, 3, 4), 4) // size 4 ship
+  val ship5: Ship = Ship(Vector[Int](1, 1, 1, 1, 1), Vector[Int](1, 2, 3, 4, 5), 5) // size 5 ship
 
   "Shots" should {
     "have a getX and getY function" in {
