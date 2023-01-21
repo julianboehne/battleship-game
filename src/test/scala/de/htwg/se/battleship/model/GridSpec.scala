@@ -12,10 +12,12 @@ class GridSpec extends AnyWordSpec {
     val nextline: String = sys.props("line.separator")
 
     "have a getGridShots function" in {
-      val gridSize = 10
+      val gridSize = 1
       val grid1: Grid = Grid(gridSize, Shots(Vector[Int](), Vector[Int]()), ShipContainer(Vector[Ship]()))
-      val test = EmptyGrid(10).fullField
-      grid1.getGridShots should be(test)
+      val test = EmptyGrid(1).fullField
+
+
+      grid1.getGridShots should be("+----+" + nextline + "|    |" + nextline + "+----+" + nextline)
 
 
       val grid2: Grid = Grid(3, Shots(Vector[Int](1,2), Vector[Int](1,4)), ShipContainer(Vector[Ship]()))
