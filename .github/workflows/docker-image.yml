@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Deploy Image to Docker-Hub
-      run: 
-        docker build . --file Dockerfile --tag battleship-game:$(date +%s)
-        docker login -u ${{ secrets.DOCKER_LOGIN }} -p ${{ secrets.DOCKER_PW }}
-        docker push julianboehne/battleship:$(date +%s)
+    - run: docker build . --file Dockerfile --tag battleship-game:$(date +%s)
+    - run: docker login -u ${{ secrets.DOCKER_LOGIN }} -p ${{ secrets.DOCKER_PW }}
+    - run: docker push julianboehne/battleship:$(date +%s)
+
