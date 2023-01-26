@@ -19,6 +19,6 @@ jobs:
     - name: Docker login
       run: docker login -u ${{ secrets.DOCKER_LOGIN }} -p ${{ secrets.DOCKER_PW }}
     - name: Docker deploy
-      run: docker push julianboehne/battleship:$(date +%s)
+      run: docker push julianboehne/battleship:battleship-game
 
 
