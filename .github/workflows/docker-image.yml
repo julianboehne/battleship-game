@@ -15,10 +15,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Docker build
-      run: docker build . --file Dockerfile --tag battleship-game:$(date +%s)
+      run: docker build . --file Dockerfile --tag julianboehne/battleship:$(date +%s)
     - name: Docker login
       run: docker login -u ${{ secrets.DOCKER_LOGIN }} -p ${{ secrets.DOCKER_PW }}
     - name: Docker deploy
-      run: docker push julianboehne/battleship:battleship-game
+      run: docker push julianboehne/battleship:$(date +%s)
 
 
