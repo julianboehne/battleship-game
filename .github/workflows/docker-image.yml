@@ -21,6 +21,6 @@ jobs:
     - name: Docker deploy
       run: docker push julianboehne/battleship:battleship_${{ env.TAG }}
       env:
-        TAG: $(date + '%Y-%m-%d')
+        TAG: $(date + %Y-%m-%d)
 
 
