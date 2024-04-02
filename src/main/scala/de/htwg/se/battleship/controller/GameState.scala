@@ -16,5 +16,14 @@ object GameState extends Enumeration {
   def message(gameState: GameState): String = {
     map(gameState)
   }
+  def determineGameState(gameStateStr: String): GameState = gameStateStr match {
+    case "PLAYER_CREATE1" => PLAYER_CREATE1
+    case "PLAYER_CREATE2" => PLAYER_CREATE2
+    case "SHIP_PLAYER1" => SHIP_PLAYER1
+    case "SHIP_PLAYER2" => SHIP_PLAYER2
+    case "SHOTS" => SHOTS
+    case "END" => END
+    case _ => throw new IllegalArgumentException(s"Invalid game state: $gameStateStr")
+  }
 
 }

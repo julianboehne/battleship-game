@@ -148,14 +148,7 @@ class FileIOXml extends FileIOInterface {
 
     val gameStateStr = (file \\ "state" \ "general" \ "gameState").text.trim
 
-    var gameState: GameState = PLAYER_CREATE1
-    gameStateStr match
-      case "PLAYER_CREATE1" => gameState = PLAYER_CREATE1
-      case "PLAYER_CREATE2" => gameState = PLAYER_CREATE2
-      case "SHIP_PLAYER1" => gameState = SHIP_PLAYER1
-      case "SHIP_PLAYER2" => gameState = SHIP_PLAYER2
-      case "SHOTS" => gameState = SHOTS
-      case "END" => gameState = END
+    val gameState: GameState = GameState.determineGameState(gameStateStr)
 
 
 
