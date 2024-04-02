@@ -57,19 +57,11 @@ case class ShipContainer(shipsVector: Vector[Ship]) {
   }
 
   def shipSingleCountValid(): Boolean = {
-    val sizeVec = (0 until shipsVector.size).map(x => shipsVector(x).size).toVector
-    val zweierCount = sizeVec.count(x => {
-      x == 2
-    })
-    val dreierCount = sizeVec.count(x => {
-      x == 3
-    })
-    val viererCount = sizeVec.count(x => {
-      x == 4
-    })
-    val fuenferCount = sizeVec.count(x => {
-      x == 5
-    })
+    val sizeVec = shipsVector.indices.map(shipsVector(_).size).toVector
+    val zweierCount = sizeVec.count(_ == 2)
+    val dreierCount = sizeVec.count(_ == 3)
+    val viererCount = sizeVec.count(_ == 4)
+    val fuenferCount = sizeVec.count(_ == 5)
 
     if (zweierCount > 3) false
     else if (dreierCount > 2) false
@@ -81,7 +73,7 @@ case class ShipContainer(shipsVector: Vector[Ship]) {
 
   def isHit(x: Int, y: Int): Boolean = returning {
 
-    (0 until shipsVector.size).map(i =>
+    (0 until shipsVector.size).foreach(i =>
       if (shipsVector(i).isHIt(x, y)) throwReturn(true)
     )
     false

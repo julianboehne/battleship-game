@@ -49,10 +49,10 @@ class FileIOXml extends FileIOInterface {
           </shots>
           <ships>
             {<shipX>
-            {(0 until state1.grid.ships.getSize).map(i => state1.grid.ships.shipsVector(i).x).toString}
+            {(0 until state1.grid.ships.getSize).map(state1.grid.ships.shipsVector(_).x).toString}
           </shipX>
             <shipY>
-              {(0 until state1.grid.ships.getSize).map(i => state1.grid.ships.shipsVector(i).y).toString}
+              {(0 until state1.grid.ships.getSize).map(state1.grid.ships.shipsVector(_).y).toString}
             </shipY>}
           </ships>}
         </grid>}
@@ -75,10 +75,10 @@ class FileIOXml extends FileIOInterface {
           </shots>
           <ships>
             {<shipX>
-            {(0 until state2.grid.ships.getSize).map(i => state2.grid.ships.shipsVector(i).x).toString}
+            {(0 until state2.grid.ships.getSize).map(state2.grid.ships.shipsVector(_).x).toString}
           </shipX>
             <shipY>
-              {(0 until state2.grid.ships.getSize).map(i => state2.grid.ships.shipsVector(i).y).toString}
+              {(0 until state2.grid.ships.getSize).map(state2.grid.ships.shipsVector(_).y).toString}
             </shipY>}
           </ships>}
         </grid>}
