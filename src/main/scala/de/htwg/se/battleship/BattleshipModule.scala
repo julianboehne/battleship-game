@@ -13,8 +13,8 @@ class BattleshipModule extends AbstractModule {
 
     bind(classOf[ControllerInterface]).toInstance(new controllerImpl.Controller(grid))
 
-    bind(classOf[FileIOInterface]).toInstance(new FileIOJson)
-    //bind(classOf[FileIOInterface]).toInstance(new FileIOXml)
+    //bind(classOf[FileIOInterface]).toInstance(new FileIOJson)
+    bind(classOf[FileIOInterface]).toInstance(new FileIOXml)
 
   }
 }

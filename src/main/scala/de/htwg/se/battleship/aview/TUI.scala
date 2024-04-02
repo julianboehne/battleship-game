@@ -18,24 +18,27 @@ class TUI(controller: ControllerInterface) extends Observer {
   def processInputLine(): Unit = {
 
     println(controller.GameStateText)
+
     if (controller.gameState == END) {
       println(controller.state.getPlayerName + " has won the game!")
     }
     //Eingabe
     input = readLine()
-    if (input.equals("q")) System.exit(0)
-    if (input.equals("save")) {
-      controller.saveGame()
-      return
+
+    input match {
+      case "q" => System.exit(0)
+      case "save" =>
+        controller.saveGame()
+        return
+      case "load" =>
+        controller.loadGame()
+        return
+      case "new" =>
+        controller.resetGame()
+        return
+      case _ =>
     }
-    if (input.equals("load")) {
-      controller.loadGame()
-      return
-    }
-    if (input.equals("new")) {
-      controller.resetGame()
-      return
-    }
+
 
     controller.gameState match
       case PLAYER_CREATE1 => addPlayer(input)
@@ -61,15 +64,13 @@ class TUI(controller: ControllerInterface) extends Observer {
           if (controller.isLost()) {
             controller.gameState = END
           }
-          if (!controller.state.grid.getShips().isHit(controller.state.grid.getShots().getLatestX, controller.state.grid.getShots().getLatestY))
+          if (!controller.state.grid.getShips().isHit(controller.state.grid.getShots().getLatestX, controller.state.grid.getShots().getLatestY)) {
             controller.changeState()
+          } else println("Hit! You can fire again.")
 
         }
 
-
-
       case END => println("end")
-
 
   }
 
@@ -122,10 +123,21 @@ class TUI(controller: ControllerInterface) extends Observer {
 
       if (!controller.isValid(start) || !controller.isValid(ende)) {
         println("Wrong input1")
-        //println("Format example: <h6>\n")
       } else if (!controller.checkShip(controller.getX(start), controller.getY(start), controller.getX(ende), controller.getY(ende))) {
         println("Wrong Input2")
-      } else controller.set(controller.getX(start), controller.getY(start), controller.getX(ende), controller.getY(ende))
+      } else {
+        controller.set(controller.getX(start), controller.getY(start), controller.getX(ende), controller.getY(ende))
+        //GameState
+        if (!controller.state.grid.getShips().shipCountValid()) {
+          controller.gameState match
+            case SHIP_PLAYER1 =>
+              controller.state = controller.player2
+              controller.gameState = SHIP_PLAYER2
+            case SHIP_PLAYER2 =>
+              controller.state = controller.player1
+              controller.gameState = SHOTS
+        }
+      }
     )
     if (e.isFailure) println("invalid")
     else {
@@ -140,17 +152,7 @@ class TUI(controller: ControllerInterface) extends Observer {
       }
     }
 
-    //GameState
-    if (!controller.state.grid.getShips().shipCountValid()) {
-      controller.gameState match
-        case SHIP_PLAYER1 =>
-          controller.changeState()
-          controller.gameState -> SHIP_PLAYER2
-        case SHIP_PLAYER2 =>
-          controller.state = controller.player1
-          controller.gameState -> SHOTS
 
-    }
 
   }
 
@@ -170,7 +172,7 @@ class TUI(controller: ControllerInterface) extends Observer {
           println ("Auto ship placement")
         case _ =>
           shipStart = line1
-            println ("Endwert: ")
+            println ("Second value: ")
 
     )
     if (e.isFailure) println("Exception")
@@ -178,19 +180,16 @@ class TUI(controller: ControllerInterface) extends Observer {
     if (line1.equals("auto")) {
       controller.gameState match
         case SHIP_PLAYER1 =>
-          controller.changeState()
+          controller.state = controller.player2
           controller.gameState = SHIP_PLAYER2
         case SHIP_PLAYER2 =>
           controller.state = controller.player1
           controller.gameState = SHOTS
     }
 
-
-
   }
 
   override def update: Unit = {
     println(controller.toString)
-    //processInputLine()
   }
 }
