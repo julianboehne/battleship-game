@@ -16,7 +16,7 @@ trait ControllerInterface extends Observable {
 
   def changeState(): Unit
   def addShot(x: Int, y: Int): Unit
-  def isLost(): Boolean
+  def isLost: Boolean
   def checkShip(x1: Int, y1: Int, x2: Int, y2: Int): Boolean
   def alreadyFired(x: Int, y: Int): Boolean
   def GridShipToString: String

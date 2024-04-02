@@ -13,8 +13,8 @@ trait PlayerState {
 
   def getPlayerName: String
 
-  def getBoard(): Vector[String]
+  def getBoard: Vector[String]
 
-  def getShipBoard(): Vector[String]
+  def getShipBoard: Vector[String]
 
 }

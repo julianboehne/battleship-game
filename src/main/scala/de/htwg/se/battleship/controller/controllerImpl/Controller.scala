@@ -30,22 +30,20 @@ class Controller @Inject() (override val grid: GridInterface) extends Controller
 
 
   override def addShot(x: Int, y: Int): Unit = {
-    state.grid = Grid(grid.getSize(), state.grid.getShots().addShot(x, y), state.grid.getShips())
+    state.grid = Grid(grid.size, state.grid.shots.addShot(x, y), state.grid.ships)
     notifyObservers
   }
 
-
-
-  override def isLost(): Boolean = returning {
-    if (state.grid.getNumberSunk == state.grid.getShips().getSize) true
+  override def isLost: Boolean = returning {
+    if (state.grid.getNumberSunk == state.grid.ships.getSize) true
     else false
   }
 
-  override def checkShip(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = state.grid.getShips().isValid(x1, y1, x2, y2)
+  override def checkShip(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = state.grid.ships.isValid(x1, y1, x2, y2)
 
   override def alreadyFired(x: Int, y: Int): Boolean = returning {
-    state.grid.getShots().X.indices.foreach(i =>
-      if (state.grid.getShots().X(i) == x && state.grid.getShots().Y(i) == y)
+    state.grid.shots.X.indices.foreach(i =>
+      if (state.grid.shots.X(i) == x && state.grid.shots.Y(i) == y)
         throwReturn(true)
     )
     false

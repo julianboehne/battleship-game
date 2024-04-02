@@ -19,31 +19,31 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
 
   override def update: Unit = gui.update
 
-  def contentPanel = new BorderPanel {
+  def contentPanel: BorderPanel = new BorderPanel {
     add(headPanel, BorderPanel.Position.North)
     add(BoardPanel, BorderPanel.Position.Center)
   }
 
-  def headPanel = new BorderPanel {
+  private def headPanel = new BorderPanel {
     add(gui.headline, BorderPanel.Position.North) // Headline
     add(player1Text, BorderPanel.Position.West) // Player1 Field
     add(player2Text, BorderPanel.Position.East) // Player2 Field
     player1Text.text = "    " + controller.player1.getPlayerName + ": "
-      + (controller.player1.grid.getShips().getSize-controller.player1.grid.getNumberSunk)
+      + (controller.player1.grid.ships.getSize-controller.player1.grid.getNumberSunk)
       + "\uD83D\uDEA2 " + controller.player1.grid.getNumberSunk + "\uD83D\uDCA5"
     player2Text.text = controller.player2.getPlayerName + ": "
-      + (controller.player2.grid.getShips().getSize - controller.player2.grid.getNumberSunk)
+      + (controller.player2.grid.ships.getSize - controller.player2.grid.getNumberSunk)
       + "\uD83D\uDEA2 " + controller.player2.grid.getNumberSunk + "\uD83D\uDCA5" + "    "
 
   }
 
-  val player1Text: Label = new Label {
+  private val player1Text: Label = new Label {
     //text = controller.player1.getPlayerName
     font = new Font("Sans Serif", 0, 20)
     foreground = new Color(5, 88, 242)
   }
 
-  val player2Text: Label = new Label {
+  private val player2Text: Label = new Label {
     //text = controller.player2.getPlayerName
     font = new Font("Sans Serif", 0, 20)
     foreground = new Color(17, 171, 3)
@@ -54,7 +54,7 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
 
 
 
-  def BoardPanel = new BorderPanel {
+  private def BoardPanel = new BorderPanel {
 
     add(new CellPanel1(), BorderPanel.Position.West) // Player1 Field
     add(new CellPanel2(), BorderPanel.Position.East) // Player2 Field
@@ -64,19 +64,19 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
     controller.changeState()
   }
 
-  val currPlayer: Label = new Label {
+  private val currPlayer: Label = new Label {
     //text = controller.state.getPlayerName
     font = new Font("Sans Serif", 0, 22)
 
   }
 
   //Player1 Grid
-  class CellPanel1() extends GridPanel(10, 10):
+  private class CellPanel1 extends GridPanel(10, 10):
     border = EmptyBorder(20, 20, 20, 20)
     printField1
 
-    def printField1 =
-      controller.player1.getBoard().map(x =>
+    private def printField1 =
+      controller.player1.getBoard.map(x =>
         if (x.equals("X")) contents += new CellButton("❌", controller.player1)
         else if (x.equals("0")) contents += new CellButton("⭕", controller.player1)
         else contents += new CellButton(x, controller.player1)
@@ -84,12 +84,12 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
       )
 
   //Player2 Grid
-  class CellPanel2() extends GridPanel(10, 10):
+  private class CellPanel2 extends GridPanel(10, 10):
     border = EmptyBorder(20, 20, 20, 20)
     printField2
 
-    def printField2 =
-      controller.player2.getBoard().map(x =>
+    private def printField2 =
+      controller.player2.getBoard.map(x =>
         if (x.equals("X")) contents += new CellButton("❌", controller.player2)
         else if (x.equals("0")) contents += new CellButton("⭕", controller.player2)
         else contents += new CellButton(x, controller.player2)
@@ -120,10 +120,10 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
               controller.changeState()
             } else {
               controller.addShot(x, y)
-              if (controller.isLost()) {
+              if (controller.isLost) {
                 controller.gameState = END
               }
-              if(!controller.state.grid.getShips().isHit(controller.state.grid.getShots().getLatestX, controller.state.grid.getShots().getLatestY))
+              if(!controller.state.grid.ships.isHit(controller.state.grid.shots.getLatestX, controller.state.grid.shots.getLatestY))
                 controller.changeState()
 
             }

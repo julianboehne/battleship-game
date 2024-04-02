@@ -12,7 +12,7 @@ import scala.util.control.NonLocalReturns.*
 class TUI(controller: ControllerInterface) extends Observer {
   controller.add(this)
 
-  var shipStart: String = ""
+  private var shipStart: String = ""
   var input: String = ""
 
   def processInputLine(): Unit = {
@@ -61,10 +61,10 @@ class TUI(controller: ControllerInterface) extends Observer {
 
         if (addShotInput(input) == 0) {
 
-          if (controller.isLost()) {
+          if (controller.isLost) {
             controller.gameState = END
           }
-          if (!controller.state.grid.getShips().isHit(controller.state.grid.getShots().getLatestX, controller.state.grid.getShots().getLatestY)) {
+          if (!controller.state.grid.ships.isHit(controller.state.grid.shots.getLatestX, controller.state.grid.shots.getLatestY)) {
             controller.changeState()
           } else println("Hit! You can fire again.")
 
@@ -74,7 +74,7 @@ class TUI(controller: ControllerInterface) extends Observer {
 
   }
 
-  def addPlayer(input: String): Unit = {
+  private def addPlayer(input: String): Unit = {
     controller.gameState match
       case PLAYER_CREATE1 =>
         controller.state = controller.player1
@@ -114,10 +114,10 @@ class TUI(controller: ControllerInterface) extends Observer {
 
   def removeShip(): Unit = controller.undo()
 
-  def redoShip(): Unit = controller.redo()
+  private def redoShip(): Unit = controller.redo()
 
 
-  def addShipInput(start: String, ende: String): Unit = {
+  private def addShipInput(start: String, ende: String): Unit = {
 
     val e = Try(
 
@@ -128,7 +128,7 @@ class TUI(controller: ControllerInterface) extends Observer {
       } else {
         controller.set(controller.getX(start), controller.getY(start), controller.getX(ende), controller.getY(ende))
         //GameState
-        if (!controller.state.grid.getShips().shipCountValid()) {
+        if (!controller.state.grid.ships.shipCountValid()) {
           controller.gameState match
             case SHIP_PLAYER1 =>
               controller.state = controller.player2
@@ -141,12 +141,12 @@ class TUI(controller: ControllerInterface) extends Observer {
     )
     if (e.isFailure) println("invalid")
     else {
-      if (!controller.state.grid.getShips().shipPosition()) {
+      if (!controller.state.grid.ships.shipPosition()) {
         controller.undo()
         println("You already place a ship at this position!")
       }
 
-      if (!controller.state.grid.getShips().shipSingleCountValid()) {
+      if (!controller.state.grid.ships.shipSingleCountValid()) {
         controller.undo()
         println("Too many ships with this size")
       }
@@ -156,7 +156,7 @@ class TUI(controller: ControllerInterface) extends Observer {
 
   }
 
-  def shipStartInput(line1: String): Unit = {
+  private def shipStartInput(line1: String): Unit = {
 
     val e = Try(
 

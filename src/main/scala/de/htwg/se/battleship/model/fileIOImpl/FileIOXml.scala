@@ -21,7 +21,7 @@ class FileIOXml extends FileIOInterface {
     pw.close()
   }
 
-  def gameStatetoXml(state1: PlayerState, state2: PlayerState, currentState: Int, gameState: GameState) = {
+  private def gameStatetoXml(state1: PlayerState, state2: PlayerState, currentState: Int, gameState: GameState) = {
     <state>
       {<general>
       {<currentState>
@@ -37,22 +37,22 @@ class FileIOXml extends FileIOInterface {
       </name>
         <grid>
           {<size>
-          {state1.grid.getSize()}
+          {state1.grid.size}
         </size>
           <shots>
             {<X>
-            {state1.grid.getShots().X.toString()}
+            {state1.grid.shots.X.toString()}
           </X>
             <Y>
-              {state1.grid.getShots().Y.toString}
+              {state1.grid.shots.Y.toString}
             </Y>}
           </shots>
           <ships>
             {<shipX>
-            {(0 until state1.grid.getShips().getSize).map(i => state1.grid.getShips().shipsVector(i).x).toString}
+            {(0 until state1.grid.ships.getSize).map(i => state1.grid.ships.shipsVector(i).x).toString}
           </shipX>
             <shipY>
-              {(0 until state1.grid.getShips().getSize).map(i => state1.grid.getShips().shipsVector(i).y).toString}
+              {(0 until state1.grid.ships.getSize).map(i => state1.grid.ships.shipsVector(i).y).toString}
             </shipY>}
           </ships>}
         </grid>}
@@ -63,22 +63,22 @@ class FileIOXml extends FileIOInterface {
       </name>
         <grid>
           {<size>
-          {state2.grid.getSize()}
+          {state2.grid.size}
         </size>
           <shots>
             {<X>
-            {state2.grid.getShots().X.toString()}
+            {state2.grid.shots.X.toString()}
           </X>
             <Y>
-              {state2.grid.getShots().Y.toString}
+              {state2.grid.shots.Y.toString}
             </Y>}
           </shots>
           <ships>
             {<shipX>
-            {(0 until state2.grid.getShips().getSize).map(i => state2.grid.getShips().shipsVector(i).x).toString}
+            {(0 until state2.grid.ships.getSize).map(i => state2.grid.ships.shipsVector(i).x).toString}
           </shipX>
             <shipY>
-              {(0 until state2.grid.getShips().getSize).map(i => state2.grid.getShips().shipsVector(i).y).toString}
+              {(0 until state2.grid.ships.getSize).map(i => state2.grid.ships.shipsVector(i).y).toString}
             </shipY>}
           </ships>}
         </grid>}

@@ -18,9 +18,9 @@ trait Ship() {
 
   def getY(index: Int): Int
 
-  def getVectorX(): Vector[Int]
+  def getVectorX: Vector[Int]
 
-  def getVectorY(): Vector[Int]
+  def getVectorY: Vector[Int]
 
 
 }
@@ -38,9 +38,9 @@ private class ShipSizeTwo(override val x: Vector[Int], override val y: Vector[In
     false
   }
 
-  override def getVectorX(): Vector[Int] = x
+  override def getVectorX: Vector[Int] = x
 
-  override def getVectorY(): Vector[Int] = y
+  override def getVectorY: Vector[Int] = y
 
 
   override def getX(index: Int): Int = x(index)
@@ -64,9 +64,9 @@ private class ShipSizeThree(override val x: Vector[Int], override val y: Vector[
     false
   }
 
-  override def getVectorX(): Vector[Int] = x
+  override def getVectorX: Vector[Int] = x
 
-  override def getVectorY(): Vector[Int] = y
+  override def getVectorY: Vector[Int] = y
 
   override def getX(index: Int): Int = x(index)
 
@@ -87,9 +87,9 @@ private class ShipSizeFour(override val x: Vector[Int], override val y: Vector[I
     false
   }
 
-  override def getVectorX(): Vector[Int] = x
+  override def getVectorX: Vector[Int] = x
 
-  override def getVectorY(): Vector[Int] = y
+  override def getVectorY: Vector[Int] = y
 
   override def getX(index: Int): Int = x(index)
 
@@ -110,9 +110,9 @@ private class ShipSizeFive(override val x: Vector[Int], override val y: Vector[I
     false
   }
 
-  override def getVectorX(): Vector[Int] = x
+  override def getVectorX: Vector[Int] = x
 
-  override def getVectorY(): Vector[Int] = y
+  override def getVectorY: Vector[Int] = y
 
   override def getX(index: Int): Int = x(index)
 

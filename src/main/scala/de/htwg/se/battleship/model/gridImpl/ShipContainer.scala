@@ -20,7 +20,7 @@ case class ShipContainer(shipsVector: Vector[Ship]) {
   def getShip(x1: Int, y1: Int, x2: Int, y2: Int): Ship = {
     if (x1 == x2 && y1 != y2) {
       val size = Math.abs(y2 - y1) + 1
-      val x: Vector[Int] = ((1 to size).map(x => x1)).toVector
+      val x: Vector[Int] = (1 to size).map(x => x1).toVector
 
       if (y1 > y2) {
         val y: Vector[Int] = (y1 to y2 by -1).toVector
@@ -34,7 +34,7 @@ case class ShipContainer(shipsVector: Vector[Ship]) {
 
     } else {
       val size = Math.abs(x2 - x1) + 1
-      val y: Vector[Int] = ((1 to size).map(y => y1)).toVector
+      val y: Vector[Int] = (1 to size).map(y => y1).toVector
       if (x1 > x2) {
         val x: Vector[Int] = (x1 to x2 by -1).toVector
         Ship(x, y, size)
@@ -90,8 +90,8 @@ case class ShipContainer(shipsVector: Vector[Ship]) {
   def shipPosition(): Boolean = returning {
     shipsVector.indices.map(x => {
       shipsVector.indices.map(y => {
-        (0 until (shipsVector(x).size)).map(k => {
-          (0 until (shipsVector(y).size)).map(h =>
+        (0 until shipsVector(x).size).map(k => {
+          (0 until shipsVector(y).size).map(h =>
             if (shipsVector(x).getX(k) == shipsVector(y).getX(h) && shipsVector(x).getY(k) == shipsVector(y).getY(h) && x != y) throwReturn(false)
           )
         })

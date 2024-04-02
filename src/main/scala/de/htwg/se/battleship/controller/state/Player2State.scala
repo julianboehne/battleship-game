@@ -20,9 +20,9 @@ class Player2State(var grid: GridInterface, name: String) extends PlayerState {
 
   }
 
-  override def getBoard(): Vector[String] = grid.getBoard()
+  override def getBoard: Vector[String] = grid.getBoard
 
-  override def getShipBoard(): Vector[String] = grid.getShipBoard()
+  override def getShipBoard: Vector[String] = grid.getShipBoard
 
 
 }
