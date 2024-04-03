@@ -48,17 +48,17 @@ class ShipSpec extends AnyWordSpec {
       ship5.isHIt(8, 8) should be(false)
     }
     "have a getVectorX and getVectorY function" in {
-      ship2.getVectorX() should be(Vector(1, 1))
-      ship2.getVectorY() should be(Vector(2, 3))
+      ship2.getVectorX should be(Vector(1, 1))
+      ship2.getVectorY should be(Vector(2, 3))
 
-      ship3.getVectorX() should be(Vector(1, 1, 1))
-      ship3.getVectorY() should be(Vector(2, 3, 4))
+      ship3.getVectorX should be(Vector(1, 1, 1))
+      ship3.getVectorY should be(Vector(2, 3, 4))
 
-      ship4.getVectorX() should be(Vector(1, 1, 1, 1))
-      ship4.getVectorY() should be(Vector(1, 2, 3, 4))
+      ship4.getVectorX should be(Vector(1, 1, 1, 1))
+      ship4.getVectorY should be(Vector(1, 2, 3, 4))
 
-      ship5.getVectorX() should be(Vector(1, 1, 1, 1, 1))
-      ship5.getVectorY() should be(Vector(1, 2, 3, 4, 5))
+      ship5.getVectorX should be(Vector(1, 1, 1, 1, 1))
+      ship5.getVectorY should be(Vector(1, 2, 3, 4, 5))
     }
 
   }

@@ -55,17 +55,17 @@ class ShipContainerSpec extends AnyWordSpec {
 
       ship3.size should be(3)
       ship4.size should be(3)
-      ship.getVectorX() should be(Vector(1, 1, 1))
-      ship.getVectorY() should be(Vector(2, 3, 4))
+      ship.getVectorX should be(Vector(1, 1, 1))
+      ship.getVectorY should be(Vector(2, 3, 4))
 
-      ship2.getVectorX() should be(Vector(1, 2, 3))
-      ship2.getVectorY() should be(Vector(2, 2, 2))
+      ship2.getVectorX should be(Vector(1, 2, 3))
+      ship2.getVectorY should be(Vector(2, 2, 2))
 
-      ship3.getVectorX() should be(Vector(1, 1, 1))
-      ship3.getVectorY() should be(Vector(4, 3, 2))
+      ship3.getVectorX should be(Vector(1, 1, 1))
+      ship3.getVectorY should be(Vector(4, 3, 2))
 
-      ship4.getVectorX() should be(Vector(3, 2, 1))
-      ship4.getVectorY() should be(Vector(2, 2, 2))
+      ship4.getVectorX should be(Vector(3, 2, 1))
+      ship4.getVectorY should be(Vector(2, 2, 2))
     }
 
     "return true if the total ship count is valid and false if not" in {
