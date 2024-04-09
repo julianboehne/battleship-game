@@ -30,7 +30,7 @@ class ControllerSpec extends AnyWordSpec {
       assert(controller.alreadyFired(1, 1))
     }
     "checks if the player has lost the game" in {
-      assert(controller.isLost())
+      assert(controller.isLost)
     }
     "checks if input is valid" in {
       assert(controller.isValid("a1"))

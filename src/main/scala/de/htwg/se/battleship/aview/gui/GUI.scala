@@ -1,44 +1,43 @@
 package de.htwg.se.battleship.aview.gui
 
+import de.htwg.se.battleship.aview.*
 import de.htwg.se.battleship.controller.*
 import de.htwg.se.battleship.controller.GameState.*
-
-import de.htwg.se.battleship.aview.*
 import de.htwg.se.battleship.controller.controllerImpl.Controller
 import de.htwg.se.battleship.util.Observer
 
 import javax.management.Notification
-import scala.swing.event.ButtonClicked
 import javax.swing.border.EmptyBorder
 import scala.swing.*
+import scala.swing.event.ButtonClicked
 
 class GUI(controller: ControllerInterface) extends Frame with Observer:
 
-  val startPanel = StartPanel(controller, this)
-  val shipPanel = ShipPanel(controller, this)
-  val shotPanel = ShotPanel(controller, this)
-  val endPanel = EndPanel(controller, this)
+  private val startPanel = StartPanel(controller, this)
+  private val shipPanel = ShipPanel(controller, this)
+  private val shotPanel = ShotPanel(controller, this)
+  private val endPanel = EndPanel(controller, this)
 
 
-  def changeToStartPanel(): Unit =
+  private def changeToStartPanel(): Unit =
     frame.contents = startPanel.contentPanel
 
-  def changeToShipPanel1(): Unit =
+  private def changeToShipPanel1(): Unit =
     controller.state = controller.player1
     frame.contents = shipPanel.contentPanel
 
-  def changeToShipPanel2(): Unit =
+  private def changeToShipPanel2(): Unit =
     controller.state = controller.player2
     frame.contents = shipPanel.contentPanel
 
-  def changeToShotPanel(): Unit =
+  private def changeToShotPanel(): Unit =
     frame.contents = shotPanel.contentPanel
 
-  def changeToEndPanel(): Unit =
+  private def changeToEndPanel(): Unit =
     frame.contents = endPanel.contentPanel
 
 
-  val headline = new Label {
+  val headline: Label = new Label {
     text = "Battleship Game"
     foreground = new Color(0, 0, 0)
     font = new Font("Sans Serif", 0, 24)
@@ -56,7 +55,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
   }
 
 
-  val frame = new Frame {
+  private val frame = new Frame {
     title = "Battleship Game"
     preferredSize = new Dimension(1250, 750)
     resizable = false
@@ -122,7 +121,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
 
           controller.gameState match
             case SHIP_PLAYER1 =>
-              if (controller.player1.grid.getShips().getSize != 0) {
+              if (controller.player1.grid.ships.getSize != 0) {
                 println("invalid command")
                 Dialog.showMessage(message = new Label("invalid command").peer)
               } else {
@@ -131,7 +130,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
                 controller.gameState = SHIP_PLAYER2
               }
             case SHIP_PLAYER2 =>
-              if (controller.player2.grid.getShips().getSize != 0) {
+              if (controller.player2.grid.ships.getSize != 0) {
                 println("invalid command")
                 Dialog.showMessage(message = new Label("invalid command").peer)
               } else {

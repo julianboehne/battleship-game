@@ -44,17 +44,16 @@ class ShotsSpec extends AnyWordSpec {
       val shots = Shots(Vector(1), Vector(1))
       val shots2 = Shots(Vector[Int](), Vector[Int]())
 
-      shots.getLatestX should be(1)
-      shots2.getLatestX should be(-1)
-
+      shots.getLatestX should be(Some(1))
+      shots2.getLatestX should be(None)
     }
 
     "get the latest y-coordinate of a shot" in {
       val shots = Shots(Vector(1), Vector(1))
       val shots2 = Shots(Vector[Int](), Vector[Int]())
 
-      shots.getLatestY should be(1)
-      shots2.getLatestY should be(-1)
+      shots.getLatestY should be(Some(1))
+      shots2.getLatestY should be(None)
     }
   }
 }

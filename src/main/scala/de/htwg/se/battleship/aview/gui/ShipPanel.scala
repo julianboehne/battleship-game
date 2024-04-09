@@ -1,18 +1,17 @@
 package de.htwg.se.battleship.aview.gui
 
+import de.htwg.se.battleship.aview.*
 import de.htwg.se.battleship.controller.*
 import de.htwg.se.battleship.controller.GameState.*
-
-import de.htwg.se.battleship.aview.*
 import de.htwg.se.battleship.controller.controllerImpl.Controller
 import de.htwg.se.battleship.controller.state.{Player1State, Player2State, PlayerState}
 import de.htwg.se.battleship.util.Observer
 
 import javax.management.Notification
-import scala.swing.event.ButtonClicked
 import javax.swing.border.EmptyBorder
 import javax.swing.text.AbstractDocument.Content
 import scala.swing.*
+import scala.swing.event.ButtonClicked
 import scala.util.Try
 
 case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer:
@@ -20,7 +19,7 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
 
   override def update: Unit = gui.update
 
-  def contentPanel = new BorderPanel {
+  def contentPanel: BorderPanel = new BorderPanel {
     add(gui.headline, BorderPanel.Position.North) // Label-Bar
 
     add(new CellPanel(), BorderPanel.Position.West) // Game Field
@@ -37,36 +36,35 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
   }
 
 
-
   val player: Label = new Label {
     //text = controller.state.getPlayerName + ": " + controller.GameStateText
     font = new Font("Sans Serif", 0, 22)
   }
 
-  val info: Label = new Label {
+  private val info: Label = new Label {
     text = controller.GameStateText
     font = new Font("Sans Serif", 0, 22)
   }
 
-  class CellPanel() extends GridPanel(10, 10):
+  private class CellPanel extends GridPanel(10, 10):
     border = EmptyBorder(20, 20, 20, 20)
     printField
 
-    def printField =
-      controller.state.getShipBoard().map(x =>
+    private def printField =
+      controller.state.getShipBoard.map(x =>
         if (x.equals("#")) contents += new CellButton("\uD83D\uDEA2")
         else contents += new CellButton(x)
 
       )
-      //controller.state.board.map(x => contents += new CellButton(x))
+    //controller.state.board.map(x => contents += new CellButton(x))
 
     def test(): Unit = {
 
     }
 
-  var pos1 = ""
-  var pos2 = ""
-  var button1: Button = new Button()
+  private var pos1 = ""
+  private var pos2 = ""
+  private var button1: Button = new Button()
 
   class CellButton(pos: String) extends Button(pos):
     //this.background = new Color(151, 164, 222)
@@ -96,12 +94,12 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
 
             } else {
               controller.set(controller.getX(pos1), controller.getY(pos1), controller.getX(pos2), controller.getY(pos2))
-              if (!controller.state.grid.getShips().shipSingleCountValid()) {
+              if (!controller.state.grid.ships.shipSingleCountValid()) {
                 controller.undo()
                 println("Too many ships with this size")
                 info.text = "Too many ships with this size"
                 info.foreground = new Color(194, 0, 0)
-              } else if (!controller.state.grid.getShips().shipPosition()) {
+              } else if (!controller.state.grid.ships.shipPosition()) {
                 controller.undo()
                 println("You already place a ship at this position!")
                 info.text = "You already place a ship at this position!"
@@ -124,7 +122,7 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
 
           pos1 = ""
           pos2 = ""
-          if (!controller.state.grid.getShips().shipCountValid()) {
+          if (!controller.state.grid.ships.shipCountValid()) {
             println(controller.GridShipToString)
             println("All ships done")
 
@@ -138,12 +136,7 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
           update
 
 
-
         } else println("Error")
-
-
-
-
 
 
     }

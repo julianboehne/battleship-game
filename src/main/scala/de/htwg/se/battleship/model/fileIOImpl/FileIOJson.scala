@@ -6,11 +6,11 @@ import de.htwg.se.battleship.controller.GameState.*
 import de.htwg.se.battleship.controller.state.*
 import de.htwg.se.battleship.model.*
 import de.htwg.se.battleship.model.gridImpl.{Grid, Ship, ShipContainer, Shots}
+import play.api.libs.json.*
 
 import java.io.*
-import play.api.libs.json.*
-import scala.util.*
 import scala.io.Source
+import scala.util.*
 
 class FileIOJson extends FileIOInterface {
 
@@ -23,7 +23,7 @@ class FileIOJson extends FileIOInterface {
 
   }
 
-  def gameStateToJson(state1: PlayerState, state2: PlayerState, currentState: Int, gameState: GameState) = {
+  private def gameStateToJson(state1: PlayerState, state2: PlayerState, currentState: Int, gameState: GameState) = {
     Json.obj(
 
       "general" -> Json.obj(
@@ -33,16 +33,16 @@ class FileIOJson extends FileIOInterface {
       "state1" -> Json.obj(
         "name" -> JsString(state1.getPlayerName),
         "grid" -> Json.obj(
-          "size" -> JsNumber(state1.grid.getSize()),
+          "size" -> JsNumber(state1.grid.size),
           "shots" -> Json.obj(
-            "X" -> (state1.grid.getShots().X.toArray),
-            "Y" -> (state1.grid.getShots().Y.toArray)
+            "X" -> state1.grid.shots.X.toArray,
+            "Y" -> state1.grid.shots.Y.toArray
           ),
           "ships" -> Json.obj(
             "shipsVector" -> Json.obj(
 
-              "X" -> (0 until state1.grid.getShips().getSize).map(i => state1.grid.getShips().shipsVector(i).x).toArray,
-              "Y" -> (0 until state1.grid.getShips().getSize).map(i => state1.grid.getShips().shipsVector(i).y).toArray
+              "X" -> (0 until state1.grid.ships.getSize).map(i => state1.grid.ships.shipsVector(i).x).toArray,
+              "Y" -> (0 until state1.grid.ships.getSize).map(i => state1.grid.ships.shipsVector(i).y).toArray
 
             )
           )
@@ -52,16 +52,16 @@ class FileIOJson extends FileIOInterface {
       "state2" -> Json.obj(
         "name" -> JsString(state2.getPlayerName),
         "grid" -> Json.obj(
-          "size" -> JsNumber(state2.grid.getSize()),
+          "size" -> JsNumber(state2.grid.size),
           "shots" -> Json.obj(
-            "X" -> (state2.grid.getShots().X.toArray),
-            "Y" -> (state2.grid.getShots().Y.toArray)
+            "X" -> state2.grid.shots.X.toArray,
+            "Y" -> state2.grid.shots.Y.toArray
           ),
           "ships" -> Json.obj(
             "shipsVector" -> Json.obj(
 
-              "X" -> (0 until state2.grid.getShips().getSize).map(i => state2.grid.getShips().shipsVector(i).x).toArray,
-              "Y" -> (0 until state2.grid.getShips().getSize).map(i => state2.grid.getShips().shipsVector(i).y).toArray
+              "X" -> (0 until state2.grid.ships.getSize).map(i => state2.grid.ships.shipsVector(i).x).toArray,
+              "Y" -> (0 until state2.grid.ships.getSize).map(i => state2.grid.ships.shipsVector(i).y).toArray
 
             )
           )
@@ -84,19 +84,19 @@ class FileIOJson extends FileIOInterface {
 
 
     val shotsX1: Vector[Int] = (json \ "state1" \ "grid" \ "shots" \ "X").get.toString match
-      case s:String if s == "[]" => Vector.empty[Int]
-      case s:String => s.stripPrefix("[").stripSuffix("]").split(",").map(_.toInt).toVector
+      case s: String if s == "[]" => Vector.empty[Int]
+      case s: String => s.stripPrefix("[").stripSuffix("]").split(",").map(_.toInt).toVector
 
     val shotsY1: Vector[Int] = (json \ "state1" \ "grid" \ "shots" \ "Y").get.toString match
-      case s:String if s == "[]" => Vector.empty[Int]
+      case s: String if s == "[]" => Vector.empty[Int]
       case s: String => s.stripPrefix("[").stripSuffix("]").split(",").map(_.toInt).toVector
 
     val shotsX2: Vector[Int] = (json \ "state2" \ "grid" \ "shots" \ "X").get.toString match
-      case s:String if s == "[]" => Vector.empty[Int]
+      case s: String if s == "[]" => Vector.empty[Int]
       case s: String => s.stripPrefix("[").stripSuffix("]").split(",").map(_.toInt).toVector
 
     val shotsY2: Vector[Int] = (json \ "state2" \ "grid" \ "shots" \ "Y").get.toString match
-      case s:String if s == "[]" => Vector.empty[Int]
+      case s: String if s == "[]" => Vector.empty[Int]
       case s: String => s.stripPrefix("[").stripSuffix("]").split(",").map(_.toInt).toVector
 
 
@@ -121,16 +121,8 @@ class FileIOJson extends FileIOInterface {
 
     val currentState = (json \ "general" \ "currentState").get.toString.toInt
 
-    val gameStateStr:String = (json \ "general" \ "gameState").get.toString.replaceAll("^\"|\"$", "")
-    var gameState: GameState = PLAYER_CREATE1
-
-    gameStateStr match
-      case "PLAYER_CREATE1" => gameState = PLAYER_CREATE1
-      case "PLAYER_CREATE2" => gameState = PLAYER_CREATE2
-      case "SHIP_PLAYER1" => gameState = SHIP_PLAYER1
-      case "SHIP_PLAYER2" => gameState = SHIP_PLAYER2
-      case "SHOTS" => gameState = SHOTS
-      case "END" => gameState = END
+    val gameStateStr: String = (json \ "general" \ "gameState").get.toString.replaceAll("^\"|\"$", "")
+    val gameState: GameState = GameState.determineGameState(gameStateStr)
 
     (state1, state2, currentState, gameState)
   }

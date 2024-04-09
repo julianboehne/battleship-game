@@ -14,7 +14,6 @@ class GridSpec extends AnyWordSpec {
     "have a getGridShots function" in {
       val gridSize = 1
       val grid1: Grid = Grid(gridSize, Shots(Vector[Int](), Vector[Int]()), ShipContainer(Vector[Ship]()))
-      val test = EmptyGrid(1).fullField
 
 
       grid1.getGridShots should be("+----+" + nextline + "|    |" + nextline + "+----+" + nextline)
@@ -55,9 +54,9 @@ class GridSpec extends AnyWordSpec {
       val grid1: Grid = Grid(3, Shots(Vector[Int](1,2), Vector[Int](1,4)), ShipContainer(Vector[Ship](Ship(Vector(1,1,1),Vector(1,2,3),3))))
 
 
-      grid1.getShots() should be(Shots(Vector(1,2), Vector(1,4)))
-      grid1.getShips() should be(grid1.getShips())
-      grid1.getSize() should be(3)
+      grid1.shots should be(Shots(Vector(1,2), Vector(1,4)))
+      grid1.ships should be(grid1.ships)
+      grid1.size should be(3)
     }
     "have a getX function" in {
       val grid1: Grid = Grid(10, Shots(Vector[Int](), Vector[Int]()), ShipContainer(Vector[Ship]()))

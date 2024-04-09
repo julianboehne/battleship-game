@@ -22,7 +22,7 @@ abstract class GridTemplate {
   }
 
   def field(width: Int, count: Int): String = {
-    (horizontal(width, count) + vertical(width, count) ) * count + horizontal(width, count)
+    (horizontal(width, count) + vertical(width, count)) * count + horizontal(width, count)
   }
 
   def fullField: String //abstract
