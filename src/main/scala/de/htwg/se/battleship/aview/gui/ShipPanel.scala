@@ -1,18 +1,17 @@
 package de.htwg.se.battleship.aview.gui
 
+import de.htwg.se.battleship.aview.*
 import de.htwg.se.battleship.controller.*
 import de.htwg.se.battleship.controller.GameState.*
-
-import de.htwg.se.battleship.aview.*
 import de.htwg.se.battleship.controller.controllerImpl.Controller
 import de.htwg.se.battleship.controller.state.{Player1State, Player2State, PlayerState}
 import de.htwg.se.battleship.util.Observer
 
 import javax.management.Notification
-import scala.swing.event.ButtonClicked
 import javax.swing.border.EmptyBorder
 import javax.swing.text.AbstractDocument.Content
 import scala.swing.*
+import scala.swing.event.ButtonClicked
 import scala.util.Try
 
 case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer:
@@ -37,7 +36,6 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
   }
 
 
-
   val player: Label = new Label {
     //text = controller.state.getPlayerName + ": " + controller.GameStateText
     font = new Font("Sans Serif", 0, 22)
@@ -58,7 +56,7 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
         else contents += new CellButton(x)
 
       )
-      //controller.state.board.map(x => contents += new CellButton(x))
+    //controller.state.board.map(x => contents += new CellButton(x))
 
     def test(): Unit = {
 
@@ -138,12 +136,7 @@ case class ShipPanel(controller: ControllerInterface, gui: GUI) extends Observer
           update
 
 
-
         } else println("Error")
-
-
-
-
 
 
     }

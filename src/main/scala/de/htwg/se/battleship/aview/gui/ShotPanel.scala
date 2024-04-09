@@ -1,18 +1,17 @@
 package de.htwg.se.battleship.aview.gui
 
+import de.htwg.se.battleship.aview.*
 import de.htwg.se.battleship.controller.*
 import de.htwg.se.battleship.controller.GameState.*
-
-import de.htwg.se.battleship.aview.*
 import de.htwg.se.battleship.controller.controllerImpl.Controller
 import de.htwg.se.battleship.controller.state.{Player1State, Player2State, PlayerState}
 import de.htwg.se.battleship.util.Observer
 
 import javax.management.Notification
-import scala.swing.event.ButtonClicked
 import javax.swing.border.EmptyBorder
 import javax.swing.text.AbstractDocument.Content
 import scala.swing.*
+import scala.swing.event.ButtonClicked
 
 case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer:
 
@@ -29,7 +28,7 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
     add(player1Text, BorderPanel.Position.West) // Player1 Field
     add(player2Text, BorderPanel.Position.East) // Player2 Field
     player1Text.text = "    " + controller.player1.getPlayerName + ": "
-      + (controller.player1.grid.ships.getSize-controller.player1.grid.getNumberSunk)
+      + (controller.player1.grid.ships.getSize - controller.player1.grid.getNumberSunk)
       + "\uD83D\uDEA2 " + controller.player1.grid.getNumberSunk + "\uD83D\uDCA5"
     player2Text.text = controller.player2.getPlayerName + ": "
       + (controller.player2.grid.ships.getSize - controller.player2.grid.getNumberSunk)
@@ -48,10 +47,6 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
     font = new Font("Sans Serif", 0, 20)
     foreground = new Color(17, 171, 3)
   }
-
-
-
-
 
 
   private def BoardPanel = new BorderPanel {
@@ -107,28 +102,32 @@ case class ShotPanel(controller: ControllerInterface, gui: GUI) extends Observer
 
       case ButtonClicked(button) =>
 
-          if (button.text == "⭕" || button.text == "❌") {
-            println("You already fired there")
-            Dialog.showMessage(message = new Label("You already fired there").peer)
+        if (button.text == "⭕" || button.text == "❌") {
+          println("You already fired there")
+          Dialog.showMessage(message = new Label("You already fired there").peer)
+        } else {
+          val x = controller.getX(pos)
+          val y = controller.getY(pos)
+          if (controller.state != player) {
+            controller.changeState()
+            println(controller.state.getPlayerName + "'s turn'")
+            Dialog.showMessage(message = new Label(controller.state.getPlayerName + "'s turn'").peer)
+            controller.changeState()
           } else {
-            val x = controller.getX(pos)
-            val y = controller.getY(pos)
-            if (controller.state != player) {
-              controller.changeState()
-              println(controller.state.getPlayerName + "'s turn'")
-              Dialog.showMessage(message = new Label(controller.state.getPlayerName + "'s turn'").peer)
-              controller.changeState()
-            } else {
-              controller.addShot(x, y)
-              if (controller.isLost) {
-                controller.gameState = END
-              }
-              if(!controller.state.grid.ships.isHit(controller.state.grid.shots.getLatestX, controller.state.grid.shots.getLatestY))
-                controller.changeState()
-
+            controller.addShot(x, y)
+            if (controller.isLost) {
+              controller.gameState = END
             }
-
+            (controller.state.grid.shots.getLatestX, controller.state.grid.shots.getLatestY) match {
+              case (Some(x), Some(y)) =>
+                if (!controller.state.grid.ships.isHit(x, y)) {
+                  controller.changeState()
+                }
+              case _ =>
+            }
           }
-          update
+
+        }
+        update
 
     }

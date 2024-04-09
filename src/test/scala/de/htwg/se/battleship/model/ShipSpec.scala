@@ -37,15 +37,15 @@ class ShipSpec extends AnyWordSpec {
       ship5.size should be(5)
     }
     "have a isHit function" in {
-      ship2.isHIt(1, 2) should be(true)
-      ship3.isHIt(1, 2) should be(true)
-      ship4.isHIt(1, 2) should be(true)
-      ship5.isHIt(1, 2) should be(true)
+      ship2.isHit(1, 2) should be(true)
+      ship3.isHit(1, 2) should be(true)
+      ship4.isHit(1, 2) should be(true)
+      ship5.isHit(1, 2) should be(true)
 
-      ship2.isHIt(8, 8) should be(false)
-      ship3.isHIt(8, 8) should be(false)
-      ship4.isHIt(8, 8) should be(false)
-      ship5.isHIt(8, 8) should be(false)
+      ship2.isHit(8, 8) should be(false)
+      ship3.isHit(8, 8) should be(false)
+      ship4.isHit(8, 8) should be(false)
+      ship5.isHit(8, 8) should be(false)
     }
     "have a getVectorX and getVectorY function" in {
       ship2.getVectorX should be(Vector(1, 1))

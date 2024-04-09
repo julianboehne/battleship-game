@@ -1,25 +1,24 @@
 package de.htwg.se.battleship.controller.controllerImpl
 
+import com.google.inject.{Guice, Inject}
+import de.htwg.se.battleship.BattleshipModule
+import de.htwg.se.battleship.controller.GameState.*
 import de.htwg.se.battleship.controller.controllerImpl.SetCommand
+import de.htwg.se.battleship.controller.state.{Player1State, Player2State, PlayerState}
 import de.htwg.se.battleship.controller.{ControllerInterface, GameState}
 import de.htwg.se.battleship.model.*
 import de.htwg.se.battleship.model.gridImpl.Grid
 import de.htwg.se.battleship.util.{Observable, UndoManager}
 
 import scala.util.control.NonLocalReturns.*
-import com.google.inject.{Guice, Inject}
-import de.htwg.se.battleship.BattleshipModule
-import de.htwg.se.battleship.controller.GameState.*
-import de.htwg.se.battleship.controller.state.{Player1State, Player2State, PlayerState}
 
-
-class Controller @Inject() (override val grid: GridInterface) extends ControllerInterface with Observable {
+class Controller @Inject()(override val grid: GridInterface) extends ControllerInterface with Observable {
 
   val undoManager = new UndoManager
   var gameState: GameState = PLAYER_CREATE1
 
-  var player1: PlayerState = new Player1State(grid,  "")
-  var player2: PlayerState = new Player2State(grid,  "")
+  var player1: PlayerState = new Player1State(grid, "")
+  var player2: PlayerState = new Player2State(grid, "")
   var state: PlayerState = player1
 
   override def changeState(): Unit = {
@@ -28,29 +27,18 @@ class Controller @Inject() (override val grid: GridInterface) extends Controller
       case _: Player2State => state = player1
   }
 
-
   override def addShot(x: Int, y: Int): Unit = {
     state.grid = Grid(grid.size, state.grid.shots.addShot(x, y), state.grid.ships)
     notifyObservers
   }
 
-  override def isLost: Boolean = returning {
-    if (state.grid.getNumberSunk == state.grid.ships.getSize) true
-    else false
-  }
+  override def isLost: Boolean = state.grid.getNumberSunk == state.grid.ships.getSize
 
   override def checkShip(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = state.grid.ships.isValid(x1, y1, x2, y2)
 
-  override def alreadyFired(x: Int, y: Int): Boolean = returning {
-    state.grid.shots.X.indices.foreach(i =>
-      if (state.grid.shots.X(i) == x && state.grid.shots.Y(i) == y)
-        throwReturn(true)
-    )
-    false
-  }
+  override def alreadyFired(x: Int, y: Int): Boolean = state.grid.shots.X.contains(x) && state.grid.shots.Y.contains(y)
 
   override def GridShipToString: String = state.grid.getGridShips
-
 
   override def set(x1: Int, y1: Int, x2: Int, y2: Int): Unit = {
     undoManager.doStep(new SetCommand(x1, y1, x2, y2, this))
@@ -98,11 +86,11 @@ class Controller @Inject() (override val grid: GridInterface) extends Controller
 
   override def setPlayerName(name: String): Unit = {
     state match
-      case _: Player1State => player1 = new Player1State(player1.grid,  name)
-      case _: Player2State => player2 = new Player2State(player2.grid,  name)
+      case _: Player1State => player1 = new Player1State(player1.grid, name)
+      case _: Player2State => player2 = new Player2State(player2.grid, name)
   }
 
-  override def GameStateText:String = GameState.message(gameState)
+  override def GameStateText: String = GameState.message(gameState)
 
   override def resetGame(): Unit = {
     player1 = new Player1State(grid, "")
@@ -114,9 +102,8 @@ class Controller @Inject() (override val grid: GridInterface) extends Controller
   override def saveGame(): Unit = {
     val injector = Guice.createInjector(new BattleshipModule)
     val fileIo = injector.getInstance(classOf[FileIOInterface])
-    state match
-      case _: Player1State => fileIo.save(player1, player2,1,gameState)
-      case _: Player2State => fileIo.save(player1, player2,2,gameState)
+    val player = if (state.isInstanceOf[Player1State]) 1 else 2
+    fileIo.save(player1, player2, player, gameState)
   }
 
   override def loadGame(): Unit = {
@@ -125,20 +112,13 @@ class Controller @Inject() (override val grid: GridInterface) extends Controller
 
     val vec = fileIo.load()
 
-    player1 = new Player1State(vec(0).grid,  vec(0).getPlayerName)
-    player2 = new Player2State(vec(1).grid,  vec(1).getPlayerName)
+    player1 = new Player1State(vec(0).grid, vec(0).getPlayerName)
+    player2 = new Player2State(vec(1).grid, vec(1).getPlayerName)
 
-    vec(2) match
-      case 1 => state = player1
-      case 2 => state = player2
+    state = if (vec(2) == 1) player1 else player2
 
     gameState = vec(3)
   }
 
-  
-
-
   override def toString: String = state.grid.getGridShots
-
-
 }

@@ -4,132 +4,24 @@ import de.htwg.se.battleship.model.*
 
 import scala.util.control.NonLocalReturns.*
 
-trait Ship() {
-
+trait Ship {
   val x: Vector[Int]
-
   val y: Vector[Int]
-
   val size: Int
 
-  def isHIt(x: Int, y: Int): Boolean
+  def isHit(X: Int, Y: Int): Boolean = x.lazyZip(y).exists { case (xi, yi) => xi == X && yi == Y }
 
-  def getX(index: Int): Int
+  def getVectorX: Vector[Int] = x
 
-  def getY(index: Int): Int
+  def getVectorY: Vector[Int] = y
 
-  def getVectorX: Vector[Int]
+  def getX(index: Int): Int = x(index)
 
-  def getVectorY: Vector[Int]
-
-
+  def getY(index: Int): Int = y(index)
 }
 
-private class ShipSizeTwo(override val x: Vector[Int], override val y: Vector[Int]) extends Ship() {
-
-  val size: Int = 2
-
-  override def isHIt(X: Int, Y: Int): Boolean = returning {
-    (0 until size).foreach(a =>
-      if (x(a) == X && y(a) == Y) {
-        throwReturn(true)
-      }
-    )
-    false
-  }
-
-  override def getVectorX: Vector[Int] = x
-
-  override def getVectorY: Vector[Int] = y
-
-
-  override def getX(index: Int): Int = x(index)
-
-  override def getY(index: Int): Int = y(index)
-
-
-}
-
-private class ShipSizeThree(override val x: Vector[Int], override val y: Vector[Int]) extends Ship() {
-
-
-  val size: Int = 3
-
-  override def isHIt(X: Int, Y: Int): Boolean = returning {
-    (0 until size).foreach(a =>
-      if (x(a) == X && y(a) == Y) {
-        throwReturn(true)
-      }
-    )
-    false
-  }
-
-  override def getVectorX: Vector[Int] = x
-
-  override def getVectorY: Vector[Int] = y
-
-  override def getX(index: Int): Int = x(index)
-
-  override def getY(index: Int): Int = y(index)
-
-}
-
-private class ShipSizeFour(override val x: Vector[Int], override val y: Vector[Int]) extends Ship() {
-
-  val size: Int = 4
-
-  override def isHIt(X: Int, Y: Int): Boolean = returning {
-    (0 until size).foreach(a =>
-      if (x(a) == X && y(a) == Y) {
-        throwReturn(true)
-      }
-    )
-    false
-  }
-
-  override def getVectorX: Vector[Int] = x
-
-  override def getVectorY: Vector[Int] = y
-
-  override def getX(index: Int): Int = x(index)
-
-  override def getY(index: Int): Int = y(index)
-
-}
-
-private class ShipSizeFive(override val x: Vector[Int], override val y: Vector[Int]) extends Ship() {
-
-  val size: Int = 5
-
-  override def isHIt(X: Int, Y: Int): Boolean = returning {
-    (0 until size).foreach(a =>
-      if (x(a) == X && y(a) == Y) {
-        throwReturn(true)
-      }
-    )
-    false
-  }
-
-  override def getVectorX: Vector[Int] = x
-
-  override def getVectorY: Vector[Int] = y
-
-  override def getX(index: Int): Int = x(index)
-
-  override def getY(index: Int): Int = y(index)
-
-}
+private class ShipSize(override val size: Int, override val x: Vector[Int], override val y: Vector[Int]) extends Ship
 
 object Ship {
-
-  def apply(x: Vector[Int], y: Vector[Int], size: Int): Ship = {
-    size match {
-      case 2 => new ShipSizeTwo(x, y)
-      case 3 => new ShipSizeThree(x, y)
-      case 4 => new ShipSizeFour(x, y)
-      case 5 => new ShipSizeFive(x, y)
-    }
-  }
-
-
+  def apply(x: Vector[Int], y: Vector[Int], size: Int): Ship = new ShipSize(size, x, y)
 }

@@ -5,7 +5,6 @@ import de.htwg.se.battleship.model.*
 import scala.util.control.NonLocalReturns.{returning, throwReturn}
 
 
-
 case class Grid(size: Int, shots: Shots, ships: ShipContainer) extends GridInterface {
 
   override def getGridShots: String = {
@@ -37,21 +36,21 @@ case class Grid(size: Int, shots: Shots, ships: ShipContainer) extends GridInter
 
   override def getShipBoard: Vector[String] =
     board.indices.map(x => {
-        if (ships.isHit(getX(board(x)), getY(board(x)))) {
-          "#"
-        }
-        else board(x)
+      if (ships.isHit(getX(board(x)), getY(board(x)))) {
+        "#"
+      }
+      else board(x)
 
     }).toVector
 
   def getX(input: String): Int = {
 
-      val char = "([a-j]|[A-J])".r.findAllIn(input).mkString
+    val char = "([a-j]|[A-J])".r.findAllIn(input).mkString
 
-      if (char.matches("[a-j]")) {
-        return char.charAt(0) - 'a' + 1
-      }
-      char.charAt(0) - 'A' + 1
+    if (char.matches("[a-j]")) {
+      return char.charAt(0) - 'a' + 1
+    }
+    char.charAt(0) - 'A' + 1
 
   }
 
@@ -60,7 +59,7 @@ case class Grid(size: Int, shots: Shots, ships: ShipContainer) extends GridInter
   override def getNumberSunk: Int = {
 
     val sunk: Vector[Int] = (0 until ships.getSize).map(index =>
-      if(isSunk(index)) 1
+      if (isSunk(index)) 1
       else 0
     ).toVector
 

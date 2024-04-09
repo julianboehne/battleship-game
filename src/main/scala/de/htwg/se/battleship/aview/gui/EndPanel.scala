@@ -1,20 +1,16 @@
 package de.htwg.se.battleship.aview.gui
 
-import scala.swing.{BorderPanel, Label}
-import de.htwg.se.battleship.controller.*
 import de.htwg.se.battleship.aview.*
+import de.htwg.se.battleship.controller.*
 import de.htwg.se.battleship.controller.controllerImpl.Controller
 import de.htwg.se.battleship.util.Observer
-import scala.swing.event.*
 
-
-import javax.management.Notification
-import scala.swing.event.ButtonClicked
-import javax.swing.border.EmptyBorder
-import scala.swing.*
 import java.awt.FlowLayout
-import javax.swing.JFrame
-import javax.swing.JTextField
+import javax.management.Notification
+import javax.swing.{JFrame, JTextField}
+import javax.swing.border.EmptyBorder
+import scala.swing.event.*
+import scala.swing.*
 
 case class EndPanel(controller: ControllerInterface, gui: GUI) {
 
@@ -60,7 +56,6 @@ case class EndPanel(controller: ControllerInterface, gui: GUI) {
 
 
     }
-
 
 
 }

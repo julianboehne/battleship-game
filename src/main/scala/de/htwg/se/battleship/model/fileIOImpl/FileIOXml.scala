@@ -1,11 +1,10 @@
 package de.htwg.se.battleship.model.fileIOImpl
 
-import de.htwg.se.battleship.controller.state.*
-import de.htwg.se.battleship.model.*
-import de.htwg.se.battleship.model.gridImpl.{Grid, Ship, ShipContainer, Shots}
 import de.htwg.se.battleship.controller.GameState
 import de.htwg.se.battleship.controller.GameState.*
 import de.htwg.se.battleship.controller.state.*
+import de.htwg.se.battleship.model.*
+import de.htwg.se.battleship.model.gridImpl.{Grid, Ship, ShipContainer, Shots}
 
 import java.io.*
 import scala.io.Source
@@ -134,7 +133,6 @@ class FileIOXml extends FileIOInterface {
       case s: String => s.stripPrefix("Vector(").stripSuffix(")").split("\\), Vector\\(").map(_.stripPrefix("Vector(").stripSuffix(")")).map(v => v.split(",").map(_.trim.toInt).toVector).toVector
 
 
-
     val shipContainer1 = ShipContainer(shipX1.zip(shipY1).map { case (x, y) => Ship(x, y, x.size) })
     val shipContainer2 = ShipContainer(shipX2.zip(shipY2).map { case (x, y) => Ship(x, y, x.size) })
 
@@ -149,7 +147,6 @@ class FileIOXml extends FileIOInterface {
     val gameStateStr = (file \\ "state" \ "general" \ "gameState").text.trim
 
     val gameState: GameState = GameState.determineGameState(gameStateStr)
-
 
 
     (state1, state2, currentState, gameState)

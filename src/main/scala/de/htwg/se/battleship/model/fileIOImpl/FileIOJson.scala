@@ -6,11 +6,11 @@ import de.htwg.se.battleship.controller.GameState.*
 import de.htwg.se.battleship.controller.state.*
 import de.htwg.se.battleship.model.*
 import de.htwg.se.battleship.model.gridImpl.{Grid, Ship, ShipContainer, Shots}
+import play.api.libs.json.*
 
 import java.io.*
-import play.api.libs.json.*
-import scala.util.*
 import scala.io.Source
+import scala.util.*
 
 class FileIOJson extends FileIOInterface {
 
@@ -84,19 +84,19 @@ class FileIOJson extends FileIOInterface {
 
 
     val shotsX1: Vector[Int] = (json \ "state1" \ "grid" \ "shots" \ "X").get.toString match
-      case s:String if s == "[]" => Vector.empty[Int]
-      case s:String => s.stripPrefix("[").stripSuffix("]").split(",").map(_.toInt).toVector
+      case s: String if s == "[]" => Vector.empty[Int]
+      case s: String => s.stripPrefix("[").stripSuffix("]").split(",").map(_.toInt).toVector
 
     val shotsY1: Vector[Int] = (json \ "state1" \ "grid" \ "shots" \ "Y").get.toString match
-      case s:String if s == "[]" => Vector.empty[Int]
+      case s: String if s == "[]" => Vector.empty[Int]
       case s: String => s.stripPrefix("[").stripSuffix("]").split(",").map(_.toInt).toVector
 
     val shotsX2: Vector[Int] = (json \ "state2" \ "grid" \ "shots" \ "X").get.toString match
-      case s:String if s == "[]" => Vector.empty[Int]
+      case s: String if s == "[]" => Vector.empty[Int]
       case s: String => s.stripPrefix("[").stripSuffix("]").split(",").map(_.toInt).toVector
 
     val shotsY2: Vector[Int] = (json \ "state2" \ "grid" \ "shots" \ "Y").get.toString match
-      case s:String if s == "[]" => Vector.empty[Int]
+      case s: String if s == "[]" => Vector.empty[Int]
       case s: String => s.stripPrefix("[").stripSuffix("]").split(",").map(_.toInt).toVector
 
 
@@ -121,7 +121,7 @@ class FileIOJson extends FileIOInterface {
 
     val currentState = (json \ "general" \ "currentState").get.toString.toInt
 
-    val gameStateStr:String = (json \ "general" \ "gameState").get.toString.replaceAll("^\"|\"$", "")
+    val gameStateStr: String = (json \ "general" \ "gameState").get.toString.replaceAll("^\"|\"$", "")
     val gameState: GameState = GameState.determineGameState(gameStateStr)
 
     (state1, state2, currentState, gameState)

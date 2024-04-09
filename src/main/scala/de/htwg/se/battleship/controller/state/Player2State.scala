@@ -7,7 +7,7 @@ import de.htwg.se.battleship.model.gridImpl.Grid
 class Player2State(var grid: GridInterface, name: String) extends PlayerState {
 
   override val playerName: Option[String] = {
-    if(name.isEmpty) None
+    if (name.isEmpty) None
     else Some(name)
   }
 

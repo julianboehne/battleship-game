@@ -16,6 +16,7 @@ object GameState extends Enumeration {
   def message(gameState: GameState): String = {
     map(gameState)
   }
+
   def determineGameState(gameStateStr: String): GameState = gameStateStr match {
     case "PLAYER_CREATE1" => PLAYER_CREATE1
     case "PLAYER_CREATE2" => PLAYER_CREATE2
