@@ -3,6 +3,16 @@ package de.htwg.se.battleship.model.gridImpl
 import de.htwg.se.battleship.model.gridImpl.Ship
 
 case class ShipContainer(shipsVector: Vector[Ship]) {
+
+  def addShipSafely(ship: Ship): Either[String, ShipContainer] = {
+    for {
+      _ <- Either.cond(isValid(ship.x.head, ship.y.head, ship.x.last, ship.y.last), (), "Invalid ship position")
+      _ <- Either.cond(shipCountValid(), (), "Ship count exceeded")
+      _ <- Either.cond(shipSingleCountValid(), (), "Invalid single ship count")
+      newContainer = addShip(ship)
+    } yield newContainer
+  }
+
   def addShip(ship: Ship): ShipContainer = {
     ShipContainer(shipsVector :+ ship)
   }
