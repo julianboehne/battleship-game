@@ -11,6 +11,9 @@ class TUISpec extends AnyWordSpec {
   val controller = new Controller(grid)
   val tui = new TUI(controller)
   "TUI" should {
+    "have a checkFired function" in {
+      assert(!tui.checkFired("a1"))
+    }
     "have a addShotInput function" in {
       assert(tui.addShotInput("a1") == 0)
       assert(tui.addShotInput("a1") == 1)
