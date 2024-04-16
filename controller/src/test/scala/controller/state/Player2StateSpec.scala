@@ -1,7 +1,7 @@
 package controller.state
-import de.htwg.se.battleship.Battleship.injector
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
+import util.state.Player2State
 
 class Player2StateSpec extends AnyWordSpec {
 

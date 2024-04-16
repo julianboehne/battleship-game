@@ -1,9 +1,8 @@
 package aview
 
-import de.htwg.se.battleship.controller.*
-import de.htwg.se.battleship.controller.GameState.*
-import de.htwg.se.battleship.controller.controllerImpl.Controller
-import de.htwg.se.battleship.util.Observer
+import controller.*
+import util.GameState.*
+import util.Observer
 
 import scala.io.StdIn.readLine
 import scala.util.*

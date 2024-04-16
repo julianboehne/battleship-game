@@ -1,4 +1,4 @@
-package controller
+package util
 
 object GameState extends Enumeration {
   type GameState = Value

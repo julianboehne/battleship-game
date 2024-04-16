@@ -1,7 +1,7 @@
 package controller.controllerImpl
 
 import controller.ControllerInterface
-
+import model.gridImpl.Grid
 import util.Command
 
 class SetCommand(x1: Int, y1: Int, x2: Int, y2: Int, controller: ControllerInterface) extends Command {

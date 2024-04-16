@@ -1,8 +1,9 @@
 package gui
 
-import tui.*
 import controller.*
+import util.GameState.*
 import util.Observer
+import util.state.*
 
 import javax.management.Notification
 import javax.swing.border.EmptyBorder

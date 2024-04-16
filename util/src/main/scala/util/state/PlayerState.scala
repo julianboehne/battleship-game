@@ -1,4 +1,6 @@
-package controller.state
+package util.state
+
+import model.GridInterface
 
 trait PlayerState {
 

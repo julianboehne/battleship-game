@@ -15,19 +15,12 @@ lazy val root = project
   .aggregate(controller, gui, model, persistency, tui, util)
   .enablePlugins(JacocoCoverallsPlugin)
 
+
 lazy val controller = project
   .in(file("controller"))
-  .dependsOn(model, util)
+  .dependsOn(model, util, persistency)
   .settings(
     name := "controller",
-    importSettings
-  )
-
-lazy val model = project
-  .in(file("model"))
-  .dependsOn(controller)
-  .settings(
-    name := "model",
     importSettings
   )
 
@@ -39,10 +32,17 @@ lazy val gui = project
     importSettings
   )
 
+lazy val model = project
+  .in(file("model"))
+  .settings(
+    name := "model",
+    importSettings
+  )
 
 
 lazy val persistency = project
   .in(file("persistency"))
+  .dependsOn(util, model)
   .settings(
     name := "persistency",
     importSettings
@@ -50,6 +50,7 @@ lazy val persistency = project
 
 lazy val tui = project
   .in(file("tui"))
+  .dependsOn(controller, util)
   .settings(
     name := "tui",
     importSettings
@@ -57,6 +58,7 @@ lazy val tui = project
 
 lazy val util = project
   .in(file("util"))
+  .dependsOn(model)
   .settings(
     name := "util",
     importSettings

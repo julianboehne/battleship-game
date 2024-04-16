@@ -1,8 +1,9 @@
-package controller.state
+package util.state
 
-import controller.ControllerInterface
+//import controller.ControllerInterface
+import model.GridInterface
 
-class Player2State(var grid: GridInterface, name: String) extends PlayerState {
+class Player1State(var grid: GridInterface, name: String) extends PlayerState {
 
   override val playerName: Option[String] = {
     if (name.isEmpty) None
@@ -14,7 +15,7 @@ class Player2State(var grid: GridInterface, name: String) extends PlayerState {
   override def getPlayerName: String = {
     playerName match
       case Some(s) => s
-      case None => "Player2"
+      case None => "Player1"
 
   }
 

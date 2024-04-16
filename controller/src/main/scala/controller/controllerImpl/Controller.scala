@@ -1,13 +1,15 @@
 package controller.controllerImpl
 
 import com.google.inject.{Guice, Inject}
-import controller.{ControllerInterface, GameState}
-import controller.GameState.*
-import controller.state.{Player1State, Player2State, PlayerState}
+import controller.{BattleshipModule, ControllerInterface}
+import util.GameState.*
+import util.state.{Player1State, Player2State, PlayerState}
 import model.*
+import model.gridImpl.Grid
+import persistency.*
 
 import scala.util.control.NonLocalReturns.*
-import util.{Observable, UndoManager}
+import util.{GameState, Observable, UndoManager}
 
 class Controller @Inject()(override val grid: GridInterface) extends ControllerInterface with Observable {
 

@@ -1,9 +1,11 @@
-package de.htwg.se.battleship
+package controller
 
 import com.google.inject.AbstractModule
-import controller.{ControllerInterface, *}
-import de.htwg.se.battleship.model.*
-import de.htwg.se.battleship.model.fileIOImpl.*
+import model.gridImpl.*
+import persistency.*
+import persistency.IO.*
+import controller.controllerImpl.*
+
 
 class BattleshipModule extends AbstractModule {
   override def configure(): Unit = {

@@ -1,4 +1,10 @@
-package persistency
+package persistency.IO
+
+import model.gridImpl.*
+import persistency.*
+import util.GameState
+import util.GameState.GameState
+import util.state.*
 
 import java.io.*
 import scala.io.Source

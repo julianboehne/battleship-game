@@ -1,6 +1,7 @@
-package model
+package persistency
 
-import controller.*
+import util.state.*
+import util.GameState.*
 
 trait FileIOInterface {
   def save(state1: PlayerState, state2: PlayerState, currentState: Int, gameState: GameState): Unit

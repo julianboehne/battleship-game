@@ -1,8 +1,8 @@
 package controller
 
-import GameState.GameState
-import controller.state.{Player1State, Player2State, PlayerState}
-
+import util.GameState.GameState
+import model.GridInterface
+import util.state.{Player1State, Player2State, PlayerState}
 import util.{Observable, UndoManager}
 
 

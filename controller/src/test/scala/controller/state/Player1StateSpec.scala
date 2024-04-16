@@ -1,7 +1,7 @@
 package controller.state
-import de.htwg.se.battleship.Battleship.injector
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
+import util.state.Player1State
 class Player1StateSpec extends AnyWordSpec {
 
   val grid: Grid = Grid(10, Shots(Vector[Int](), Vector[Int]()), ShipContainer(Vector[Ship]()))
