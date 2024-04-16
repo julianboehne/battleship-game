@@ -1,11 +1,7 @@
 package de.htwg.se.battleship
 
 import com.google.inject.{Guice, Injector}
-import de.htwg.se.battleship.aview.TUI
-import de.htwg.se.battleship.aview.gui.GUI
-import de.htwg.se.battleship.controller.ControllerInterface
-import de.htwg.se.battleship.controller.controllerImpl.Controller
-import de.htwg.se.battleship.model.gridImpl.{Grid, Ship, ShipContainer, Shots}
+import controller.ControllerInterface
 
 object Battleship {
 
