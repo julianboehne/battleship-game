@@ -1,14 +1,12 @@
 package controller
 
+import controller.controllerImpl.*
+import model.gridImpl.*
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 import util.GameState
-
-//TODO
-
-
-
 import org.scalatest.*
+import util.state.*
 
 class ControllerSpec extends AnyWordSpec {
   val nextline: String = sys.props("line.separator")

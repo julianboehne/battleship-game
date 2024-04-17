@@ -26,7 +26,7 @@ class Controller @Inject()(override val grid: GridInterface) extends ControllerI
       case _: Player2State => state = player1
   }
 
-  override def addShot(x: Int, y: Int): Unit = {4
+  override def addShot(x: Int, y: Int): Unit = {
     state.grid = Grid(grid.size, state.grid.shots.addShot(x, y), state.grid.ships)
     notifyObservers
   }

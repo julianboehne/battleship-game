@@ -1,6 +1,5 @@
 package model
 
-//TODO
 import gridImpl.GridForPrint
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*

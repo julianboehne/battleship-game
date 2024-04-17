@@ -1,10 +1,10 @@
 package aview
 
-//TODO
-import de.htwg.se.battleship.controller.controllerImpl.Controller
-import de.htwg.se.battleship.model.gridImpl.*
+import controller.controllerImpl.*
+import model.gridImpl.*
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
+
 class TUISpec extends AnyWordSpec {
   val grid: Grid = Grid(1, Shots(Vector[Int](), Vector[Int]()), ShipContainer(Vector[Ship]()))
 

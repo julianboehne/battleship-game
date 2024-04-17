@@ -14,7 +14,6 @@ object Battleship {
   val tui: TUI = TUI(controller)
   val gui = new GUI(controller)
 
-
   def main(args: Array[String]): Unit = {
     println("Welcome to Battleship-Game\n")
 
