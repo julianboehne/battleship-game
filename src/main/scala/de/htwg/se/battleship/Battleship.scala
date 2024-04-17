@@ -1,11 +1,9 @@
 package de.htwg.se.battleship
 
+import aview.TUI
 import com.google.inject.{Guice, Injector}
-import de.htwg.se.battleship.aview.TUI
-import de.htwg.se.battleship.aview.gui.GUI
-import de.htwg.se.battleship.controller.ControllerInterface
-import de.htwg.se.battleship.controller.controllerImpl.Controller
-import de.htwg.se.battleship.model.gridImpl.{Grid, Ship, ShipContainer, Shots}
+import controller.{BattleshipModule, ControllerInterface}
+import gui.GUI
 
 object Battleship {
 
@@ -15,7 +13,6 @@ object Battleship {
 
   val tui: TUI = TUI(controller)
   val gui = new GUI(controller)
-
 
   def main(args: Array[String]): Unit = {
     println("Welcome to Battleship-Game\n")
