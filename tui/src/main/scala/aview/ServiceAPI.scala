@@ -50,7 +50,7 @@ object ServiceAPI {
             case _ => complete(StatusCodes.BadRequest, "No valid option given")
           }
         }
-          }
+        }
       },
       path("battleship" / "playername") {
         post {
