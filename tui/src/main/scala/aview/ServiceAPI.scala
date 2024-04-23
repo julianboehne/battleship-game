@@ -8,6 +8,13 @@ import akka.http.scaladsl.model.*
 import com.google.inject.{Guice, Injector}
 import controller.{BattleshipModule, ControllerInterface}
 import util.GameState.*
+import util.state.{Player1State, PlayerState, Player2State}
+
+import util.*
+
+import scala.concurrent.ExecutionContextExecutor
+import scala.io.StdIn
+import scala.util.Try
 
 object ServiceAPI {
 
@@ -24,7 +31,7 @@ object ServiceAPI {
         get {
           complete(StatusCodes.OK, s"Game State: ${controller.GameStateText}")
         }
-      }
+      },
       path("battleship" / "options") {
         post {
           formFields(
@@ -206,7 +213,7 @@ object ServiceAPI {
 
   }
 
-  def addShotInput(input: String): Int = {
+  def addShotInput(input: String): Unit = {
     if (!controller.isValid(input)) {
       complete(StatusCodes.BadRequest, s"Wrong input: ${input} \n Format example: h6")
     } else {
