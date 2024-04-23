@@ -144,6 +144,14 @@ object ServiceAPI {
       }//shot
     )
 
+    val bindingFuture = Http().newServerAt("0.0.0.0", 8080).bind(route)
+    //println(s"Server online at http://localhost:8080/\nPress RETURN to stop...")
+    println(s"Server online at http://0.0.0.0:8080/\nPress RETURN to stop...")
+    StdIn.readLine() // Lässt den Server laufen, bis der Benutzer Return drückt
+    bindingFuture
+      .flatMap(_.unbind()) // Löst die Bindung vom Port
+      .onComplete(_ => system.terminate())
+
   }
 
   private def addPlayer(input: String): Unit = {
