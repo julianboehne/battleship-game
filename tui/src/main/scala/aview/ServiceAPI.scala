@@ -58,11 +58,11 @@ object ServiceAPI {
             "playerName".as[String]
           ) { (playerName) =>
             try {
-              if (controller.gameState != GameState.PLAYER_CREATE1 || controller.gameState != GameState.PLAYER_CREATE2) {
+              if (controller.gameState != GameState.PLAYER_CREATE1 && controller.gameState != GameState.PLAYER_CREATE2) {
                 complete(StatusCodes.BadRequest, s"Wrong Game State, actual state: ${controller.GameStateText}")
               } else {
                 addPlayer(playerName)
-                complete(StatusCodes.OK, s"Player name set to: ${playerName}\nNew state: ${controller.GameStateText}")
+                complete(StatusCodes.OK, s"Player name set to: ${playerName}\nNew state: ${controller.gameState} \n${controller.GameStateText}")
               }
             } catch {
               case e: Exception =>
@@ -79,11 +79,15 @@ object ServiceAPI {
             "coordinate2".as[String],
           ) { (coordinate1, coordinate2) =>
             try {
-              if (controller.gameState != GameState.SHIP_PLAYER1 || controller.gameState != GameState.SHIP_PLAYER2) {
+              if (controller.gameState != GameState.SHIP_PLAYER1 && controller.gameState != GameState.SHIP_PLAYER2) {
                 complete(StatusCodes.BadRequest, s"Wrong Game State, actual state: ${controller.GameStateText}")
               } else {
-                addShipInput(coordinate1, coordinate2)
-                complete(StatusCodes.OK, s"Added ship from ${coordinate1} to ${coordinate2}\nNew state: ${controller.GameStateText}")
+                val exception = addShipInput(coordinate1, coordinate2)
+                if (exception != "") {
+                  complete(StatusCodes.BadRequest, exception)
+                } else {
+                  complete(StatusCodes.OK, s"Added ship from ${coordinate1} to ${coordinate2}\nNew state: ${controller.gameState} \n${controller.GameStateText}")
+                }
               }
             } catch {
               case e: Exception =>
@@ -99,7 +103,7 @@ object ServiceAPI {
             "option".as[String],
           ) { (option) =>
             try {
-              if (controller.gameState != GameState.SHIP_PLAYER1 || controller.gameState != GameState.SHIP_PLAYER2) {
+              if (controller.gameState != GameState.SHIP_PLAYER1 && controller.gameState != GameState.SHIP_PLAYER2) {
                 complete(StatusCodes.BadRequest, s"Wrong Game State, actual state: ${controller.GameStateText}")
               } else {
                 option match
@@ -111,6 +115,13 @@ object ServiceAPI {
                     complete(StatusCodes.OK, "Last Ship redone")
                   case "auto" =>
                     controller.autoShips()
+                    controller.gameState match
+                      case SHIP_PLAYER1 =>
+                        controller.state = controller.player2
+                        controller.gameState = SHIP_PLAYER2
+                      case SHIP_PLAYER2 =>
+                        controller.state = controller.player1
+                        controller.gameState = SHOTS
                     complete(StatusCodes.OK, "Auto ship placement")
                   case _ => complete(StatusCodes.BadRequest, "No valid option given")
               }
@@ -131,15 +142,19 @@ object ServiceAPI {
               if (controller.gameState != GameState.SHOTS) {
                 complete(StatusCodes.BadRequest, s"Wrong Game State, actual state: ${controller.GameStateText}")
               } else {
-                addShotInput(shot)
-                if (controller.isLost) {
+
+                val exception = addShotInput(shot)
+                if (exception != "") {
+                  complete(StatusCodes.BadRequest, exception)
+                }else if (controller.isLost) {
                   controller.gameState = END
-                  complete(StatusCodes.OK, s"${controller.state.playerName} lost!\nNew state: ${controller.GameStateText}")
-                }
-                if (!controller.state.grid.ships.isHit(controller.state.grid.shots.getLatestX.getOrElse(0), controller.state.grid.shots.getLatestY.getOrElse(0))) {
+                  complete(StatusCodes.OK, s"${controller.state.playerName} lost!\nNew state: ${controller.gameState} \n${controller.GameStateText}")
+                } else if (!controller.state.grid.ships.isHit(controller.state.grid.shots.getLatestX.getOrElse(0), controller.state.grid.shots.getLatestY.getOrElse(0))) {
                   controller.changeState()
-                } else complete(StatusCodes.OK, s"Shot: ${shot}\nHit! You can fire again: ${controller.state.getPlayerName}")
-                complete(StatusCodes.OK, s"Shot: ${shot}\nActual player: ${controller.state.playerName}")
+                  complete(StatusCodes.OK, s"Shot: ${shot}\nChange player to: ${controller.state.playerName}")
+                } else {
+                  complete(StatusCodes.OK, s"Shot: ${shot}\nHit! You can fire again: ${controller.state.getPlayerName}")
+                }
               }
             } catch {
               case e: Exception =>
@@ -175,14 +190,14 @@ object ServiceAPI {
   }
 
 
-  private def addShipInput(start: String, ende: String): Unit = {
+  private def addShipInput(start: String, ende: String): String = {
 
     val e = Try(
 
       if (!controller.isValid(start) || !controller.isValid(ende)) {
-        complete(StatusCodes.BadRequest, "Wrong coordinates")
+        return "Wrong coordinates"
       } else if (!controller.checkShip(controller.getX(start), controller.getY(start), controller.getX(ende), controller.getY(ende))) {
-        complete(StatusCodes.BadRequest, "Wrong coordinates")
+        return "Wrong coordinates"
       } else {
         controller.set(controller.getX(start), controller.getY(start), controller.getX(ende), controller.getY(ende))
         //GameState
@@ -197,30 +212,32 @@ object ServiceAPI {
         }
       }
     )
-    if (e.isFailure) println("invalid")
+    if (e.isFailure) "invalid"
     else {
       if (!controller.state.grid.ships.shipPosition()) {
         controller.undo()
-        complete(StatusCodes.BadRequest, "You already place a ship at this position!")
+        return "You already place a ship at this position!"
       }
 
       if (!controller.state.grid.ships.shipSingleCountValid()) {
         controller.undo()
-        complete(StatusCodes.BadRequest, "Too many ships with this size")
+        return "Too many ships with this size"
       }
     }
 
+    ""
   }
 
-  def addShotInput(input: String): Unit = {
+  def addShotInput(input: String): String = {
     if (!controller.isValid(input)) {
-      complete(StatusCodes.BadRequest, s"Wrong input: ${input} \nFormat example: h6")
+      s"Wrong input: ${input} \nFormat example: h6"
     } else {
       val check = controller.alreadyFired(controller.getX(input), controller.getY(input))
       if (check) {
-        complete(StatusCodes.BadRequest, "You already fired there!")
+        "You already fired there!"
       } else {
         controller.addShot(controller.getX(input), controller.getY(input))
+        ""
       }
     }
 
