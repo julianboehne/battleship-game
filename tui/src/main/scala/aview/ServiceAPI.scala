@@ -29,7 +29,7 @@ object ServiceAPI {
     val route = concat(
       path("battleship" / "gamestate") {
         get {
-          complete(StatusCodes.OK, s"Game State: ${controller.GameStateText}")
+          complete(StatusCodes.OK, s"Game State: ${controller.gameState} \n\n${controller.GameStateText}")
         }
       },
       path("battleship" / "options") {
@@ -58,11 +58,11 @@ object ServiceAPI {
             "playerName".as[String]
           ) { (playerName) =>
             try {
-              if (controller.gameState != PlayerState.PLAYER_CREATE1 || controller.gameState != PlayerState.PLAYER_CREATE2) {
+              if (controller.gameState != GameState.PLAYER_CREATE1 || controller.gameState != GameState.PLAYER_CREATE2) {
                 complete(StatusCodes.BadRequest, s"Wrong Game State, actual state: ${controller.GameStateText}")
               } else {
                 addPlayer(playerName)
-                complete(StatusCodes.OK, s"Player name set to: ${playerName}\n New state: ${controller.GameStateText}")
+                complete(StatusCodes.OK, s"Player name set to: ${playerName}\nNew state: ${controller.GameStateText}")
               }
             } catch {
               case e: Exception =>
@@ -79,11 +79,11 @@ object ServiceAPI {
             "coordinate2".as[String],
           ) { (coordinate1, coordinate2) =>
             try {
-              if (controller.gameState != PlayerState.SHIP_PLAYER1 || controller.gameState != PlayerState.SHIP_PLAYER2) {
+              if (controller.gameState != GameState.SHIP_PLAYER1 || controller.gameState != GameState.SHIP_PLAYER2) {
                 complete(StatusCodes.BadRequest, s"Wrong Game State, actual state: ${controller.GameStateText}")
               } else {
                 addShipInput(coordinate1, coordinate2)
-                complete(StatusCodes.OK, s"Added ship from ${coordinate1} to ${coordinate2}\n New state: ${controller.GameStateText}")
+                complete(StatusCodes.OK, s"Added ship from ${coordinate1} to ${coordinate2}\nNew state: ${controller.GameStateText}")
               }
             } catch {
               case e: Exception =>
@@ -99,7 +99,7 @@ object ServiceAPI {
             "option".as[String],
           ) { (option) =>
             try {
-              if (controller.gameState != PlayerState.SHIP_PLAYER1 || controller.gameState != PlayerState.SHIP_PLAYER2) {
+              if (controller.gameState != GameState.SHIP_PLAYER1 || controller.gameState != GameState.SHIP_PLAYER2) {
                 complete(StatusCodes.BadRequest, s"Wrong Game State, actual state: ${controller.GameStateText}")
               } else {
                 option match
@@ -128,18 +128,18 @@ object ServiceAPI {
             "shot".as[String],
           ) { (shot) =>
             try {
-              if (controller.gameState != PlayerState.SHOTS) {
+              if (controller.gameState != GameState.SHOTS) {
                 complete(StatusCodes.BadRequest, s"Wrong Game State, actual state: ${controller.GameStateText}")
               } else {
                 addShotInput(shot)
                 if (controller.isLost) {
                   controller.gameState = END
-                  complete(StatusCodes.OK, s"${controller.state.playerName} lost!\n New state: ${controller.GameStateText}")
+                  complete(StatusCodes.OK, s"${controller.state.playerName} lost!\nNew state: ${controller.GameStateText}")
                 }
                 if (!controller.state.grid.ships.isHit(controller.state.grid.shots.getLatestX.getOrElse(0), controller.state.grid.shots.getLatestY.getOrElse(0))) {
                   controller.changeState()
-                } else complete(StatusCodes.OK, s"Shot: ${shot}\n Hit! You can fire again: ${controller.state.getPlayerName}")
-                complete(StatusCodes.OK, s"Shot: ${shot}\n Actual player: ${controller.state.playerName}")
+                } else complete(StatusCodes.OK, s"Shot: ${shot}\nHit! You can fire again: ${controller.state.getPlayerName}")
+                complete(StatusCodes.OK, s"Shot: ${shot}\nActual player: ${controller.state.playerName}")
               }
             } catch {
               case e: Exception =>
@@ -152,8 +152,7 @@ object ServiceAPI {
     )
 
     val bindingFuture = Http().newServerAt("0.0.0.0", 8080).bind(route)
-    //println(s"Server online at http://localhost:8080/\nPress RETURN to stop...")
-    println(s"Server online at http://0.0.0.0:8080/\nPress RETURN to stop...")
+    println(s"Server online at http://localhost:8080/\nPress RETURN to stop...")
     StdIn.readLine() // Lässt den Server laufen, bis der Benutzer Return drückt
     bindingFuture
       .flatMap(_.unbind()) // Löst die Bindung vom Port
@@ -215,7 +214,7 @@ object ServiceAPI {
 
   def addShotInput(input: String): Unit = {
     if (!controller.isValid(input)) {
-      complete(StatusCodes.BadRequest, s"Wrong input: ${input} \n Format example: h6")
+      complete(StatusCodes.BadRequest, s"Wrong input: ${input} \nFormat example: h6")
     } else {
       val check = controller.alreadyFired(controller.getX(input), controller.getY(input))
       if (check) {
