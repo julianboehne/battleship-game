@@ -79,7 +79,8 @@ lazy val importSettings: Seq[Def.Setting[?]] = Seq(
     "com.typesafe.akka" %% "akka-http-core" % "10.5.3",
     "com.typesafe.akka" %% "akka-actor-typed" % "2.8.5",
     "com.typesafe.akka" %% "akka-stream" % "2.8.5",
-    "com.typesafe.akka" %% "akka-actor" % "2.8.5"
+    "com.typesafe.akka" %% "akka-actor" % "2.8.5",
+    "ch.qos.logback" % "logback-classic" % "1.5.6" % Runtime
   )
 )
 
