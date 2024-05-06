@@ -1,5 +1,5 @@
+import core.model.gridImpl.{Ship, ShipContainer}
 import de.htwg.se.battleship.model.*
-import model.gridImpl.{Ship, ShipContainer}
 
 
 val lul = ShipContainer(Vector[Ship]())

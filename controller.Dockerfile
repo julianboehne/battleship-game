@@ -11,11 +11,11 @@ EXPOSE 8080
 # work and local directory
 WORKDIR /app
 ADD model /app/model
-ADD controller /app/controller
+ADD modules/core /app/controller
 #ADD gui /app/gui
-ADD tui /app/tui
+ADD modules/tui /app/tui
 ADD util /app/util
-ADD persistency /app/persistency
+ADD modules/persistency /app/persistency
 ADD src /app/src
 
 ADD build.sbt /app/build.sbt

@@ -6,61 +6,45 @@ ThisBuild / scalaVersion := "3.2.0"
 
 lazy val root = project
   .in(file("."))
-  .dependsOn(controller, gui, model, persistency, tui, util)
+  .dependsOn(core, gui, persistency, tui)
   .settings(
     name := "battleship-game",
     importSettings,
     jacocoSettings
   )
-  .aggregate(controller, gui, model, persistency, tui, util)
+  .aggregate(core, gui, persistency, tui)
   .enablePlugins(JacocoCoverallsPlugin)
 
 
-lazy val controller = project
-  .in(file("controller"))
-  .dependsOn(model, util, persistency)
+lazy val core = project
+  .in(file("./modules/core"))
+  .dependsOn(persistency)
   .settings(
-    name := "controller",
+    name := "core",
     importSettings
   )
 
 lazy val gui = project
-  .in(file("gui"))
-  .dependsOn(tui, controller, util)
+  .in(file("./modules/gui"))
+  .dependsOn(tui, core)
   .settings(
     name := "gui",
     importSettings
   )
 
-lazy val model = project
-  .in(file("model"))
-  .settings(
-    name := "model",
-    importSettings
-  )
-
 
 lazy val persistency = project
-  .in(file("persistency"))
-  .dependsOn(util, model)
+  .in(file("./modules/persistency"))
   .settings(
     name := "persistency",
     importSettings
   )
 
 lazy val tui = project
-  .in(file("tui"))
-  .dependsOn(controller, util)
+  .in(file("./modules/tui"))
+  .dependsOn(core)
   .settings(
     name := "tui",
-    importSettings
-  )
-
-lazy val util = project
-  .in(file("util"))
-  .dependsOn(model)
-  .settings(
-    name := "util",
     importSettings
   )
 

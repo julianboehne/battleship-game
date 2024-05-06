@@ -2,7 +2,7 @@ package de.htwg.se.battleship
 
 import aview.TUI
 import com.google.inject.{Guice, Injector}
-import controller.{BattleshipModule, ControllerInterface}
+import core.controller.{BattleshipModule, ControllerInterface}
 import gui.GUI
 
 object Battleship {
