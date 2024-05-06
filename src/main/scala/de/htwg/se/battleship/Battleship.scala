@@ -3,6 +3,8 @@ package de.htwg.se.battleship
 import aview.TUI
 import com.google.inject.{Guice, Injector}
 import core.controller.ControllerInterface
+import core.controller.controllerImpl.Controller
+import core.model.gridImpl.{Grid, Ship, ShipContainer, Shots}
 import gui.GUI
 
 object Battleship {
