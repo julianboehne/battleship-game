@@ -9,7 +9,6 @@ import com.google.inject.{Guice, Injector}
 import controller.{BattleshipModule, ControllerInterface}
 import util.GameState.*
 import util.state.{Player1State, PlayerState, Player2State}
-
 import util.*
 
 import scala.concurrent.ExecutionContextExecutor
