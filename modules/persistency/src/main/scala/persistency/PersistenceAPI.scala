@@ -3,15 +3,15 @@ package persistency
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.server.Directives.*
 import akka.http.scaladsl.model.*
+import akka.http.scaladsl.server.Directives.*
 import com.google.inject.{Guice, Injector}
+import persistency.IO.{FileIOJson, FileIOXml}
+import play.api.libs.json.{Json, Writes}
+
 import scala.concurrent.ExecutionContextExecutor
 import scala.io.StdIn
 import scala.util.Try
-import play.api.libs.json.{Json, Writes}
-
-import persistency.IO.{FileIOJson, FileIOXml}
 
 object PersistenceAPI {
 
