@@ -11,12 +11,12 @@ import scala.io.StdIn
 import scala.util.Try
 import play.api.libs.json.{Json, Writes}
 
-import persistency.IO.FileIOJson
+import persistency.IO.{FileIOJson, FileIOXml}
 
 object PersistenceAPI {
 
-  val FileIOJson = new FileIOJson
-  val FileIOXml = new FileIOJson
+  val json = new FileIOJson
+  val xml = new FileIOJson
 
   def main(args: Array[String]): Unit = {
 
@@ -32,7 +32,7 @@ object PersistenceAPI {
             try {
               format match {
                 case "json" =>
-                  val gameData = FileIOJson.load()
+                  val gameData = json.load()
                   val jsonResult = Json.obj(
                     "currentState" -> gameData.currentState,
                     "gameState" -> gameData.gameState,
@@ -54,7 +54,7 @@ object PersistenceAPI {
                     HttpEntity(ContentTypes.`application/json`, jsonString)
                   )
                 case "xml" =>
-                  val gameData = FileIOXml.load()
+                  val gameData = xml.load()
                   val jsonResult = Json.obj(
                     "currentState" -> gameData.currentState,
                     "gameState" -> gameData.gameState,
