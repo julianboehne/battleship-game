@@ -6,6 +6,8 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives.*
 import akka.http.scaladsl.model.*
 import com.google.inject.{Guice, Injector}
+import core.controller.controllerImpl.Controller
+import core.model.gridImpl.{Grid, Ship, ShipContainer, Shots}
 
 import scala.concurrent.ExecutionContextExecutor
 import scala.io.StdIn
@@ -13,8 +15,10 @@ import scala.util.Try
 
 object ControllerAPI {
 
-  val injector: Injector = Guice.createInjector(new BattleshipModule)
-  val controller: ControllerInterface = injector.getInstance(classOf[ControllerInterface])
+//  val injector: Injector = Guice.createInjector(new BattleshipModule)
+//  val controller: ControllerInterface = injector.getInstance(classOf[ControllerInterface])
+  val grid: Grid = Grid(10, Shots(Vector[Int](), Vector[Int]()), ShipContainer(Vector[Ship]()))
+  val controller = new Controller(grid)
 
   def main(args: Array[String]): Unit = {
 

@@ -83,7 +83,7 @@ class FileIOXml extends FileIOInterface {
   }
 
   //override def load(): Vector[PlayerState] = ???
-  override def load(): (Int, String, Int, Int, String, String, Vector[Int], Vector[Int], Vector[Int], Vector[Int], Vector[Vector[Int]], Vector[Vector[Int]], Vector[Vector[Int]], Vector[Vector[Int]]) = {
+  override def load(): (GameData) = {
     val file = scala.xml.XML.loadFile("gameState.xml")
 
     val name1 = (file \\ "state" \ "state1" \ "name").text.trim
@@ -129,7 +129,7 @@ class FileIOXml extends FileIOInterface {
 
     val gameState = (file \\ "state" \ "general" \ "gameState").text.trim
 
-    (currentState, gameState, gridSize1, gridSize2, name1, name2, shotsX1, shotsY1, shotsX2, shotsY2, shipsX1, shipsY1, shipsX2, shipsY2)
+    GameData(currentState, gameState, gridSize1, gridSize2, name1, name2, shotsX1, shotsY1, shotsX2, shotsY2, shipsX1, shipsY1, shipsX2, shipsY2)
 
 
   }

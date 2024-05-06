@@ -1,7 +1,7 @@
 package core.controller.controllerImpl
 
 import com.google.inject.{Guice, Inject}
-import core.controller.{BattleshipModule, ControllerInterface}
+import core.controller.ControllerInterface
 import core.model.GridInterface
 import core.model.gridImpl.*
 import core.util.{GameState, Observable, UndoManager}
@@ -9,6 +9,7 @@ import core.util.state.{Player1State, Player2State, PlayerState}
 import core.util.GameState.*
 import core.model.*
 import persistency.*
+import persistency.IO.FileIOJson
 
 import scala.util.control.NonLocalReturns.*
 
@@ -101,35 +102,37 @@ class Controller @Inject()(override val grid: GridInterface) extends ControllerI
 
 
   override def saveGame(): Unit = {
-    val injector = Guice.createInjector(new BattleshipModule)
-    val fileIo = injector.getInstance(classOf[FileIOInterface])
+//    val injector = Guice.createInjector(new BattleshipModule)
+//    val fileIo = injector.getInstance(classOf[FileIOInterface])
+    val fileIo = new FileIOJson
     val player = if (state.isInstanceOf[Player1State]) 1 else 2
     fileIo.save(player, gameState.toString, player1.grid.size, player2.grid.size, player1.playerName.get, player2.playerName.get, player1.grid.shots.X, player1.grid.shots.Y, player2.grid.shots.X, player2.grid.shots.Y, (0 until player1.grid.ships.getSize).map(i => player1.grid.ships.shipsVector(i).x).toVector, (0 until player1.grid.ships.getSize).map(i => player1.grid.ships.shipsVector(i).y).toVector, (0 until player2.grid.ships.getSize).map(i => player2.grid.ships.shipsVector(i).x).toVector, (0 until player2.grid.ships.getSize).map(i => player2.grid.ships.shipsVector(i).y).toVector)
   }
 
   override def loadGame(): Unit = {
-    val injector = Guice.createInjector(new BattleshipModule)
-    val fileIo = injector.getInstance(classOf[FileIOInterface])
-    val vec = fileIo.load()
+//    val injector = Guice.createInjector(new BattleshipModule)
+//    val fileIo = injector.getInstance(classOf[FileIOInterface])
+    val fileIo = new FileIOJson
+    val gameData = fileIo.load()
 
-    val shots1 = Shots(vec(6), vec(7))
-    val shots2 = Shots(vec(8), vec(9))
+    val shots1 = Shots(gameData.shotsX1, gameData.shotsY1)
+    val shots2 = Shots(gameData.shotsX2, gameData.shotsY2)
 
-    val shipContainer1 = ShipContainer(vec(10).zip(vec(11)).map { case (x, y) => Ship(x, y, x.size) })
-    val shipContainer2 = ShipContainer(vec(12).zip(vec(13)).map { case (x, y) => Ship(x, y, x.size) })
+    val shipContainer1 = ShipContainer(gameData.shipsX1.zip(gameData.shipsY1).map { case (x, y) => Ship(x, y, x.size) })
+    val shipContainer2 = ShipContainer(gameData.shipsX2.zip(gameData.shipsY2).map { case (x, y) => Ship(x, y, x.size) })
 
-    val grid1 = Grid(vec(2), shots1, shipContainer1)
-    val grid2 = Grid(vec(3), shots2, shipContainer2)
+    val grid1 = Grid(gameData.gridSize1, shots1, shipContainer1)
+    val grid2 = Grid(gameData.gridSize2, shots2, shipContainer2)
 
-    val state1 = new Player1State(grid1, vec(4))
-    val state2 = new Player1State(grid2, vec(5))
+    val state1 = new Player1State(grid1, gameData.name1)
+    val state2 = new Player1State(grid2, gameData.name2)
 
     player1 = new Player1State(state1.grid, state1.playerName.get)
     player2 = new Player2State(state2.grid, state2.playerName.get)
 
-    state = if (vec(2) == 1) player1 else player2
+    state = if (gameData.currentState == 1) player1 else player2
 
-    gameState = GameState.determineGameState(vec(1))
+    gameState = GameState.determineGameState(gameData.gameState)
   }
 
   override def toString: String = state.grid.getGridShots

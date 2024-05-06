@@ -66,7 +66,7 @@ class FileIOJson extends FileIOInterface {
 
   }
 
-  override def load(): (Int, String, Int, Int, String, String, Vector[Int], Vector[Int], Vector[Int], Vector[Int], Vector[Vector[Int]], Vector[Vector[Int]], Vector[Vector[Int]], Vector[Vector[Int]]) = {
+  override def load(): (GameData) = {
     val source: String = Source.fromFile("gameState.json").getLines.mkString
     val json: JsValue = Json.parse(source)
     val name1 = (json \ "state1" \ "name").get.toString.replaceAll("^\"|\"$", "")
@@ -101,7 +101,7 @@ class FileIOJson extends FileIOInterface {
 
     val gameState: String = (json \ "general" \ "gameState").get.toString.replaceAll("^\"|\"$", "")
 
-    (currentState, gameState, gridSize1, gridSize2, name1, name2, shotsX1, shotsY1, shotsX2, shotsY2, shipsX1, shipsY1, shipsX2, shipsY2)
+    GameData(currentState, gameState, gridSize1, gridSize2, name1, name2, shotsX1, shotsY1, shotsX2, shotsY2, shipsX1, shipsY1, shipsX2, shipsY2)
   }
 
 }
