@@ -2,7 +2,7 @@ version: "3.0"
 
 services:
   battleship-base:
-    image: battleship-base
+    image: ghcr.io/mindwork-apps/battleship-base:1.0
 #    ports:
 #      - "8080:8080"
     container_name: battleship-base-container
@@ -11,7 +11,7 @@ services:
 #    working_dir: /app
 
   persistence:
-    image: persistence
+    image: ghcr.io/mindwork-apps/persistence:1.0
     volumes:
       - persistence-volume:/app
     ports:
