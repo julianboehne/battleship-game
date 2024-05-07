@@ -149,7 +149,7 @@ class APIController @Inject()(override val grid: GridInterface) extends Controll
     implicit val executionContext = system.dispatcher
     val request = HttpRequest(
       method = HttpMethods.POST,
-      uri = "http://localhost:8081/persistence/save",
+      uri = "http://persistence:8081/persistence/save",
       entity = data.toEntity
     )
     val responseFuture: Future[HttpResponse] = Http().singleRequest(request)
@@ -184,13 +184,13 @@ class APIController @Inject()(override val grid: GridInterface) extends Controll
 
   override def loadGame(): Unit = {
     val data = FormData(
-      "format" -> "xml"
+      "format" -> "json"
     )
     implicit val system: ActorSystem = ActorSystem("httpRequestSystem")
     implicit val executionContext = system.dispatcher
     val request = HttpRequest(
       method = HttpMethods.POST,
-      uri = "http://localhost:8081/persistence/load",
+      uri = "http://persistence:8081/persistence/load",
       entity = data.toEntity
     )
     val responseFuture: Future[HttpResponse] = Http().singleRequest(request)

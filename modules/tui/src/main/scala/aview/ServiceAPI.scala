@@ -7,7 +7,7 @@ import akka.http.scaladsl.server.Directives.*
 import akka.http.scaladsl.model.*
 import com.google.inject.{Guice, Injector}
 import core.controller.ControllerInterface
-import core.controller.controllerImpl.Controller
+import core.controller.controllerImpl.APIController
 import core.model.gridImpl.{Grid, Ship, ShipContainer, Shots}
 import core.util.GameState
 import core.util.GameState.*
@@ -23,7 +23,7 @@ object ServiceAPI {
 //  val injector: Injector = Guice.createInjector(new BattleshipModule)
 //  val controller: ControllerInterface = injector.getInstance(classOf[ControllerInterface])
   val grid: Grid = Grid(10, Shots(Vector[Int](), Vector[Int]()), ShipContainer(Vector[Ship]()))
-  val controller = new Controller(grid)
+  val controller = new APIController(grid)
   
   def main(args: Array[String]): Unit = {
 

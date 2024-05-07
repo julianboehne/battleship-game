@@ -1,14 +1,24 @@
-version: "3.9"
+version: "3.0"
 
 services:
-  persistence:
-    image: controller-image
-    ports:
-      - "8081:8080"
-    container_name: controller-container
+  battleship-base:
+    image: battleship-base
+#    ports:
+#      - "8080:8080"
+    container_name: battleship-base-container
     tty: true
-#    networks:
-#      - my_network
-#    working_dir: /fileio
-#    volumes:
-#      - ./:/fileio:xro
+    stdin_open: true
+#    working_dir: /app
+
+  persistence:
+    image: persistence
+    volumes:
+      - persistence-volume:/app
+    ports:
+      - "8081:8081"
+    container_name: persistence-container
+    tty: true
+#    working_dir: /app
+
+volumes:
+  persistence-volume:
