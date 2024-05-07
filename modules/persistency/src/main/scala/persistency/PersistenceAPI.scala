@@ -18,7 +18,7 @@ import scala.util.Try
 object PersistenceAPI {
 
   val json = new FileIOJson
-  val xml = new FileIOJson
+  val xml = new FileIOXml
 
   def main(args: Array[String]): Unit = {
 

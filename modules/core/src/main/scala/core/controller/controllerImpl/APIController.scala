@@ -15,7 +15,7 @@ import core.model.gridImpl.*
 import core.util.GameState.*
 import core.util.state.{Player1State, Player2State, PlayerState}
 import core.util.{GameState, Observable, UndoManager}
-import play.api.libs.json.{Json, Writes}
+import play.api.libs.json.*
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
 import scala.util.control.NonLocalReturns.*
@@ -165,28 +165,86 @@ class APIController @Inject()(override val grid: GridInterface) extends Controll
 
   }
 
+  case class GameStateData(
+                            currentState: Int,
+                            gameState: String,
+                            gridSize1: Int,
+                            gridSize2: Int,
+                            name1: String,
+                            name2: String,
+                            shotsX1: Vector[Int],
+                            shotsY1: Vector[Int],
+                            shotsX2: Vector[Int],
+                            shotsY2: Vector[Int],
+                            shipsX1: Vector[Vector[Int]],
+                            shipsY1: Vector[Vector[Int]],
+                            shipsX2: Vector[Vector[Int]],
+                            shipsY2: Vector[Vector[Int]]
+                          )
+
   override def loadGame(): Unit = {
-//    val fileIo = new FileIOJson
-//    val gameData = fileIo.load()
-//
-//    val shots1 = Shots(gameData.shotsX1, gameData.shotsY1)
-//    val shots2 = Shots(gameData.shotsX2, gameData.shotsY2)
-//
-//    val shipContainer1 = ShipContainer(gameData.shipsX1.zip(gameData.shipsY1).map { case (x, y) => Ship(x, y, x.size) })
-//    val shipContainer2 = ShipContainer(gameData.shipsX2.zip(gameData.shipsY2).map { case (x, y) => Ship(x, y, x.size) })
-//
-//    val grid1 = Grid(gameData.gridSize1, shots1, shipContainer1)
-//    val grid2 = Grid(gameData.gridSize2, shots2, shipContainer2)
-//
-//    val state1 = new Player1State(grid1, gameData.name1)
-//    val state2 = new Player1State(grid2, gameData.name2)
-//
-//    player1 = new Player1State(state1.grid, state1.playerName.get)
-//    player2 = new Player2State(state2.grid, state2.playerName.get)
-//
-//    state = if (gameData.currentState == 1) player1 else player2
-//
-//    gameState = GameState.determineGameState(gameData.gameState)
+    val data = FormData(
+      "format" -> "xml"
+    )
+    implicit val system: ActorSystem = ActorSystem("httpRequestSystem")
+    implicit val executionContext = system.dispatcher
+    val request = HttpRequest(
+      method = HttpMethods.POST,
+      uri = "http://localhost:8081/persistence/load",
+      entity = data.toEntity
+    )
+    val responseFuture: Future[HttpResponse] = Http().singleRequest(request)
+
+    responseFuture.onComplete {
+      case Success(res) =>
+        res.entity.toStrict(5.seconds).map { strictEntity =>
+          val dataAsString = strictEntity.data.utf8String
+          println(s"Received data: $dataAsString")
+          implicit val gameStateDataReads: Reads[GameStateData] = Json.reads[GameStateData]
+          val gameStateData: JsResult[GameStateData] = Json.parse(dataAsString).validate[GameStateData]
+          gameStateData match {
+            case JsSuccess(gameData, _) => 
+              println(s"Current State: ${gameData.currentState}")
+              println(s"Game State: ${gameData.gameState}")
+              println(s"Grid Size 1: ${gameData.gridSize1}")
+              println(s"Grid Size 2: ${gameData.gridSize2}")
+              println(s"Name 1: ${gameData.name1}")
+              println(s"Name 2: ${gameData.name2}")
+              println(s"Shots X 1: ${gameData.shotsX1}")
+              println(s"Shots Y 1: ${gameData.shotsY1}")
+              println(s"Shots X 2: ${gameData.shotsX2}")
+              println(s"Shots Y 2: ${gameData.shotsY2}")
+              println(s"Ships X 1: ${gameData.shipsX1}")
+              println(s"Ships Y 1: ${gameData.shipsY1}")
+              println(s"Ships X 2: ${gameData.shipsX2}")
+              println(s"Ships Y 2: ${gameData.shipsY2}")
+              
+              val shots1 = Shots(gameData.shotsX1, gameData.shotsY1)
+              val shots2 = Shots(gameData.shotsX2, gameData.shotsY2)
+
+              val shipContainer1 = ShipContainer(gameData.shipsX1.zip(gameData.shipsY1).map { case (x, y) => Ship(x, y, x.size) })
+              val shipContainer2 = ShipContainer(gameData.shipsX2.zip(gameData.shipsY2).map { case (x, y) => Ship(x, y, x.size) })
+
+              val grid1 = Grid(gameData.gridSize1, shots1, shipContainer1)
+              val grid2 = Grid(gameData.gridSize2, shots2, shipContainer2)
+
+              val state1 = new Player1State(grid1, gameData.name1)
+              val state2 = new Player1State(grid2, gameData.name2)
+
+              player1 = new Player1State(state1.grid, state1.playerName.get)
+              player2 = new Player2State(state2.grid, state2.playerName.get)
+
+              state = if (gameData.currentState == 1) player1 else player2
+
+              gameState = GameState.determineGameState(gameData.gameState)
+              
+            case JsError(errors) => println("Fehler beim Parsen des JSON")
+          }
+        }
+      case Failure(ex) => println(s"Failed to send request: $ex")
+    }
+
+
   }
 
   override def toString: String = state.grid.getGridShots
