@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: battleship-base
-          image: ghcr.io/mindwork-apps/battleship-base:1.0
+          image: ghcr.io/mindwork-apps/battleship-base:k8s-1.0
           ports:
             - containerPort: 8080
           tty: true
