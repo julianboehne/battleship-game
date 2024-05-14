@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: persistence-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: persistence
+  template:
+    metadata:
+      labels:
+        app: persistence
+    spec:
+      containers:
+        - name: persistence
+          image: ghcr.io/mindwork-apps/persistence:1.0
+          ports:
+            - containerPort: 8081
+          tty: true
+          stdin: true
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: persistence-service
+spec:
+  selector:
+    app: persistence
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
