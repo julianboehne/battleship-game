@@ -9,6 +9,7 @@ import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.unmarshalling.{FromStringUnmarshaller, Unmarshaller}
 import com.google.inject.{Guice, Injector}
 import persistency.DB.*
+import persistency.DB.mongo.Mongo
 import persistency.IO.{FileIOJson, FileIOXml}
 import play.api.libs.json.{Json, Writes}
 
@@ -21,6 +22,7 @@ object PersistenceAPI {
   val json = new FileIOJson
   val xml = new FileIOXml
   val slick = new Slick
+  val mongo = new Mongo
 
   def main(args: Array[String]): Unit = {
 
@@ -58,6 +60,7 @@ object PersistenceAPI {
                 case "json" => json.load()
                 case "xml" => xml.load()
                 case "slick" => slick.load()
+                case "mongo" => mongo.load()
                 case _ => throw new Exception("Invalid format --> 'json', 'xml' or 'slick'")
               }
               val jsonResult = createJsonResult(gameData)
@@ -98,6 +101,8 @@ object PersistenceAPI {
                   xml.save(gameData)
                 case "slick" =>
                   slick.save(gameData)
+                case "mongo" =>
+                  mongo.save(gameData)
               }
               complete(StatusCodes.OK, s"Save game succeeded")
             }
