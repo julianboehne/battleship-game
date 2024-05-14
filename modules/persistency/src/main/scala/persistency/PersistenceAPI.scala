@@ -20,7 +20,7 @@ object PersistenceAPI {
 
   val json = new FileIOJson
   val xml = new FileIOXml
-  val db = new Slick
+  val slick = new Slick
 
   def main(args: Array[String]): Unit = {
 
@@ -57,8 +57,8 @@ object PersistenceAPI {
               val gameData = format match {
                 case "json" => json.load()
                 case "xml" => xml.load()
-                case "db" => db.load()
-                case _ => throw new Exception("Invalid format --> 'json', 'xml' or 'db'")
+                case "slick" => slick.load()
+                case _ => throw new Exception("Invalid format --> 'json', 'xml' or 'slick'")
               }
               val jsonResult = createJsonResult(gameData)
               val jsonString = Json.stringify(jsonResult)
@@ -96,8 +96,8 @@ object PersistenceAPI {
                   json.save(gameData)
                 case "xml" =>
                   xml.save(gameData)
-                case "db" =>
-                  db.save(gameData)
+                case "slick" =>
+                  slick.save(gameData)
               }
               complete(StatusCodes.OK, s"Save game succeeded")
             }

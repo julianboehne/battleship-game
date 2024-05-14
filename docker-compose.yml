@@ -3,22 +3,50 @@ version: "3.0"
 services:
   battleship-base:
     image: ghcr.io/mindwork-apps/battleship-base:1.0
-#    ports:
-#      - "8080:8080"
+    ports:
+      - "8080:8080"
     container_name: battleship-base-container
     tty: true
     stdin_open: true
-#    working_dir: /app
 
   persistence:
-    image: ghcr.io/mindwork-apps/persistence:1.0
+    image: persistence:latest
     volumes:
       - persistence-volume:/app
     ports:
       - "8081:8081"
     container_name: persistence-container
     tty: true
-#    working_dir: /app
+    environment:
+      MYSQL_USER: postgres
+      MYSQL_PASSWORD: 123
+      MYSQL_PORT: 5432
+      MYSQL_HOST: database
+      MONGO_ROOT_USERNAME: root
+      MONGO_ROOT_PASSWORD: 123
+      MONGO_PORT: 27017
+      MONGO_HOST: mongo
+
+  db:
+    image: postgres:16.3
+    restart: always
+    container_name: database
+    environment:
+      POSTGRES_PASSWORD: 123
+      POSTGRES_USER: postgres
+      POSTGRES_HOST: database
+      POSTGRES_PORT: 5432
+    ports:
+      - "5432:5432"
+  mongo:
+    image: mongo:7.0.9
+    restart: always
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123
 
 volumes:
   persistence-volume:
