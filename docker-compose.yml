@@ -27,7 +27,7 @@ services:
       MONGO_PORT: 27017
       MONGO_HOST: mongo
 
-  db:
+  slick:
     image: postgres:16.3
     restart: always
     container_name: database
