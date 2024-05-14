@@ -1,0 +1,24 @@
+version: "3.0"
+
+services:
+  battleship-base:
+    image: ghcr.io/mindwork-apps/battleship-base:1.0
+#    ports:
+#      - "8080:8080"
+    container_name: battleship-base-container
+    tty: true
+    stdin_open: true
+#    working_dir: /app
+
+  persistence:
+    image: ghcr.io/mindwork-apps/persistence:1.0
+    volumes:
+      - persistence-volume:/app
+    ports:
+      - "8081:8081"
+    container_name: persistence-container
+    tty: true
+#    working_dir: /app
+
+volumes:
+  persistence-volume:
