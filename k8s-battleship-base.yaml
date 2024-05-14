@@ -15,8 +15,8 @@ spec:
       containers:
         - name: battleship-base
           image: ghcr.io/mindwork-apps/battleship-base:1.0
-#          ports:
-#            - containerPort: 8080
+          ports:
+            - containerPort: 8080
           tty: true
           stdin: true
 
@@ -29,7 +29,7 @@ metadata:
 spec:
   selector:
     app: battleship-base
-#  ports:
-#    - protocol: TCP
-#      port: 8080
-#      targetPort: 8080
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
