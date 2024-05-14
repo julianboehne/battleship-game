@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: battleship-base-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: battleship-base
+  template:
+    metadata:
+      labels:
+        app: battleship-base
+    spec:
+      containers:
+        - name: battleship-base
+          image: ghcr.io/mindwork-apps/battleship-base:k8s-1.0
+          ports:
+            - containerPort: 8080
+          tty: true
+          stdin: true
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: battleship-base-service
+spec:
+  selector:
+    app: battleship-base
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
