@@ -6,38 +6,38 @@ import scala.util.*
 import play.api.libs.json.*
 import com.google.inject.Inject
 
-import persistency.FileIOInterface
+import persistency.*
 
 class FileIOJson extends FileIOInterface {
 
-  override def save(currentState: Int, gameState: String, gridSize1: Int, gridSize2: Int, name1: String, name2: String, shotsX1: Vector[Int], shotsY1: Vector[Int], shotsX2: Vector[Int], shotsY2: Vector[Int], shipsX1: Vector[Vector[Int]], shipsY1: Vector[Vector[Int]], shipsX2: Vector[Vector[Int]], shipsY2: Vector[Vector[Int]]): Unit = {
+  override def save(gameData: GameData): Unit = {
     println("saving")
 
     val pw = new PrintWriter(new File("gameState.json"))
-    pw.write(Json.prettyPrint(gameStateToJson(currentState, gameState, gridSize1, gridSize2, name1, name2, shotsX1, shotsY1, shotsX2, shotsY2, shipsX1, shipsY1, shipsX2, shipsY2)))
+    pw.write(Json.prettyPrint(gameStateToJson(gameData)))
     pw.close()
 
   }
 
-  private def gameStateToJson(currentState: Int, gameState: String, gridSize1: Int, gridSize2: Int, name1: String, name2: String, shotsX1: Vector[Int], shotsY1: Vector[Int], shotsX2: Vector[Int], shotsY2: Vector[Int], shipsX1: Vector[Vector[Int]], shipsY1: Vector[Vector[Int]], shipsX2: Vector[Vector[Int]], shipsY2: Vector[Vector[Int]]) = {
+  private def gameStateToJson(gameData: GameData) = {
     Json.obj(
       "general" -> Json.obj(
-        "currentState" -> JsNumber(currentState),
-        "gameState" -> JsString(gameState)
+        "currentState" -> JsNumber(gameData.currentState),
+        "gameState" -> JsString(gameData.gameState)
       ),
       "state1" -> Json.obj(
-        "name" -> JsString(name1),
+        "name" -> JsString(gameData.name1),
         "grid" -> Json.obj(
-          "size" -> JsNumber(gridSize1),
+          "size" -> JsNumber(gameData.gridSize1),
           "shots" -> Json.obj(
-            "X" -> shotsX1.toArray,
-            "Y" -> shotsY1.toArray
+            "X" -> gameData.shotsX1.toArray,
+            "Y" -> gameData.shotsY1.toArray
           ),
           "ships" -> Json.obj(
             "shipsVector" -> Json.obj(
 
-              "X" -> shipsX1.toArray,
-              "Y" -> shipsY1.toArray
+              "X" -> gameData.shipsX1.toArray,
+              "Y" -> gameData.shipsY1.toArray
 
             )
           )
@@ -45,18 +45,18 @@ class FileIOJson extends FileIOInterface {
       ),
 
       "state2" -> Json.obj(
-        "name" -> JsString(name2),
+        "name" -> JsString(gameData.name2),
         "grid" -> Json.obj(
-          "size" -> JsNumber(gridSize2),
+          "size" -> JsNumber(gameData.gridSize2),
           "shots" -> Json.obj(
-            "X" -> shotsX2.toArray,
-            "Y" -> shotsY2.toArray
+            "X" -> gameData.shotsX2.toArray,
+            "Y" -> gameData.shotsY2.toArray
           ),
           "ships" -> Json.obj(
             "shipsVector" -> Json.obj(
 
-              "X" -> shipsX2.toArray,
-              "Y" -> shipsY2.toArray
+              "X" -> gameData.shipsX2.toArray,
+              "Y" -> gameData.shipsY2.toArray
 
             )
           )

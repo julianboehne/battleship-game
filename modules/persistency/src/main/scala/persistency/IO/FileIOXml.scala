@@ -1,6 +1,6 @@
 package persistency.IO
 
-import persistency.FileIOInterface
+import persistency.*
 
 import java.io.*
 import scala.io.Source
@@ -8,72 +8,72 @@ import scala.xml.{NodeSeq, PrettyPrinter, Source}
 
 class FileIOXml extends FileIOInterface {
 
-  override def save(currentState: Int, gameState: String, gridSize1: Int, gridSize2: Int, name1: String, name2: String, shotsX1: Vector[Int], shotsY1: Vector[Int], shotsX2: Vector[Int], shotsY2: Vector[Int], shipsX1: Vector[Vector[Int]], shipsY1: Vector[Vector[Int]], shipsX2: Vector[Vector[Int]], shipsY2: Vector[Vector[Int]]): Unit = {
+  override def save(gameData: GameData): Unit = {
     val pw = new PrintWriter(new File("gameState.xml"))
     val prettyPrinter = new PrettyPrinter(120, 4)
-    val xml = prettyPrinter.format(gameStatetoXml(currentState, gameState, gridSize1, gridSize2, name1, name2, shotsX1, shotsY1, shotsX2, shotsY2, shipsX1, shipsY1, shipsX2, shipsY2))
+    val xml = prettyPrinter.format(gameStatetoXml(gameData))
     pw.write(xml)
     pw.close()
   }
 
-  private def gameStatetoXml(currentState: Int, gameState: String, gridSize1: Int, gridSize2: Int, name1: String, name2: String, shotsX1: Vector[Int], shotsY1: Vector[Int], shotsX2: Vector[Int], shotsY2: Vector[Int], shipsX1: Vector[Vector[Int]], shipsY1: Vector[Vector[Int]], shipsX2: Vector[Vector[Int]], shipsY2: Vector[Vector[Int]]) = {
+  private def gameStatetoXml(gameData: GameData) = {
     <state>
       {<general>
       {<currentState>
-        {currentState}
+        {gameData.currentState}
       </currentState>
         <gameState>
-          {gameState}
+          {gameData.gameState}
         </gameState>}
     </general>
       <state1>
         {<name>
-        {name1}
+        {gameData.name1}
       </name>
         <grid>
           {<size>
-          {gridSize1}
+          {gameData.gridSize1}
         </size>
           <shots>
             {<X>
-            {shotsX1.toString()}
+            {gameData.shotsX1.toString()}
           </X>
             <Y>
-              {shotsY1.toString}
+              {gameData.shotsY1.toString}
             </Y>}
           </shots>
           <ships>
             {<shipX>
-            {shipsX1.toString()}
+            {gameData.shipsX1.toString()}
           </shipX>
             <shipY>
-              {shipsY1.toString}
+              {gameData.shipsY1.toString}
             </shipY>}
           </ships>}
         </grid>}
       </state1>
       <state2>
         {<name>
-        {name2}
+        {gameData.name2}
       </name>
         <grid>
           {<size>
-          {gridSize2}
+          {gameData.gridSize2}
         </size>
           <shots>
             {<X>
-            {shotsX2.toString()}
+            {gameData.shotsX2.toString()}
           </X>
             <Y>
-              {shotsY2.toString}
+              {gameData.shotsY2.toString}
             </Y>}
           </shots>
           <ships>
             {<shipX>
-            {shipsX2.toString()}
+            {gameData.shipsX2.toString()}
           </shipX>
             <shipY>
-              {shipsY2.toString}
+              {gameData.shipsY2.toString}
             </shipY>}
           </ships>}
         </grid>}

@@ -130,11 +130,12 @@ object PersistenceAPI {
             "shipsY2".as[Vector[Vector[Int]]]
           ) { (format, currentState, gameState, gridSize1, gridSize2, name1, name2, shotsX1, shotsY1, shotsX2, shotsY2, shipsX1, shipsY1, shipsX2, shipsY2) =>
             try {
+              val gameData =  GameData(currentState, gameState, gridSize1, gridSize2, name1, name2, shotsX1, shotsY1, shotsX2, shotsY2, shipsX1, shipsY1, shipsX2, shipsY2)
               format match {
                 case "json" =>
-                  json.save(currentState, gameState, gridSize1, gridSize2, name1, name2, shotsX1, shotsY1, shotsX2, shotsY2, shipsX1, shipsY1, shipsX2, shipsY2)
+                  json.save(gameData)
                 case "xml" =>
-                  xml.save(currentState, gameState, gridSize1, gridSize2, name1, name2, shotsX1, shotsY1, shotsX2, shotsY2, shipsX1, shipsY1, shipsX2, shipsY2)
+                  xml.save(gameData)
               }
               complete(StatusCodes.OK, s"Save game succeeded")
             } catch {
