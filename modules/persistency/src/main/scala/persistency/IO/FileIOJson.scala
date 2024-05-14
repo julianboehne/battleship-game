@@ -8,7 +8,7 @@ import com.google.inject.Inject
 
 import persistency.*
 
-class FileIOJson extends FileIOInterface {
+class FileIOJson extends DAOInterface {
 
   override def save(gameData: GameData): Unit = {
     println("saving")

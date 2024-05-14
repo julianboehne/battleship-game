@@ -5,20 +5,22 @@ import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.*
 import akka.http.scaladsl.server.Directives.*
+import akka.http.scaladsl.server.Route
+import akka.http.scaladsl.unmarshalling.{FromStringUnmarshaller, Unmarshaller}
 import com.google.inject.{Guice, Injector}
+import persistency.DB.*
 import persistency.IO.{FileIOJson, FileIOXml}
 import play.api.libs.json.{Json, Writes}
-import akka.http.scaladsl.unmarshalling.{FromStringUnmarshaller, Unmarshaller}
-import scala.util.Try
 
 import scala.concurrent.ExecutionContextExecutor
 import scala.io.StdIn
-import scala.util.Try
+import scala.util.{Failure, Success, Try}
 
 object PersistenceAPI {
 
   val json = new FileIOJson
   val xml = new FileIOXml
+  val db = new Slick
 
   def main(args: Array[String]): Unit = {
 
@@ -36,12 +38,9 @@ object PersistenceAPI {
     implicit val vectorVectorIntUnmarshaller: FromStringUnmarshaller[Vector[Vector[Int]]] =
       Unmarshaller.strict[String, Vector[Vector[Int]]] { str =>
         Try {
-          // Remove the outer brackets and trim spaces
           val trimmedStr = str.trim.stripPrefix("[").stripSuffix("]")
 
-          // Split the string into individual inner vectors, accounting for optional spaces around brackets
           trimmedStr.split("\\s*\\],\\s*\\[").toVector.map { innerStr =>
-            // Remove any remaining brackets, trim spaces, and split by comma
             innerStr.trim.stripPrefix("[").stripSuffix("]").split("\\s*,\\s*").toVector.map(_.trim.toInt)
           }
         }.getOrElse(Vector.empty[Vector[Int]])
@@ -53,60 +52,21 @@ object PersistenceAPI {
         post {
           formFields(
             "format".as[String],
-          ) { (format) =>
-            try {
-              format match {
-                case "json" =>
-                  val gameData = json.load()
-                  val jsonResult = Json.obj(
-                    "currentState" -> gameData.currentState,
-                    "gameState" -> gameData.gameState,
-                    "gridSize1" -> gameData.gridSize1,
-                    "gridSize2" -> gameData.gridSize2,
-                    "name1" -> gameData.name1,
-                    "name2" -> gameData.name2,
-                    "shotsX1" -> gameData.shotsX1,
-                    "shotsY1" -> gameData.shotsY1,
-                    "shotsX2" -> gameData.shotsX2,
-                    "shotsY2" -> gameData.shotsY2,
-                    "shipsX1" -> gameData.shipsX1,
-                    "shipsY1" -> gameData.shipsY1,
-                    "shipsX2" -> gameData.shipsX2,
-                    "shipsY2" -> gameData.shipsY2
-                  )
-                  val jsonString = Json.stringify(jsonResult)
-                  complete(
-                    HttpEntity(ContentTypes.`application/json`, jsonString)
-                  )
-                case "xml" =>
-                  val gameData = xml.load()
-                  val jsonResult = Json.obj(
-                    "currentState" -> gameData.currentState,
-                    "gameState" -> gameData.gameState,
-                    "gridSize1" -> gameData.gridSize1,
-                    "gridSize2" -> gameData.gridSize2,
-                    "name1" -> gameData.name1,
-                    "name2" -> gameData.name2,
-                    "shotsX1" -> gameData.shotsX1,
-                    "shotsY1" -> gameData.shotsY1,
-                    "shotsX2" -> gameData.shotsX2,
-                    "shotsY2" -> gameData.shotsY2,
-                    "shipsX1" -> gameData.shipsX1,
-                    "shipsY1" -> gameData.shipsY1,
-                    "shipsX2" -> gameData.shipsX2,
-                    "shipsY2" -> gameData.shipsY2
-                  )
-                  val jsonString = Json.stringify(jsonResult)
-                  complete(
-                    HttpEntity(ContentTypes.`application/json`, jsonString)
-                  )
-                case _ => complete(StatusCodes.BadRequest, "Invalid format --> 'json' or 'xml'")
+          ) { format =>
+            val result = Try {
+              val gameData = format match {
+                case "json" => json.load()
+                case "xml" => xml.load()
+                case "db" => db.load()
+                case _ => throw new Exception("Invalid format --> 'json', 'xml' or 'db'")
               }
-            } catch {
-              case e: Exception =>
-                println(s"Exception during bet creation: ${e.getMessage}")
-                complete(StatusCodes.InternalServerError, s"Failed due to internal server error: ${e.getMessage}")
+              val jsonResult = createJsonResult(gameData)
+              val jsonString = Json.stringify(jsonResult)
+              complete(
+                HttpEntity(ContentTypes.`application/json`, jsonString)
+              )
             }
+            handleResult(result)
           }
         }
       },
@@ -129,23 +89,22 @@ object PersistenceAPI {
             "shipsX2".as[Vector[Vector[Int]]],
             "shipsY2".as[Vector[Vector[Int]]]
           ) { (format, currentState, gameState, gridSize1, gridSize2, name1, name2, shotsX1, shotsY1, shotsX2, shotsY2, shipsX1, shipsY1, shipsX2, shipsY2) =>
-            try {
-              val gameData =  GameData(currentState, gameState, gridSize1, gridSize2, name1, name2, shotsX1, shotsY1, shotsX2, shotsY2, shipsX1, shipsY1, shipsX2, shipsY2)
+            val result = Try {
+              val gameData = GameData(currentState, gameState, gridSize1, gridSize2, name1, name2, shotsX1, shotsY1, shotsX2, shotsY2, shipsX1, shipsY1, shipsX2, shipsY2)
               format match {
                 case "json" =>
                   json.save(gameData)
                 case "xml" =>
                   xml.save(gameData)
+                case "db" =>
+                  db.save(gameData)
               }
               complete(StatusCodes.OK, s"Save game succeeded")
-            } catch {
-              case e: Exception =>
-                println(s"Exception during bet creation: ${e.getMessage}")
-                complete(StatusCodes.InternalServerError, s"Failed due to internal server error: ${e.getMessage}")
             }
+            handleResult(result)
           }
         }
-      },
+      }
     )
 
     val bindingFuture = Http().newServerAt("0.0.0.0", 8081).bind(route)
@@ -155,6 +114,34 @@ object PersistenceAPI {
       .flatMap(_.unbind()) // Löst die Bindung vom Port
       .onComplete(_ => system.terminate())
 
+  }
+
+  private def createJsonResult(gameData: GameData): play.api.libs.json.JsObject = {
+    Json.obj(
+      "currentState" -> gameData.currentState,
+      "gameState" -> gameData.gameState,
+      "gridSize1" -> gameData.gridSize1,
+      "gridSize2" -> gameData.gridSize2,
+      "name1" -> gameData.name1,
+      "name2" -> gameData.name2,
+      "shotsX1" -> gameData.shotsX1,
+      "shotsY1" -> gameData.shotsY1,
+      "shotsX2" -> gameData.shotsX2,
+      "shotsY2" -> gameData.shotsY2,
+      "shipsX1" -> gameData.shipsX1,
+      "shipsY1" -> gameData.shipsY1,
+      "shipsX2" -> gameData.shipsX2,
+      "shipsY2" -> gameData.shipsY2
+    )
+  }
+
+  private def handleResult(result: Try[Route]): Route = {
+    result match {
+      case Success(response) => response
+      case Failure(e) =>
+        println(s"Exception during bet creation: ${e.getMessage}")
+        complete(StatusCodes.InternalServerError, s"Failed due to internal server error: ${e.getMessage}")
+    }
   }
 
 }

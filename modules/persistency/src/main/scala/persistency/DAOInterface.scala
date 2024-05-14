@@ -1,6 +1,6 @@
 package persistency
 
-trait FileIOInterface {
+trait DAOInterface {
   def save(gameData: GameData): Unit
 
   def load(): GameData

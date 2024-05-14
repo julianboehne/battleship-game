@@ -9,6 +9,7 @@ import core.util.state.{Player1State, Player2State, PlayerState}
 import core.util.GameState.*
 import core.model.*
 import persistency.*
+import persistency.DB.Slick
 import persistency.IO.FileIOJson
 
 import scala.util.control.NonLocalReturns.*
@@ -102,18 +103,15 @@ class Controller @Inject()(override val grid: GridInterface) extends ControllerI
 
 
   override def saveGame(): Unit = {
-//    val injector = Guice.createInjector(new BattleshipModule)
-//    val fileIo = injector.getInstance(classOf[FileIOInterface])
-    val fileIo = new FileIOJson
+    val db = new Slick
     val player = if (state.isInstanceOf[Player1State]) 1 else 2
-    fileIo.save(player, gameState.toString, player1.grid.size, player2.grid.size, player1.playerName.get, player2.playerName.get, player1.grid.shots.X, player1.grid.shots.Y, player2.grid.shots.X, player2.grid.shots.Y, (0 until player1.grid.ships.getSize).map(i => player1.grid.ships.shipsVector(i).x).toVector, (0 until player1.grid.ships.getSize).map(i => player1.grid.ships.shipsVector(i).y).toVector, (0 until player2.grid.ships.getSize).map(i => player2.grid.ships.shipsVector(i).x).toVector, (0 until player2.grid.ships.getSize).map(i => player2.grid.ships.shipsVector(i).y).toVector)
+    val gameData = GameData(player, gameState.toString, player1.grid.size, player2.grid.size, player1.playerName.get, player2.playerName.get, player1.grid.shots.X, player1.grid.shots.Y, player2.grid.shots.X, player2.grid.shots.Y, (0 until player1.grid.ships.getSize).map(i => player1.grid.ships.shipsVector(i).x).toVector, (0 until player1.grid.ships.getSize).map(i => player1.grid.ships.shipsVector(i).y).toVector, (0 until player2.grid.ships.getSize).map(i => player2.grid.ships.shipsVector(i).x).toVector, (0 until player2.grid.ships.getSize).map(i => player2.grid.ships.shipsVector(i).y).toVector)
+    db.save(gameData)
   }
 
   override def loadGame(): Unit = {
-//    val injector = Guice.createInjector(new BattleshipModule)
-//    val fileIo = injector.getInstance(classOf[FileIOInterface])
-    val fileIo = new FileIOJson
-    val gameData = fileIo.load()
+    val db = new Slick
+    val gameData = db.load()
 
     val shots1 = Shots(gameData.shotsX1, gameData.shotsY1)
     val shots2 = Shots(gameData.shotsX2, gameData.shotsY2)

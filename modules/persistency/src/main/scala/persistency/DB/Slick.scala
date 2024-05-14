@@ -1,7 +1,7 @@
 package persistency.DB
 
 import akka.japi.JAPI
-import persistency.GameData
+import persistency.{DAOInterface, GameData}
 import play.api.libs.json.Json
 import slick.dbio.Effect.Read
 import slick.jdbc.JdbcBackend.Database
@@ -14,13 +14,13 @@ import scala.util.{Failure, Success}
 import concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
 
+
 class Slick extends DAOInterface:
-  private val databaseDB: String = sys.env.getOrElse("MYSQL_DATABASE", "tbl")
   private val databaseUser: String = sys.env.getOrElse("MYSQL_USER", "postgres")
-  private val databasePassword: String = sys.env.getOrElse("MYSQL_PASSWORD", "postgres")
+  private val databasePassword: String = sys.env.getOrElse("MYSQL_PASSWORD", "123")
   private val databasePort: String = sys.env.getOrElse("MYSQL_PORT", "5432")
-  private val databaseHost: String = sys.env.getOrElse("MYSQL_HOST", "database")
-  private val databaseUrl = s"jdbc:postgresql://$databaseHost:$databasePort/$databaseDB?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&autoReconnect=true"
+  private val databaseHost: String = sys.env.getOrElse("MYSQL_HOST", "localhost")
+  private val databaseUrl = s"jdbc:postgresql://$databaseHost:$databasePort/postgres?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&autoReconnect=true"
 
   private val WAIT_TIME = 5.seconds
 

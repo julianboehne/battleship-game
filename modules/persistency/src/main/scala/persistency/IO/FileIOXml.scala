@@ -6,7 +6,7 @@ import java.io.*
 import scala.io.Source
 import scala.xml.{NodeSeq, PrettyPrinter, Source}
 
-class FileIOXml extends FileIOInterface {
+class FileIOXml extends DAOInterface {
 
   override def save(gameData: GameData): Unit = {
     val pw = new PrintWriter(new File("gameState.xml"))
