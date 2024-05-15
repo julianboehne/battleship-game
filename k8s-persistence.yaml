@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: persistence
-          image: ghcr.io/mindwork-apps/persistence:1.1
+          image: ghcr.io/mindwork-apps/persistence:1.0
           ports:
             - containerPort: 8081
           tty: true
