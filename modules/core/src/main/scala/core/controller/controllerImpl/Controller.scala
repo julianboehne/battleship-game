@@ -9,7 +9,8 @@ import core.util.state.{Player1State, Player2State, PlayerState}
 import core.util.GameState.*
 import core.model.*
 import persistency.*
-import persistency.DB.Slick
+import persistency.DB.*
+import persistency.DB.mongo.Mongo
 import persistency.IO.FileIOJson
 
 import scala.util.control.NonLocalReturns.*
@@ -103,14 +104,14 @@ class Controller @Inject()(override val grid: GridInterface) extends ControllerI
 
 
   override def saveGame(): Unit = {
-    val db = new Slick
+    val db = new Mongo
     val player = if (state.isInstanceOf[Player1State]) 1 else 2
     val gameData = GameData(player, gameState.toString, player1.grid.size, player2.grid.size, player1.playerName.get, player2.playerName.get, player1.grid.shots.X, player1.grid.shots.Y, player2.grid.shots.X, player2.grid.shots.Y, (0 until player1.grid.ships.getSize).map(i => player1.grid.ships.shipsVector(i).x).toVector, (0 until player1.grid.ships.getSize).map(i => player1.grid.ships.shipsVector(i).y).toVector, (0 until player2.grid.ships.getSize).map(i => player2.grid.ships.shipsVector(i).x).toVector, (0 until player2.grid.ships.getSize).map(i => player2.grid.ships.shipsVector(i).y).toVector)
     db.save(gameData)
   }
 
   override def loadGame(): Unit = {
-    val db = new Slick
+    val db = new Mongo
     val gameData = db.load()
 
     val shots1 = Shots(gameData.shotsX1, gameData.shotsY1)

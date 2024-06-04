@@ -10,7 +10,7 @@ services:
     stdin_open: true
 
   persistence:
-    image: persistence:latest
+    image: ghcr.io/mindwork-apps/persistence:1.1
     volumes:
       - persistence-volume:/app
     ports:
@@ -21,7 +21,7 @@ services:
       MYSQL_USER: postgres
       MYSQL_PASSWORD: 123
       MYSQL_PORT: 5432
-      MYSQL_HOST: database
+      MYSQL_HOST: slick
       MONGO_ROOT_USERNAME: root
       MONGO_ROOT_PASSWORD: 123
       MONGO_PORT: 27017
@@ -30,11 +30,11 @@ services:
   slick:
     image: postgres:16.3
     restart: always
-    container_name: database
+    container_name: slick
     environment:
       POSTGRES_PASSWORD: 123
       POSTGRES_USER: postgres
-      POSTGRES_HOST: database
+      POSTGRES_HOST: slick
       POSTGRES_PORT: 5432
     ports:
       - "5432:5432"

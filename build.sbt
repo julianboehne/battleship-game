@@ -67,6 +67,8 @@ lazy val importSettings: Seq[Def.Setting[?]] = Seq(
     "ch.qos.logback" % "logback-classic" % "1.5.6" % Runtime,
     ("com.typesafe.slick" %% "slick" % "3.5.0-M3").cross(CrossVersion.for3Use2_13),
     "org.postgresql" % "postgresql" % "42.7.3",
+    "org.mongodb.scala" %% "mongo-scala-driver" % "4.8.0" cross CrossVersion.for3Use2_13
+
   )
 )
 
