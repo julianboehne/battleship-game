@@ -1,33 +1,20 @@
-# Gatling Bundle
+Gatling test for battleship
+===========================================
 
-The Gatling Bundle gives you a quick start to your Gatling journey.
-It is based on the [Gatling Maven Plugin demo, in Java](https://github.com/gatling/gatling-maven-plugin-demo-java).
+Test all:
 
-## Run a test locally
-
-On Linux / MacOS:
 ```console
-./mvnw gatling:test
+sbt Gatling/test
 ```
 
-On Windows:
+
+Run specific test:
+
 ```console
-mvnw.cmd gatling:test
+sbt 'Gatling/testOnly gatling.PersistenceBaseItSimulation'
+sbt 'Gatling/testOnly gatling.PersistenceEnduranceItSimulation'
+sbt 'Gatling/testOnly gatling.PersistenceLoadItSimulation'
+sbt 'Gatling/testOnly gatling.PersistenceStressItSimulation'
+sbt 'Gatling/testOnly gatling.PersistenceSparkItSimulation'
 ```
 
-## Run the Gatling Recorder
-
-On Linux / MacOS:
-```console
-./mvnw gatling:recorder
-```
-
-On Windows:
-```console
-mvnw.cmd gatling:recorder
-```
-
-## To go further
-
-* [our scripting introduction](https://docs.gatling.io/tutorials/scripting-intro/)
-* [the Gatling Maven plugin documentation](https://docs.gatling.io/reference/extensions/build-tools/maven-plugin/)
