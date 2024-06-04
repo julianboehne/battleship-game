@@ -3,7 +3,7 @@ enablePlugins(GatlingPlugin)
 scalaVersion := "3.2.0"
 
 scalacOptions := Seq(
-  "-encoding", "UTF-8", "release:8", "-deprecation", "-feature", "-unchecked",
+  "-encoding", "UTF-8", "-deprecation", "-feature", "-unchecked",
   "-language:implicitConversions", "-language:postfixOps"
 )
 
