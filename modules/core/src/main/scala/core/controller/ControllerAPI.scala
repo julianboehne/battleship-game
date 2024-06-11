@@ -202,13 +202,13 @@ object ControllerAPI {
           complete(StatusCodes.OK, "Reset game")
         }
       },
-      path("controller" / "reset") {
+      path("controller" / "save") {
         get {
           controller.saveGame()
           complete(StatusCodes.OK, "Save game")
         }
       },
-      path("controller" / "reset") {
+      path("controller" / "load") {
         get {
           controller.loadGame()
           complete(StatusCodes.OK, "Load game")
