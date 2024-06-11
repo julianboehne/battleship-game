@@ -10,6 +10,7 @@ import javax.management.Notification
 import javax.swing.border.EmptyBorder
 import scala.swing.*
 import scala.swing.event.ButtonClicked
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class GUI(controller: ControllerInterface) extends Frame with Observer:
 
@@ -126,8 +127,9 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
                 Dialog.showMessage(message = new Label("invalid command").peer)
               } else {
                 controller.state = controller.player1
-                controller.autoShips()
-                controller.gameState = SHIP_PLAYER2
+                controller.autoShips().onComplete { _ =>
+                  controller.gameState = SHIP_PLAYER2
+                }
               }
             case SHIP_PLAYER2 =>
               if (controller.player2.grid.ships.getSize != 0) {
@@ -135,8 +137,9 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
                 Dialog.showMessage(message = new Label("invalid command").peer)
               } else {
                 controller.state = controller.player2
-                controller.autoShips()
-                controller.gameState = SHOTS
+                controller.autoShips().onComplete { _ =>
+                  controller.gameState = SHOTS
+                }
               }
             case _ =>
               println("invalid command")

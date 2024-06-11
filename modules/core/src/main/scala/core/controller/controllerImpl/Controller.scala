@@ -1,5 +1,6 @@
 package core.controller.controllerImpl
 
+import akka.Done
 import com.google.inject.{Guice, Inject}
 import core.controller.ControllerInterface
 import core.model.GridInterface
@@ -13,9 +14,9 @@ import persistency.DB.*
 import persistency.DB.mongo.Mongo
 import persistency.IO.FileIOJson
 import akka.actor.ActorSystem
-import akka.stream.scaladsl.{Flow, Sink, Source}
+import akka.stream.scaladsl.{Flow, Keep, Sink, Source}
+import scala.concurrent.Future
 import scala.util.Random
-
 import scala.util.control.NonLocalReturns.*
 
 class Controller @Inject()(override val grid: GridInterface) extends ControllerInterface with Observable {
@@ -61,7 +62,7 @@ class Controller @Inject()(override val grid: GridInterface) extends ControllerI
     println(GridShipToString)
   }
 
-  override def autoShips(): Unit = {
+  override def autoShips(): Future[Done] = {
     implicit val system: ActorSystem = ActorSystem()
     import system.dispatcher
 
@@ -110,8 +111,9 @@ class Controller @Inject()(override val grid: GridInterface) extends ControllerI
       this.set(x1, y1, x2, y2)
     }
 
-    val graph = source.via(flow).to(sink)
-    graph.run()
+    val graph = source.via(flow).toMat(sink)(Keep.right)
+    val result: Future[Done] = graph.run()
+    result
   }
 
   override def isValid(input: String): Boolean = input.matches("^(([a-j]|[A-J])((10)|([1-9])))$")

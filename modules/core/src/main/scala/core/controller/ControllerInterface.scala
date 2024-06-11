@@ -1,9 +1,11 @@
 package core.controller
 
+import akka.Done
 import core.model.GridInterface
 import core.util.GameState.GameState
 import core.util.{Observable, UndoManager}
 import core.util.state.{Player1State, Player2State, PlayerState}
+import scala.concurrent.Future
 
 
 trait ControllerInterface extends Observable {
@@ -31,7 +33,7 @@ trait ControllerInterface extends Observable {
 
   def redo(): Unit
 
-  def autoShips(): Unit
+  def autoShips(): Future[Done]
 
   def isValid(input: String): Boolean
 
