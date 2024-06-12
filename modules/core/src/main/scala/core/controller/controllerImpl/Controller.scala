@@ -15,6 +15,8 @@ import persistency.DB.mongo.Mongo
 import persistency.IO.FileIOJson
 import akka.actor.ActorSystem
 import akka.stream.scaladsl.{Flow, Keep, Sink, Source}
+
+import scala.annotation.tailrec
 import scala.concurrent.Future
 import scala.util.Random
 import scala.util.control.NonLocalReturns.*
@@ -99,14 +101,14 @@ class Controller @Inject()(override val grid: GridInterface) extends ControllerI
       isLine && noOverlap
     }
 
-    val source = Source(shipSizes)
-    val flow = Flow[Int].map { size =>
-      var ship: (Int, Int, Int, Int) = generateRandomShip(size)
-      while (!isValidShip(ship._1, ship._2, ship._3, ship._4)) {
-        ship = generateRandomShip(size)
-      }
-      ship
+    def generateValidShip(size: Int): (Int, Int, Int, Int) = {
+      val ship = generateRandomShip(size)
+      if (isValidShip(ship._1, ship._2, ship._3, ship._4)) ship
+      else generateValidShip(size)
     }
+
+    val source = Source(shipSizes)
+    val flow = Flow[Int].map(generateValidShip)
     val sink = Sink.foreach[(Int, Int, Int, Int)] { case (x1, y1, x2, y2) =>
       this.set(x1, y1, x2, y2)
     }
