@@ -28,7 +28,7 @@ import play.api.libs.json.JsValue
 class TuiKafka {
 
   implicit val system: ActorSystem[?] =
-    ActorSystem(Behaviors.empty, "SprayExample")
+    ActorSystem(Behaviors.empty, "Test")
   implicit val executionContext: ExecutionContext = system.executionContext
 
   val producerSettings =
@@ -39,29 +39,22 @@ class TuiKafka {
 
   val flow = Flow[String].map { input =>
     if input.isEmpty then Json.obj("msg" -> "Error: No input detected.")
-    else if input.charAt(0) == 'y' then Json.obj("msg" -> "undo")
-    else if input.charAt(0) == 'z' then Json.obj("msg" -> "redo")
+    else if input == "undo" then Json.obj("msg" -> "undo") 
+    else if input == "redo" then Json.obj("msg" -> "redo")
+    else if input == "auto" then Json.obj("msg" -> "auto")
     else if input == "save" then Json.obj("msg" -> "save")
     else if input == "load" then Json.obj("msg" -> "load")
-    else if input == "get" then Json.obj("msg" -> "get")
-    else if input == "update" then Json.obj("msg" -> "update")
-    else if input == "delete" then Json.obj("msg" -> "delete")
+    else if input == "new" then Json.obj("msg" -> "new")
+    else if input == "q" then
+      println("quiting...")
+      Json.obj("msg" -> "q")
     else
-      game.state match
-        case InitState => Json.obj("msg" -> "initPlayers")
-        case InitPlayerState =>
-          Json.obj("msg" -> "addPlayer", "data" -> input)
-        case InitPlayerPokemonState =>
-          Json.obj("msg" -> "addPokemons", "data" -> input)
-        case DesicionState => Json.obj("msg" -> "nextMove", "data" -> input)
-        case FightingState =>
-          Json.obj("msg" -> "attackWith", "data" -> input)
-        case SwitchPokemonState =>
-          Json.obj("msg" -> "selectPokemon", "data" -> input)
-        case GameOverState => Json.obj("msg" -> "restartTheGame")
+      Json.obj("msg" -> "test")
   }
 
-  def processInputLine(input: String): Unit = {
+  def processInputLine(): Unit = {
+    //Eingabe
+    val input = readLine()
     Source
       .single(input)
       .via(flow)
@@ -91,8 +84,8 @@ class TuiKafka {
 
     msg match
       case "success" =>
-        game = Game.fromJson((input \ "data").as[JsValue])
-        update(msg)
+//        game = Game.fromJson((input \ "data").as[JsValue])
+//        update(msg)
 
   }
 

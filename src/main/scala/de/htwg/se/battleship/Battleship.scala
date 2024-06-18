@@ -17,16 +17,16 @@ object Battleship {
   val controller = new Controller(grid)
 
 //  val tui: TUI = TUI(controller)
+  val tui: TuiKafka = TuiKafka()
   val gui = new GUI(controller)
 
   def main(args: Array[String]): Unit = {
     println("Welcome to Battleship-Game\n")
-    TuiKafka()
 
-//    while (true) {
-//      tui.processInputLine()
-//      gui.update
-//    }
+    while (true) {
+      tui.processInputLine()
+      gui.update
+    }
 
   }
 
