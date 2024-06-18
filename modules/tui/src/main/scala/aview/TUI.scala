@@ -5,9 +5,11 @@ import core.controller.ControllerInterface
 import core.util.GameState.*
 import core.util.Observer
 
+import scala.concurrent.Await
 import scala.io.StdIn.readLine
 import scala.util.*
 import scala.util.control.NonLocalReturns.*
+import concurrent.duration.DurationInt
 
 class TUI(controller: ControllerInterface) extends Observer {
   controller.add(this)
@@ -160,7 +162,7 @@ class TUI(controller: ControllerInterface) extends Observer {
           redoShip()
           println ("Last Ship redone")
         case "auto" =>
-          controller.autoShips()
+          Await.ready(controller.autoShips(), 10.seconds)
           println ("Auto ship placement")
         case _ =>
           shipStart = line1

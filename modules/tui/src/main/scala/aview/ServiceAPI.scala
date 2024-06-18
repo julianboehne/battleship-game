@@ -14,9 +14,10 @@ import core.util.GameState.*
 import core.util.state.{Player1State, Player2State, PlayerState}
 import core.util.*
 
-import scala.concurrent.ExecutionContextExecutor
+import scala.concurrent.{Await, ExecutionContextExecutor}
 import scala.io.StdIn
 import scala.util.Try
+import concurrent.duration.DurationInt
 
 object ServiceAPI {
 
@@ -118,7 +119,7 @@ object ServiceAPI {
                     controller.redo()
                     complete(StatusCodes.OK, "Last Ship redone")
                   case "auto" =>
-                    controller.autoShips()
+                    Await.ready(controller.autoShips(), 10.seconds)
                     controller.gameState match
                       case SHIP_PLAYER1 =>
                         controller.state = controller.player2

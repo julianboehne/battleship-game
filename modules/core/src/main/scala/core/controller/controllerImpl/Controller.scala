@@ -1,5 +1,6 @@
 package core.controller.controllerImpl
 
+import akka.Done
 import com.google.inject.{Guice, Inject}
 import core.controller.ControllerInterface
 import core.model.GridInterface
@@ -12,7 +13,12 @@ import persistency.*
 import persistency.DB.*
 import persistency.DB.mongo.Mongo
 import persistency.IO.FileIOJson
+import akka.actor.ActorSystem
+import akka.stream.scaladsl.{Flow, Keep, Sink, Source}
 
+import scala.annotation.tailrec
+import scala.concurrent.Future
+import scala.util.Random
 import scala.util.control.NonLocalReturns.*
 
 class Controller @Inject()(override val grid: GridInterface) extends ControllerInterface with Observable {
@@ -58,18 +64,58 @@ class Controller @Inject()(override val grid: GridInterface) extends ControllerI
     println(GridShipToString)
   }
 
-  override def autoShips(): Unit = {
-    this.set(1, 1, 1, 2)
-    this.set(3, 1, 3, 2)
-    this.set(10, 1, 9, 1)
+  override def autoShips(): Future[Done] = {
+    implicit val system: ActorSystem = ActorSystem()
+    import system.dispatcher
 
-    this.set(1, 7, 1, 9)
-    this.set(2, 5, 2, 3)
+    val shipSizes = List(5, 4, 4, 3, 3, 2, 2, 2)
+    val random = new Random()
 
-    this.set(4, 6, 7, 6)
-    this.set(10, 3, 10, 6)
+    def generateRandomShip(size: Int): (Int, Int, Int, Int) = {
+      val isHorizontal = random.nextBoolean()
+      val x1 = random.nextInt(grid.size - (if (isHorizontal) size else 0)) + 1
+      val y1 = random.nextInt(grid.size - (if (isHorizontal) 0 else size)) + 1
+      val x2 = if (isHorizontal) x1 + size - 1 else x1
+      val y2 = if (isHorizontal) y1 else y1 + size - 1
+      (x1, y1, x2, y2)
+    }
 
-    this.set(6, 1, 6, 5)
+    def isValidShip(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = {
+      val isLine = (x1 == x2 && y1 != y2) || (x1 != x2 && y1 == y2)
+
+      val newShipPoints = if (x1 == x2) {
+        (y1 to y2).map(y => (x1, y)).toSet
+      } else {
+        (x1 to x2).map(x => (x, y1)).toSet
+      }
+
+      val noOverlap = state.grid.ships.shipsVector.forall { ship =>
+        val existingShipPoints = if (ship.x.head == ship.x.last) {
+          ship.y.map(y => (ship.x.head, y)).toSet
+        } else {
+          ship.x.map(x => (x, ship.y.head)).toSet
+        }
+        existingShipPoints.intersect(newShipPoints).isEmpty
+      }
+
+      isLine && noOverlap
+    }
+
+    def generateValidShip(size: Int): (Int, Int, Int, Int) = {
+      val ship = generateRandomShip(size)
+      if (isValidShip(ship._1, ship._2, ship._3, ship._4)) ship
+      else generateValidShip(size)
+    }
+
+    val source = Source(shipSizes)
+    val flow = Flow[Int].map(generateValidShip)
+    val sink = Sink.foreach[(Int, Int, Int, Int)] { case (x1, y1, x2, y2) =>
+      this.set(x1, y1, x2, y2)
+    }
+
+    val graph = source.via(flow).toMat(sink)(Keep.right)
+    val result: Future[Done] = graph.run()
+    result
   }
 
   override def isValid(input: String): Boolean = input.matches("^(([a-j]|[A-J])((10)|([1-9])))$")
