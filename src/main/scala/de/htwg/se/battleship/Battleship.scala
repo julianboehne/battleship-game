@@ -3,8 +3,7 @@ package de.htwg.se.battleship
 import aview.*
 import com.google.inject.{Guice, Injector}
 import core.controller.ControllerInterface
-import core.controller.controllerImpl.Controller
-import core.controller.controllerImpl.APIController
+import core.controller.controllerImpl.{APIController, Controller, KafkaConsumer}
 import core.model.gridImpl.{Grid, Ship, ShipContainer, Shots}
 import gui.GUI
 
@@ -18,10 +17,12 @@ object Battleship {
 
 //  val tui: TUI = TUI(controller)
   val tui: TuiKafka = TuiKafka()
+  val consumer = new KafkaConsumer(controller)
   val gui = new GUI(controller)
 
   def main(args: Array[String]): Unit = {
     println("Welcome to Battleship-Game\n")
+    consumer.start()
 
     while (true) {
       tui.processInputLine()
