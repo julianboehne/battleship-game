@@ -39,7 +39,7 @@ class TuiKafka {
 
   val flow = Flow[String].map { input =>
     if input.isEmpty then Json.obj("msg" -> "Error: No input detected.")
-    else if input == "undo" then Json.obj("msg" -> "undo") 
+    else if input == "undo" then Json.obj("msg" -> "undo")
     else if input == "redo" then Json.obj("msg" -> "redo")
     else if input == "auto" then Json.obj("msg" -> "auto")
     else if input == "save" then Json.obj("msg" -> "save")
@@ -47,7 +47,7 @@ class TuiKafka {
     else if input == "new" then Json.obj("msg" -> "new")
     else if input == "q" then
       println("quiting...")
-      Json.obj("msg" -> "q")
+      Json.obj("msg" -> "quit")
     else
       Json.obj("msg" -> "test")
   }
