@@ -200,9 +200,9 @@ object ServiceAPI {
     val e = Try(
 
       if (!controller.isValid(start) || !controller.isValid(ende)) {
-        return "Wrong coordinates"
+        "Wrong coordinates"
       } else if (!controller.checkShip(controller.getX(start), controller.getY(start), controller.getX(ende), controller.getY(ende))) {
-        return "Wrong coordinates"
+        "Wrong coordinates"
       } else {
         controller.set(controller.getX(start), controller.getY(start), controller.getX(ende), controller.getY(ende))
         //GameState

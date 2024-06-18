@@ -14,7 +14,6 @@ import concurrent.duration.DurationInt
 class TUI(controller: ControllerInterface) extends Observer {
   controller.add(this)
 
-  private var shipStart: String = ""
   var input: String = ""
 
   def processInputLine(): Unit = {
@@ -45,23 +44,30 @@ class TUI(controller: ControllerInterface) extends Observer {
     controller.gameState match
       case PLAYER_CREATE1 | PLAYER_CREATE2 => addPlayer(input)
       case SHIP_PLAYER1 | SHIP_PLAYER2 =>
-        if (shipStart.equals("")) {
-          shipStartInput(input)
+        val cords = input.split(" ")
+        if (cords.length == 1) {
+          cords(0) match
+            case "auto" => controller.autoShips()
+            case "undo" => controller.undo()
+            case "redo" => controller.redo()
+            case _ =>
+        }
+        else if (cords.length == 2) {
+          val str1 = cords(0)
+          val str2 = cords(1)
+          addShipInput(str1, str2)
         } else {
-          addShipInput(shipStart, input)
-          shipStart = ""
+          println("Format error! Format example: <a5 a7>")
         }
       case SHOTS =>
 
         if (addShotInput(input) == 0) {
-
           if (controller.isLost) {
             controller.gameState = END
           }
           if (!controller.state.grid.ships.isHit(controller.state.grid.shots.getLatestX.getOrElse(0), controller.state.grid.shots.getLatestY.getOrElse(0))) {
             controller.changeState()
           } else println("Hit! You can fire again.")
-
         }
 
       case END => println("end")
@@ -83,7 +89,7 @@ class TUI(controller: ControllerInterface) extends Observer {
   }
 
 
-  def addShotInput(input: String): Int = {
+  private def addShotInput(input: String): Int = {
     if (!controller.isValid(input)) {
       println("Wrong input: " + input)
       println("Format example: <h6>\n")
@@ -97,19 +103,10 @@ class TUI(controller: ControllerInterface) extends Observer {
         controller.addShot(controller.getX(input), controller.getY(input))
         0
       }
-
-
     }
-
   }
 
-  def checkFired(input: String): Boolean = controller.alreadyFired(controller.getX(input), controller.getY(input))
-
-
-  def removeShip(): Unit = controller.undo()
-
-  private def redoShip(): Unit = controller.redo()
-
+  private def checkFired(input: String): Boolean = controller.alreadyFired(controller.getX(input), controller.getY(input))
 
   private def addShipInput(start: String, ende: String): Unit = {
 
@@ -147,39 +144,6 @@ class TUI(controller: ControllerInterface) extends Observer {
     }
 
 
-
-  }
-
-  private def shipStartInput(line1: String): Unit = {
-
-    val e = Try(
-
-      line1 match
-        case "undo" =>
-          removeShip()
-          println ("Last Ship removed!")
-        case "redo" =>
-          redoShip()
-          println ("Last Ship redone")
-        case "auto" =>
-          Await.ready(controller.autoShips(), 10.seconds)
-          println ("Auto ship placement")
-        case _ =>
-          shipStart = line1
-            println ("Second value: ")
-
-    )
-    if (e.isFailure) println("Exception")
-
-    if (line1.equals("auto")) {
-      controller.gameState match
-        case SHIP_PLAYER1 =>
-          controller.state = controller.player2
-          controller.gameState = SHIP_PLAYER2
-        case SHIP_PLAYER2 =>
-          controller.state = controller.player1
-          controller.gameState = SHOTS
-    }
 
   }
 

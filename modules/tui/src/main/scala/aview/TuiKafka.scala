@@ -39,17 +39,11 @@ class TuiKafka {
 
   val flow = Flow[String].map { input =>
     if input.isEmpty then Json.obj("msg" -> "Error: No input detected.")
-    else if input == "undo" then Json.obj("msg" -> "undo")
-    else if input == "redo" then Json.obj("msg" -> "redo")
-    else if input == "auto" then Json.obj("msg" -> "auto")
     else if input == "save" then Json.obj("msg" -> "save")
     else if input == "load" then Json.obj("msg" -> "load")
     else if input == "new" then Json.obj("msg" -> "new")
-    else if input == "q" then
-      println("quiting...")
-      Json.obj("msg" -> "quit")
-    else
-      Json.obj("msg" -> "test")
+    else if input == "q" then Json.obj("msg" -> "quit")
+    else Json.obj("msg" -> "set", "data" -> input)
   }
 
   def processInputLine(): Unit = {
@@ -60,7 +54,7 @@ class TuiKafka {
       .via(flow)
       .map(result =>
         new ProducerRecord[String, String](
-          "tui-topic",
+          "battleship-tui",
           Json.stringify(result)
         )
       )
@@ -84,9 +78,8 @@ class TuiKafka {
 
     msg match
       case "success" =>
-//        game = Game.fromJson((input \ "data").as[JsValue])
-//        update(msg)
-
+        val answer = (input \ "data").as[String]
+        println(answer)
   }
 
 }
