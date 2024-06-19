@@ -37,3 +37,41 @@ You also have the possibility to auto-place your ships in the menu-bar.
 Now you can start playing battleship-game.
 
 <img src="src/resources/Shot_State.png" style="width:600px;"/>
+
+
+# Init with docker
+
+# Init with kubernetes
+
+You can use kubernetes locally with dthe docker-k8s extensions or with minikube. 
+
+There are two ways to deploy the application with k8s.
+
+- default deployment with kubctl
+- using argocd as interactive UI
+
+### Default Setup
+
+```
+kubectl apply -f k8s-persistence.yaml
+kubectl apply -f k8s-battleship-base.yaml
+```
+
+###  ArgoCD Setup
+
+You can deploy ArgoCD to your cluster. After deploying the configuration ArgoCD will pull the config-files from Github by itsself.
+
+```
+# deploy argocd
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+# Port forwarding to ArgoCD
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+
+# Get login credentials
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}"
+# decode passwort with base64
+```
+
+You can now go to ArgoCD and integrate both files!
