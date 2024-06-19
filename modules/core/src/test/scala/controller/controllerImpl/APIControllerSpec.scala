@@ -1,6 +1,5 @@
-package controller
-
-import core.controller.controllerImpl.Controller
+package controller.controllerImpl
+import core.controller.controllerImpl.APIController
 import core.model.gridImpl.{Grid, Ship, ShipContainer, Shots}
 import core.util.GameState
 import core.util.state.{Player1State, Player2State}
@@ -9,13 +8,13 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.*
 import util.state.*
 
-class ControllerSpec extends AnyWordSpec {
+class APIControllerSpec extends AnyWordSpec {
   val nextline: String = sys.props("line.separator")
 
-  "Controller" should  {
+  "APIController" should  {
     val grid: Grid = Grid(1, Shots(Vector[Int](), Vector[Int]()), ShipContainer(Vector[Ship]()))
 
-    val controller = new Controller(grid)
+    val controller = new APIController(grid)
 
     "checks if ship is valid" in {
       assert(controller.checkShip(1, 2, 1, 3))

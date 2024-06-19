@@ -89,7 +89,7 @@ class TUI(controller: ControllerInterface) extends Observer {
   }
 
 
-  private def addShotInput(input: String): Int = {
+  def addShotInput(input: String): Int = {
     if (!controller.isValid(input)) {
       println("Wrong input: " + input)
       println("Format example: <h6>\n")
@@ -106,7 +106,7 @@ class TUI(controller: ControllerInterface) extends Observer {
     }
   }
 
-  private def checkFired(input: String): Boolean = controller.alreadyFired(controller.getX(input), controller.getY(input))
+  def checkFired(input: String): Boolean = controller.alreadyFired(controller.getX(input), controller.getY(input))
 
   private def addShipInput(start: String, ende: String): Unit = {
 
