@@ -9,20 +9,22 @@ import gui.GUI
 
 object Battleship {
 
-
-//  val injector: Injector = Guice.createInjector(new BattleshipModule)
-//  val controller: ControllerInterface = injector.getInstance(classOf[ControllerInterface])
   val grid: Grid = Grid(10, Shots(Vector[Int](), Vector[Int]()), ShipContainer(Vector[Ship]()))
   val controller = new Controller(grid)
 
-//  val tui: TUI = TUI(controller)
-  val tui: TuiKafka = TuiKafka()
-  val consumer = new KafkaConsumer(controller)
+  // NODE: Default setup
+  val tui: TUI = TUI(controller)
   val gui = new GUI(controller)
+
+  // NODE: if you want to use Kafka instead
+  // val tui: TuiKafka = TuiKafka()
+  // val consumer = new KafkaConsumer(controller)
+
 
   def main(args: Array[String]): Unit = {
     println("Welcome to Battleship-Game\n")
-    consumer.start()
+    // NODE: if you want to use Kafka instead
+    // consumer.start()
 
     while (true) {
       tui.processInputLine()

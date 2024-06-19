@@ -1,0 +1,26 @@
+version: "3.0"
+
+# to save with mongo or slick
+# docker compose -f docker-compose.db-init.yml up -d
+
+services:
+  slick:
+    image: postgres:16.3
+    restart: always
+    container_name: slick
+    environment:
+      POSTGRES_PASSWORD: 123
+      POSTGRES_USER: postgres
+      POSTGRES_HOST: slick
+      POSTGRES_PORT: 5432
+    ports:
+      - "5432:5432"
+  mongo:
+    image: mongo:7.0.9
+    restart: always
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123
