@@ -14,9 +14,67 @@
 
 
 ## Description
-This is a implementation of the battleship-game. 2 Player can play against each other in a 10x10 battleship field.
+This is an implementation of the battleship game. Two players can play against each other on a 10×10 battleship field.
 
-## How to Play
+## How to Start
+To simply start the game, run the following command: 
+```sbt run```
+
+### Start with database functionality
+If you want to use advanced features such as database functions like load or save, run the following commands to start the game:
+* ```docker compose -f docker-compose.db-init.yml up -d```
+* ```sbt run```
+
+### Start with Kafka functionality
+If you want to use Kafka, a distributed event streaming platform, for producing, consuming, and processing real-time data streams efficiently, while playing the game, you need to make some small changes to the main ([Battleship.scala](https://github.com/julianboehne/battleship-game/blob/main/src/main/scala/de/htwg/se/battleship/Battleship.scala)) first:
+
+* comment out the two lines from the Default Setup
+* comment in the 3 lines from the Kafka comment blocks
+* run ```docker compose -f docker-compose.kafka.yml up -d```
+* run ```sbt run```
+
+### Start with Docker-only
+You can also start the game in Docker-only mode, but you will need to have [Xming](https://sourceforge.net/projects/xming/) installed and running in order to play the game with the GUI. To do so, simply run the following command:
+* ```docker compose up -d```
+
+# Init with kubernetes
+
+You can use kubernetes locally with the docker-k8s extensions or with minikube. 
+
+There are two ways to deploy the application with k8s.
+
+- default deployment with kubctl
+- using argocd as interactive UI
+
+### Default Setup
+
+```
+kubectl apply -f k8s-persistence.yaml
+kubectl apply -f k8s-battleship-base.yaml
+```
+
+###  ArgoCD Setup
+
+You can deploy ArgoCD to your cluster. After deploying the configuration ArgoCD will pull the config-files from Github by itself.
+
+```
+# deploy argocd
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+# Port forwarding to ArgoCD
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+
+# Get login credentials
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}"
+# decode passwort with base64
+```
+
+You can now go to ArgoCD and integrate both files!
+
+<img src="https://argo-cd.readthedocs.io/en/stable/assets/argocd-ui.gif" style="width:600px;"/>
+
+## Playing the Game
 
 ### Enter your name
 

@@ -64,7 +64,8 @@ lazy val importSettings: Seq[Def.Setting[?]] = Seq(
     "com.typesafe.akka" %% "akka-actor-typed" % "2.8.5",
     "com.typesafe.akka" %% "akka-stream" % "2.8.5",
     "com.typesafe.akka" %% "akka-actor" % "2.8.5",
-    "ch.qos.logback" % "logback-classic" % "1.5.6" % Runtime,
+    "com.typesafe.akka" %% "akka-stream-kafka" % "4.0.2",
+    "org.apache.logging.log4j" %% "log4j-api-scala" % "13.1.0",
     ("com.typesafe.slick" %% "slick" % "3.5.0-M3").cross(CrossVersion.for3Use2_13),
     "org.postgresql" % "postgresql" % "42.7.3",
     "org.mongodb.scala" %% "mongo-scala-driver" % "4.8.0" cross CrossVersion.for3Use2_13
