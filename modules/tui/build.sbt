@@ -18,3 +18,24 @@ libraryDependencies ++= Seq(
   "org.apache.logging.log4j" %% "log4j-api-scala" % "13.1.0",
 )
 
+lazy val jacocoSettings = Seq(
+
+  jacocoExcludes := Seq(
+    "de.htwg.se.battleship.Battleship*",
+    "de.htwg.se.battleship.util.Observable*",
+    "de.htwg.se.battleship.controller.controllerImpl.SetCommand*",
+    "de.htwg.se.battleship.aview.gui*",
+    "de.htwg.se.battleship.model.fileIOImpl*",
+    "de.htwg.se.battleship.controller.controllerImpl.Controller*",
+    "de.htwg.se.battleship.aview.TUI*",
+
+  ),
+  jacocoReportSettings := JacocoReportSettings(
+    "Jacoco Coverage Report",
+    None,
+    JacocoThresholds(),
+    Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML),
+    "utf-8")
+
+
+)
