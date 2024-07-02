@@ -77,7 +77,6 @@ lazy val importSettings: Seq[Def.Setting[?]] = Seq(
   )
 )
 
-
 lazy val jacocoSettings = Seq(
 
   jacocoExcludes := Seq(
