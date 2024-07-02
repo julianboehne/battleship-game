@@ -80,16 +80,12 @@ lazy val importSettings: Seq[Def.Setting[?]] = Seq(
 
 lazy val jacocoSettings = Seq(
 
-/*  jacocoExcludes := Seq(
-    "de.htwg.se.battleship.Battleship*",
-    "de.htwg.se.battleship.util.Observable*",
-    "de.htwg.se.battleship.controller.controllerImpl.SetCommand*",
-    "de.htwg.se.battleship.aview.gui*",
-    "de.htwg.se.battleship.model.fileIOImpl*",
-    "de.htwg.se.battleship.controller.controllerImpl.Controller*",
-    "de.htwg.se.battleship.aview.TUI*",
-
-  ),*/
+  jacocoExcludes := Seq(
+    "modules/persistency*",
+    "modules/gui*",
+    "modules/core/src/main/scala/core/controller/ControllerAPI.scala",
+    "modules/core/src/main/scala/core/controller/controllerImpl/KafkaConsumer.scala"
+  ),
   jacocoReportSettings := JacocoReportSettings(
     "Jacoco Coverage Report",
     None,
