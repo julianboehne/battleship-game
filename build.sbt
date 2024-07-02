@@ -92,8 +92,6 @@ lazy val jacocoSettings = Seq(
     JacocoThresholds(),
     Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML),
     "utf-8")
-
-
 )
 
 
