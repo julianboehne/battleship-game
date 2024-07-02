@@ -42,15 +42,12 @@ jobs:
         run:
           sudo -i
           apt install curl -y
-     # - name: Run tests
-     #   run:
-     #     sbt clean test coverage
-     # - name: Jacoco
-     #   run:
-     #     sbt jacoco
-      - name: Build Project and Run Tests
-        run: sbt +clean +coverage +test +coverageReport
-        
+      - name: Run tests
+        run:
+          sbt clean test coverage
+      - name: Jacoco
+        run:
+          sbt jacoco
       - name: Upload coverage reports to Codecov with GitHub Action
         uses: codecov/codecov-action@v4.2.0
         env:
