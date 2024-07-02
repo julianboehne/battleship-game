@@ -97,9 +97,5 @@ lazy val jacocoSettings = Seq(
 )
 
 
-//coverageEnabled := true
-
-
-
 
 
