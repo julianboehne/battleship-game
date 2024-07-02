@@ -55,6 +55,7 @@ jobs:
         with:
           fail_ci_if_error: true
           verbose: true
+          files: /home/runner/work/battleship-game/battleship-game/modules/core/target/scala-3.2.0/jacoco/report/jacoco.xml, /home/runner/work/battleship-game/battleship-game/modules/tui/target/scala-3.2.0/jacoco/report/jacoco.xml
       # - name: Upload report to Codecov
       #   run: |
       #     curl -Os https://uploader.codecov.io/latest/linux/codecov
