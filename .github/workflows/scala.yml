@@ -48,6 +48,8 @@ jobs:
       - name: Jacoco
         run:
           sbt jacoco
+      - name: List files for debugging
+        run: find . -name "jacoco.xml"
       - name: Upload coverage reports to Codecov with GitHub Action
         uses: codecov/codecov-action@v4.2.0
         env:
@@ -55,7 +57,6 @@ jobs:
         with:
           fail_ci_if_error: true
           verbose: true
-          files: modules/core/target/scala-3.2.0/jacoco/report/jacoco.xml, modules/tui/target/scala-3.2.0/jacoco/report/jacoco.xml
       # - name: Upload report to Codecov
       #   run: |
       #     curl -Os https://uploader.codecov.io/latest/linux/codecov
