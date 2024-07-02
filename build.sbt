@@ -21,7 +21,8 @@ lazy val core = project
   .dependsOn(persistency)
   .settings(
     name := "core",
-    importSettings
+    importSettings,
+    jacocoSettings
   )
 
 lazy val gui = project
@@ -29,7 +30,8 @@ lazy val gui = project
   .dependsOn(tui, core)
   .settings(
     name := "gui",
-    importSettings
+    importSettings,
+    jacocoSettings
   )
 
 
@@ -37,7 +39,8 @@ lazy val persistency = project
   .in(file("./modules/persistency"))
   .settings(
     name := "persistency",
-    importSettings
+    importSettings,
+    jacocoSettings
   )
 
 lazy val tui = project
@@ -45,7 +48,8 @@ lazy val tui = project
   .dependsOn(core)
   .settings(
     name := "tui",
-    importSettings
+    importSettings,
+    jacocoSettings
   )
 
 
@@ -73,32 +77,21 @@ lazy val importSettings: Seq[Def.Setting[?]] = Seq(
   )
 )
 
-
 lazy val jacocoSettings = Seq(
 
   jacocoExcludes := Seq(
-    "de.htwg.se.battleship.Battleship*",
-    "de.htwg.se.battleship.util.Observable*",
-    "de.htwg.se.battleship.controller.controllerImpl.SetCommand*",
-    "de.htwg.se.battleship.aview.gui*",
-    "de.htwg.se.battleship.model.fileIOImpl*",
-    "de.htwg.se.battleship.controller.controllerImpl.Controller*",
-    "de.htwg.se.battleship.aview.TUI*",
-
+    "modules/persistency*",
+    "modules/gui*",
+    "modules/core/src/main/scala/core/controller/ControllerAPI.scala",
+    "modules/core/src/main/scala/core/controller/controllerImpl/KafkaConsumer.scala"
   ),
   jacocoReportSettings := JacocoReportSettings(
     "Jacoco Coverage Report",
     None,
     JacocoThresholds(),
-    Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML), // note XML formatter
+    Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML),
     "utf-8")
-
-
 )
-
-
-//coverageEnabled := true
-
 
 
 

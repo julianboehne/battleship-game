@@ -17,4 +17,3 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor" % "2.8.5",
   "org.apache.logging.log4j" %% "log4j-api-scala" % "13.1.0",
 )
-
