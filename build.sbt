@@ -90,7 +90,7 @@ lazy val jacocoSettings = Seq(
     "Jacoco Coverage Report",
     None,
     JacocoThresholds(),
-    Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML), // note XML formatter
+    Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML),
     "utf-8")
 
 
